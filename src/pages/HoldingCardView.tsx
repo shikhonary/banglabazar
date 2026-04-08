@@ -213,7 +213,7 @@ const HoldingCardView = () => {
       <div className="mb-4 flex flex-wrap items-center justify-between gap-2 sm:mb-6">
         <Button variant="ghost" size="sm" asChild className="shrink-0">
           <Link to="/holdings">
-            <ArrowLeft className="mr-2 h-4 w-4" /> Back
+            <ArrowLeft className="mr-2 h-4 w-4" /> ফিরুন
           </Link>
         </Button>
 
