@@ -32,10 +32,10 @@ const DashboardLayout = () => {
 
   return (
     <SidebarProvider>
-      <div className="flex min-h-screen w-full overflow-x-hidden">
+      <div className="flex h-screen w-full overflow-hidden">
         <AppSidebar />
-        <div className="flex min-w-0 flex-1 flex-col overflow-x-hidden">
-          <header className="fixed top-0 right-0 left-[var(--sidebar-width,0px)] z-30 overflow-x-hidden border-b bg-card transition-[left] duration-200">
+        <div className="flex min-w-0 flex-1 flex-col overflow-hidden">
+          <header className="sticky top-0 z-30 shrink-0 border-b bg-card">
             <div className="flex h-14 items-center justify-between gap-2 px-3 sm:px-4">
               <div className="flex min-w-0 items-center gap-2">
                 <SidebarTrigger className="shrink-0" />
@@ -73,7 +73,7 @@ const DashboardLayout = () => {
               </DropdownMenu>
             </div>
           </header>
-          <main className="container flex-1 overflow-x-hidden py-6">
+          <main className="container flex-1 overflow-y-auto overflow-x-hidden py-6">
             <Outlet />
           </main>
         </div>
