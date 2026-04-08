@@ -96,12 +96,8 @@ const CardFront = ({ holding }: { holding: HoldingCardType }) => (
     <div className="text-center py-4 px-4 space-y-1 border-b border-emerald-200">
       <div className="flex items-center justify-center gap-3">
         {/* Left Emblem */}
-        <div className="w-12 h-12 rounded-full bg-emerald-100 border-2 border-emerald-400 flex items-center justify-center">
-          <svg viewBox="0 0 40 40" className="w-8 h-8 text-emerald-700">
-            <circle cx="20" cy="20" r="18" fill="none" stroke="currentColor" strokeWidth="1.5" />
-            <path d="M20 8 C20 8 12 16 12 22 C12 26.4 15.6 30 20 30 C24.4 30 28 26.4 28 22 C28 16 20 8 20 8Z" fill="currentColor" opacity="0.3" />
-            <circle cx="20" cy="20" r="4" fill="currentColor" opacity="0.5" />
-          </svg>
+        <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-emerald-400 flex items-center justify-center bg-white">
+          <img src={bdGovtSeal} alt="বাংলাদেশ সরকার" className="w-10 h-10 object-contain" />
         </div>
 
         <div>
