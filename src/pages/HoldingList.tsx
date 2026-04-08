@@ -438,41 +438,6 @@ const HoldingList = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Edit Dialog */}
-      <Dialog open={!!editItem} onOpenChange={() => setEditItem(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Edit Holding Card</DialogTitle>
-            <DialogDescription>Update the holding card details below.</DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {[
-              { key: "name", label: "Name", type: "text" },
-              { key: "guardian_name", label: "Guardian Name", type: "text" },
-              { key: "holding_no", label: "Holding No", type: "text" },
-              { key: "ward_no", label: "Ward No", type: "text" },
-              { key: "village", label: "Village", type: "text" },
-              { key: "tax", label: "Tax (৳)", type: "number" },
-            ].map((f) => (
-              <div key={f.key} className="space-y-1.5">
-                <Label>{f.label}</Label>
-                <Input
-                  type={f.type}
-                  value={editForm[f.key as keyof typeof editForm]}
-                  onChange={(e) => setEditForm((prev) => ({ ...prev, [f.key]: e.target.value }))}
-                />
-              </div>
-            ))}
-          </div>
-          <div className="flex justify-end gap-2 pt-2">
-            <Button variant="outline" onClick={() => setEditItem(null)}>Cancel</Button>
-            <Button onClick={saveEdit} disabled={updateMutation.isPending}>
-              {updateMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Save Changes
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };
