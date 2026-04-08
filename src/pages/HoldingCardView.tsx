@@ -171,7 +171,7 @@ const CardBack = () => (
 
     <div className="px-6 py-5 space-y-4 flex-1 flex flex-col justify-between relative z-10">
       {/* Emergency Numbers */}
-      <div className="bg-red-50 border border-red-200 rounded-lg p-4 space-y-2">
+      <div className="bg-red-50/70 border border-red-200 rounded-lg p-4 space-y-2">
         <div className="flex items-center justify-between">
           <span className="text-sm text-red-800 font-medium">জাতীয়জরুরীসেবা সেবা</span>
           <span className="text-lg font-bold text-red-700 font-mono">৯৯৯</span>
@@ -189,7 +189,7 @@ const CardBack = () => (
       </div>
 
       {/* Message Section */}
-      <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-4 text-center space-y-2">
+      <div className="bg-emerald-50/70 border border-emerald-200 rounded-lg p-4 text-center space-y-2">
         <p className="text-sm text-emerald-800 font-semibold leading-relaxed">
           হোল্ডিং না আমার কুঁড়ে ঘর,
         </p>
