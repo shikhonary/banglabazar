@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Loader2, Download } from "lucide-react";
 import type { Tables } from "@/integrations/supabase/types";
-import domtoimage from "dom-to-image-more";
+import { toJpeg } from "html-to-image";
 import bdGovtSeal from "@/assets/bd-govt-seal.png";
 import bdNationalEmblem from "@/assets/bd-national-emblem.png";
 
