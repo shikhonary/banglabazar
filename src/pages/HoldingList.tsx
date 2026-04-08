@@ -1,22 +1,42 @@
+import { useState, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow,
 } from "@/components/ui/table";
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+} from "@/components/ui/select";
+import {
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription,
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
-import { Plus, Trash2, Loader2, FileUp } from "lucide-react";
+import {
+  Plus, Loader2, FileUp, Search, MoreHorizontal, Eye, Pencil, Trash2,
+  LayoutDashboard, MapPin, Banknote, Users,
+} from "lucide-react";
+import type { Tables } from "@/integrations/supabase/types";
+
+type HoldingCard = Tables<"holding_cards">;
 
 const HoldingList = () => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [search, setSearch] = useState("");
+  const [wardFilter, setWardFilter] = useState("all");
+  const [villageFilter, setVillageFilter] = useState("all");
+  const [viewItem, setViewItem] = useState<HoldingCard | null>(null);
+  const [editItem, setEditItem] = useState<HoldingCard | null>(null);
+  const [editForm, setEditForm] = useState({ name: "", guardian_name: "", ward_no: "", holding_no: "", village: "", tax: "" });
 
   const { data: holdings, isLoading } = useQuery({
     queryKey: ["holdings"],
@@ -37,85 +57,248 @@ const HoldingList = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["holdings"] });
-      queryClient.invalidateQueries({ queryKey: ["holdings-count"] });
-      queryClient.invalidateQueries({ queryKey: ["holdings-tax"] });
       toast({ title: "Deleted", description: "Holding card removed." });
     },
-    onError: (error: any) => {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
-    },
+    onError: (err: Error) => toast({ title: "Error", description: err.message, variant: "destructive" }),
   });
 
+  const updateMutation = useMutation({
+    mutationFn: async ({ id, data }: { id: string; data: Partial<HoldingCard> }) => {
+      const { error } = await supabase.from("holding_cards").update(data).eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["holdings"] });
+      toast({ title: "Updated", description: "Holding card updated." });
+      setEditItem(null);
+    },
+    onError: (err: Error) => toast({ title: "Error", description: err.message, variant: "destructive" }),
+  });
+
+  const wards = useMemo(() => [...new Set(holdings?.map((h) => h.ward_no).filter(Boolean))].sort(), [holdings]);
+  const villages = useMemo(() => [...new Set(holdings?.map((h) => h.village).filter(Boolean))].sort(), [holdings]);
+
+  const filtered = useMemo(() => {
+    if (!holdings) return [];
+    return holdings.filter((h) => {
+      const matchSearch = !search || [h.name, h.guardian_name, h.holding_no, h.village]
+        .some((v) => v?.toLowerCase().includes(search.toLowerCase()));
+      const matchWard = wardFilter === "all" || h.ward_no === wardFilter;
+      const matchVillage = villageFilter === "all" || h.village === villageFilter;
+      return matchSearch && matchWard && matchVillage;
+    });
+  }, [holdings, search, wardFilter, villageFilter]);
+
+  const totalTax = useMemo(() => filtered.reduce((s, h) => s + Number(h.tax), 0), [filtered]);
+  const uniqueVillages = useMemo(() => new Set(filtered.map((h) => h.village)).size, [filtered]);
+  const uniqueWards = useMemo(() => new Set(filtered.map((h) => h.ward_no)).size, [filtered]);
+
+  const openEdit = (h: HoldingCard) => {
+    setEditItem(h);
+    setEditForm({ name: h.name, guardian_name: h.guardian_name, ward_no: h.ward_no, holding_no: h.holding_no, village: h.village, tax: String(h.tax) });
+  };
+
+  const saveEdit = () => {
+    if (!editItem) return;
+    updateMutation.mutate({
+      id: editItem.id,
+      data: { ...editForm, tax: Number(editForm.tax) || 0 },
+    });
+  };
+
+  const stats = [
+    { label: "Total Holdings", value: filtered.length, icon: LayoutDashboard, color: "text-primary" },
+    { label: "Wards", value: uniqueWards, icon: MapPin, color: "text-blue-600" },
+    { label: "Villages", value: uniqueVillages, icon: Users, color: "text-emerald-600" },
+    { label: "Total Tax", value: `৳${totalTax.toLocaleString()}`, icon: Banknote, color: "text-amber-600" },
+  ];
+
   return (
-    <div>
-      <div className="mb-6 flex items-center justify-between">
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-2xl font-bold text-foreground">Holding Cards</h2>
           <p className="text-muted-foreground">Manage all holding card records.</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" asChild>
-            <Link to="/holdings/import">
-              <FileUp className="mr-2 h-4 w-4" /> Import Excel
-            </Link>
+            <Link to="/holdings/import"><FileUp className="mr-2 h-4 w-4" /> Import</Link>
           </Button>
           <Button asChild>
-            <Link to="/holdings/add">
-              <Plus className="mr-2 h-4 w-4" /> Add New
-            </Link>
+            <Link to="/holdings/add"><Plus className="mr-2 h-4 w-4" /> Add New</Link>
           </Button>
         </div>
       </div>
 
+      {/* Stats */}
+      <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
+        {stats.map((s) => (
+          <Card key={s.label}>
+            <CardHeader className="flex flex-row items-center justify-between pb-1 pt-4 px-4">
+              <CardTitle className="text-xs font-medium text-muted-foreground">{s.label}</CardTitle>
+              <s.icon className={`h-4 w-4 ${s.color}`} />
+            </CardHeader>
+            <CardContent className="px-4 pb-4">
+              <div className="text-xl font-bold">{s.value}</div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      {/* Filters */}
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input placeholder="Search by name, guardian, holding no..." className="pl-9" value={search} onChange={(e) => setSearch(e.target.value)} />
+        </div>
+        <Select value={wardFilter} onValueChange={setWardFilter}>
+          <SelectTrigger className="w-full sm:w-40">
+            <SelectValue placeholder="Ward" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Wards</SelectItem>
+            {wards.map((w) => <SelectItem key={w} value={w}>{`Ward ${w}`}</SelectItem>)}
+          </SelectContent>
+        </Select>
+        <Select value={villageFilter} onValueChange={setVillageFilter}>
+          <SelectTrigger className="w-full sm:w-44">
+            <SelectValue placeholder="Village" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Villages</SelectItem>
+            {villages.map((v) => <SelectItem key={v} value={v}>{v}</SelectItem>)}
+          </SelectContent>
+        </Select>
+      </div>
+
+      {/* Table */}
       <Card>
         <CardContent className="p-0">
           {isLoading ? (
-            <div className="flex items-center justify-center py-12">
+            <div className="flex items-center justify-center py-16">
               <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
             </div>
-          ) : !holdings?.length ? (
-            <div className="py-12 text-center text-muted-foreground">
-              No holding cards yet. Add your first one!
+          ) : !filtered.length ? (
+            <div className="py-16 text-center text-muted-foreground">
+              {holdings?.length ? "No results match your filters." : "No holding cards yet. Add your first one!"}
             </div>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Guardian</TableHead>
-                  <TableHead>Ward</TableHead>
-                  <TableHead>Holding No</TableHead>
-                  <TableHead>Village</TableHead>
-                  <TableHead className="text-right">Tax (৳)</TableHead>
-                  <TableHead className="w-12"></TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {holdings.map((h) => (
-                  <TableRow key={h.id}>
-                    <TableCell className="font-medium">{h.name}</TableCell>
-                    <TableCell>{h.guardian_name}</TableCell>
-                    <TableCell>{h.ward_no}</TableCell>
-                    <TableCell>{h.holding_no}</TableCell>
-                    <TableCell>{h.village}</TableCell>
-                    <TableCell className="text-right">{Number(h.tax).toLocaleString()}</TableCell>
-                    <TableCell>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => deleteMutation.mutate(h.id)}
-                        disabled={deleteMutation.isPending}
-                      >
-                        <Trash2 className="h-4 w-4 text-destructive" />
-                      </Button>
-                    </TableCell>
+            <div className="overflow-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow className="bg-muted/40">
+                    <TableHead className="w-10 text-center">#</TableHead>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Guardian</TableHead>
+                    <TableHead>Holding</TableHead>
+                    <TableHead>Ward</TableHead>
+                    <TableHead>Village</TableHead>
+                    <TableHead className="text-right">Tax (৳)</TableHead>
+                    <TableHead className="w-12 text-center">Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {filtered.map((h, i) => (
+                    <TableRow key={h.id}>
+                      <TableCell className="text-center text-xs text-muted-foreground font-mono">{i + 1}</TableCell>
+                      <TableCell className="font-medium">{h.name}</TableCell>
+                      <TableCell>{h.guardian_name}</TableCell>
+                      <TableCell><Badge variant="outline">{h.holding_no}</Badge></TableCell>
+                      <TableCell><Badge variant="secondary">{h.ward_no}</Badge></TableCell>
+                      <TableCell>{h.village}</TableCell>
+                      <TableCell className="text-right font-mono">{Number(h.tax).toLocaleString()}</TableCell>
+                      <TableCell className="text-center">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8">
+                              <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => setViewItem(h)}>
+                              <Eye className="mr-2 h-4 w-4" /> View
+                            </DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => openEdit(h)}>
+                              <Pencil className="mr-2 h-4 w-4" /> Edit
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteMutation.mutate(h.id)}>
+                              <Trash2 className="mr-2 h-4 w-4" /> Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           )}
         </CardContent>
       </Card>
+
+      {/* View Dialog */}
+      <Dialog open={!!viewItem} onOpenChange={() => setViewItem(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Holding Card Details</DialogTitle>
+            <DialogDescription>Full details for this holding card.</DialogDescription>
+          </DialogHeader>
+          {viewItem && (
+            <div className="grid gap-3 text-sm">
+              {[
+                ["Name", viewItem.name],
+                ["Guardian", viewItem.guardian_name],
+                ["Holding No", viewItem.holding_no],
+                ["Ward No", viewItem.ward_no],
+                ["Village", viewItem.village],
+                ["Tax", `৳${Number(viewItem.tax).toLocaleString()}`],
+              ].map(([label, value]) => (
+                <div key={label} className="flex justify-between border-b pb-2 last:border-0">
+                  <span className="text-muted-foreground">{label}</span>
+                  <span className="font-medium">{value}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Dialog */}
+      <Dialog open={!!editItem} onOpenChange={() => setEditItem(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Holding Card</DialogTitle>
+            <DialogDescription>Update the holding card details below.</DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {[
+              { key: "name", label: "Name", type: "text" },
+              { key: "guardian_name", label: "Guardian Name", type: "text" },
+              { key: "holding_no", label: "Holding No", type: "text" },
+              { key: "ward_no", label: "Ward No", type: "text" },
+              { key: "village", label: "Village", type: "text" },
+              { key: "tax", label: "Tax (৳)", type: "number" },
+            ].map((f) => (
+              <div key={f.key} className="space-y-1.5">
+                <Label>{f.label}</Label>
+                <Input
+                  type={f.type}
+                  value={editForm[f.key as keyof typeof editForm]}
+                  onChange={(e) => setEditForm((prev) => ({ ...prev, [f.key]: e.target.value }))}
+                />
+              </div>
+            ))}
+          </div>
+          <div className="flex justify-end gap-2 pt-2">
+            <Button variant="outline" onClick={() => setEditItem(null)}>Cancel</Button>
+            <Button onClick={saveEdit} disabled={updateMutation.isPending}>
+              {updateMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Save Changes
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
