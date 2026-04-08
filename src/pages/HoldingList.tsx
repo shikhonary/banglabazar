@@ -278,7 +278,7 @@ const HoldingList = () => {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => setViewItem(h)}>
+                      <DropdownMenuItem onClick={() => navigate(`/holdings/${h.id}`)}>
                         <Eye className="mr-2 h-4 w-4" /> View
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => navigate(`/holdings/edit/${h.id}`)}>
@@ -347,7 +347,7 @@ const HoldingList = () => {
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                              <DropdownMenuItem onClick={() => setViewItem(h)}>
+                              <DropdownMenuItem onClick={() => navigate(`/holdings/${h.id}`)}>
                                 <Eye className="mr-2 h-4 w-4" /> View
                               </DropdownMenuItem>
                               <DropdownMenuItem onClick={() => navigate(`/holdings/edit/${h.id}`)}>
