@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Loader2, Download } from "lucide-react";
 import type { Tables } from "@/integrations/supabase/types";
-import html2canvas from "html2canvas";
+import domtoimage from "dom-to-image-more";
 import bdGovtSeal from "@/assets/bd-govt-seal.png";
 import bdNationalEmblem from "@/assets/bd-national-emblem.png";
 
@@ -58,7 +58,6 @@ const HoldingCardView = () => {
       wrapper.style.perspective = "none";
 
       if (side === "back") {
-        // Show back, hide front
         if (frontDiv) frontDiv.style.display = "none";
         if (backDiv) {
           backDiv.style.position = "relative";
@@ -66,27 +65,32 @@ const HoldingCardView = () => {
           backDiv.style.backfaceVisibility = "visible";
         }
       } else {
-        // Show front, hide back
         if (backDiv) backDiv.style.display = "none";
         if (frontDiv) {
           frontDiv.style.backfaceVisibility = "visible";
         }
       }
 
-      // Wait a frame for layout
-      await new Promise((r) => setTimeout(r, 100));
+      // Wait for layout reflow
+      await new Promise((r) => setTimeout(r, 200));
 
-      const canvas = await html2canvas(targetRef, {
-        scale: 3,
-        useCORS: true,
-        backgroundColor: null,
-        width: targetRef.scrollWidth,
-        height: targetRef.scrollHeight,
+      const scale = 3;
+      const width = targetRef.scrollWidth;
+      const height = targetRef.scrollHeight;
+
+      const dataUrl = await domtoimage.toJpeg(targetRef, {
+        quality: 0.95,
+        width: width * scale,
+        height: height * scale,
+        style: {
+          transform: `scale(${scale})`,
+          transformOrigin: "top left",
+        },
       });
 
       const link = document.createElement("a");
       link.download = `holding-card-${side}-${holding.holding_no}.jpg`;
-      link.href = canvas.toDataURL("image/jpeg", 0.95);
+      link.href = dataUrl;
       link.click();
 
       toast({ title: "সফল!", description: `${side === "front" ? "সামনের" : "পেছনের"} কার্ড ডাউনলোড হয়েছে।` });
