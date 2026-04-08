@@ -61,7 +61,7 @@ const HoldingCardView = () => {
         </Button>
       </div>
 
-      <div className="min-h-[420px]">
+      <div className="mx-auto h-[420px] w-[640px] max-w-full">
         {!flipped ? (
           <CardFront holding={holding} />
         ) : (
@@ -73,20 +73,17 @@ const HoldingCardView = () => {
 };
 
 const CardFront = ({ holding }: { holding: HoldingCardType }) => (
-  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative">
-    {/* Watermark */}
+  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative h-full flex flex-col">
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
       <img src={bdGovtSeal} alt="" className="w-48 h-48 opacity-10" />
     </div>
-    {/* Top Header */}
+
     <div className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-700 text-white text-center py-3 px-4 relative z-10">
       <p className="text-[10px] tracking-wide opacity-90">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
     </div>
 
-    {/* Union Parishad Name Section */}
     <div className="text-center py-4 px-4 space-y-1 border-b border-emerald-200">
       <div className="flex items-center justify-center gap-3">
-        {/* Left Emblem */}
         <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-emerald-400 flex items-center justify-center bg-white">
           <img src={bdGovtSeal} alt="বাংলাদেশ সরকার" className="w-10 h-10 object-contain" />
         </div>
@@ -96,32 +93,27 @@ const CardFront = ({ holding }: { holding: HoldingCardType }) => (
           <p className="text-[10px] text-emerald-600">উপজেলা : নগরকান্দা, জেলা : ফরিদপুর</p>
         </div>
 
-        {/* Right Emblem */}
         <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-emerald-400 flex items-center justify-center bg-white">
           <img src={bdNationalEmblem} alt="জাতীয় প্রতীক" className="w-10 h-10 object-contain" />
         </div>
       </div>
     </div>
 
-    {/* Holding Card Title Badge */}
     <div className="flex justify-center -mt-3 relative z-10">
       <div className="bg-red-600 text-white px-6 py-1 rounded-full text-sm font-bold shadow-md border-2 border-red-700">
         হোল্ডিং স্মার্ট কার্ড
       </div>
     </div>
 
-    {/* Card Details */}
-    <div className="px-6 pt-4 pb-5 space-y-3">
-      {/* QR Code area + Info */}
+    <div className="px-6 pt-4 pb-5 space-y-3 flex-1 flex flex-col justify-between">
       <div className="flex gap-4">
-        {/* QR Code Placeholder */}
         <div className="w-20 h-20 shrink-0 rounded-lg border-2 border-emerald-300 bg-white p-1 flex items-center justify-center">
           <div className="w-full h-full grid grid-cols-5 grid-rows-5 gap-[1px]">
             {Array.from({ length: 25 }).map((_, i) => (
               <div
                 key={i}
                 className={`rounded-[1px] ${
-                  [0,1,2,4,5,6,10,12,14,18,20,22,23,24].includes(i)
+                  [0, 1, 2, 4, 5, 6, 10, 12, 14, 18, 20, 22, 23, 24].includes(i)
                     ? "bg-emerald-800"
                     : "bg-emerald-100"
                 }`}
@@ -130,7 +122,6 @@ const CardFront = ({ holding }: { holding: HoldingCardType }) => (
           </div>
         </div>
 
-        {/* Details */}
         <div className="flex-1 space-y-2">
           <DetailRow label="নাম" value={holding.name} />
           <DetailRow label="হোল্ডিং নং" value={holding.holding_no} />
@@ -139,21 +130,16 @@ const CardFront = ({ holding }: { holding: HoldingCardType }) => (
         </div>
       </div>
 
-      {/* Tax Info */}
       <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-center">
         <p className="text-xs text-emerald-600 mb-0.5">বার্ষিক কর (ট্যাক্স)</p>
         <p className="text-xl font-bold text-emerald-800">৳{Number(holding.tax).toLocaleString()}</p>
       </div>
 
-      {/* Footer Note */}
       <div className="text-center pt-1">
-        <p className="text-[10px] text-emerald-600 leading-relaxed">
-          ★ নিয়মিত ইউপি কর (ট্যাক্স) পরিশোধ করুন ★
-        </p>
+        <p className="text-[10px] text-emerald-600 leading-relaxed">★ নিয়মিত ইউপি কর (ট্যাক্স) পরিশোধ করুন ★</p>
       </div>
     </div>
 
-    {/* Bottom Bar */}
     <div className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-700 text-white text-center py-2 px-4">
       <p className="text-[10px] tracking-wide opacity-90">https://fulsutiup.faridpur.gov.bd</p>
     </div>
@@ -161,18 +147,16 @@ const CardFront = ({ holding }: { holding: HoldingCardType }) => (
 );
 
 const CardBack = () => (
-  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative min-h-full flex flex-col">
-    {/* Watermark */}
+  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative h-full flex flex-col">
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
       <img src={bdGovtSeal} alt="" className="w-48 h-48 opacity-10" />
     </div>
-    {/* Top Header */}
+
     <div className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-700 text-white text-center py-3 px-4 relative z-10">
       <p className="text-sm font-bold">জরুরী প্রয়োজনে কল করুন</p>
     </div>
 
     <div className="px-6 py-4 space-y-3 flex-1 flex flex-col justify-evenly relative z-10">
-      {/* Emergency Numbers */}
       <div className="bg-red-50/35 border border-red-200 rounded-lg p-3 space-y-1.5">
         <div className="flex items-center justify-between">
           <span className="text-sm text-red-800 font-medium">জাতীয়জরুরীসেবা সেবা</span>
@@ -190,24 +174,13 @@ const CardBack = () => (
         </div>
       </div>
 
-      {/* Message Section */}
       <div className="bg-emerald-50/35 border border-emerald-200 rounded-lg p-3 text-center space-y-1">
-        <p className="text-sm text-emerald-800 font-semibold leading-relaxed">
-          হোল্ডিং না আমার কুঁড়ে ঘর,
-        </p>
-        <p className="text-sm text-emerald-800 leading-relaxed">
-          আখিরে দিব অল্প কর ।
-        </p>
-        <p className="text-sm text-emerald-800 leading-relaxed">
-          হোল্ডিং সেবা পেতে হলে,
-        </p>
-        <p className="text-sm text-emerald-800 leading-relaxed">
-          কার্ডটি সনে রাখুন ।
-        </p>
+        <p className="text-sm text-emerald-800 font-semibold leading-relaxed">হোল্ডিং না আমার কুঁড়ে ঘর,</p>
+        <p className="text-sm text-emerald-800 leading-relaxed">আখিরে দিব অল্প কর ।</p>
+        <p className="text-sm text-emerald-800 leading-relaxed">হোল্ডিং সেবা পেতে হলে,</p>
+        <p className="text-sm text-emerald-800 leading-relaxed">কার্ডটি সনে রাখুন ।</p>
       </div>
 
-
-      {/* Terms */}
       <div className="text-center">
         <p className="text-[9px] text-muted-foreground leading-relaxed">
           এই কার্ডটি ফুলসুতী ইউনিয়ন পরিষদ কর্তৃক প্রদত্ত।
@@ -217,7 +190,6 @@ const CardBack = () => (
       </div>
     </div>
 
-    {/* Bottom Bar */}
     <div className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-700 text-white text-center py-2 px-4">
       <p className="text-[10px] tracking-wide opacity-90">https://fulsutiup.faridpur.gov.bd</p>
     </div>
