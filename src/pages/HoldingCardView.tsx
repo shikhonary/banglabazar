@@ -61,11 +61,13 @@ const HoldingCardView = () => {
         </Button>
       </div>
 
-      {!flipped ? (
-        <CardFront holding={holding} />
-      ) : (
-        <CardBack />
-      )}
+      <div className="min-h-[420px]">
+        {!flipped ? (
+          <CardFront holding={holding} />
+        ) : (
+          <CardBack />
+        )}
+      </div>
     </div>
   );
 };
@@ -159,7 +161,7 @@ const CardFront = ({ holding }: { holding: HoldingCardType }) => (
 );
 
 const CardBack = () => (
-  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative h-full flex flex-col">
+  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative min-h-full flex flex-col">
     {/* Watermark */}
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
       <img src={bdGovtSeal} alt="" className="w-48 h-48 opacity-10" />
@@ -169,9 +171,9 @@ const CardBack = () => (
       <p className="text-sm font-bold">জরুরী প্রয়োজনে কল করুন</p>
     </div>
 
-    <div className="px-6 py-5 space-y-4 flex-1 flex flex-col justify-between relative z-10">
+    <div className="px-6 py-4 space-y-3 flex-1 flex flex-col justify-evenly relative z-10">
       {/* Emergency Numbers */}
-      <div className="bg-red-50/35 border border-red-200 rounded-lg p-4 space-y-2">
+      <div className="bg-red-50/35 border border-red-200 rounded-lg p-3 space-y-1.5">
         <div className="flex items-center justify-between">
           <span className="text-sm text-red-800 font-medium">জাতীয়জরুরীসেবা সেবা</span>
           <span className="text-lg font-bold text-red-700 font-mono">৯৯৯</span>
@@ -189,7 +191,7 @@ const CardBack = () => (
       </div>
 
       {/* Message Section */}
-      <div className="bg-emerald-50/35 border border-emerald-200 rounded-lg p-4 text-center space-y-2">
+      <div className="bg-emerald-50/35 border border-emerald-200 rounded-lg p-3 text-center space-y-1">
         <p className="text-sm text-emerald-800 font-semibold leading-relaxed">
           হোল্ডিং না আমার কুঁড়ে ঘর,
         </p>
