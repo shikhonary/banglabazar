@@ -268,7 +268,6 @@ const HoldingList = () => {
           )}
         </CardContent>
       </Card>
-      )}
 
       {/* Content */}
       {isLoading ? (
