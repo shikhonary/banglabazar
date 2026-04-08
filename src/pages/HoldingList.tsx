@@ -172,70 +172,128 @@ const HoldingList = () => {
         </Select>
       </div>
 
-      {/* Table */}
-      <Card>
-        <CardContent className="p-0">
-          {isLoading ? (
-            <div className="flex items-center justify-center py-16">
-              <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
-            </div>
-          ) : !filtered.length ? (
-            <div className="py-16 text-center text-muted-foreground">
-              {holdings?.length ? "No results match your filters." : "No holding cards yet. Add your first one!"}
-            </div>
-          ) : (
-            <div className="overflow-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow className="bg-muted/40">
-                    <TableHead className="w-10 text-center">#</TableHead>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Guardian</TableHead>
-                    <TableHead>Holding</TableHead>
-                    <TableHead>Ward</TableHead>
-                    <TableHead>Village</TableHead>
-                    <TableHead className="text-right">Tax (৳)</TableHead>
-                    <TableHead className="w-12 text-center">Actions</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filtered.map((h, i) => (
-                    <TableRow key={h.id}>
-                      <TableCell className="text-center text-xs text-muted-foreground font-mono">{i + 1}</TableCell>
-                      <TableCell className="font-medium">{h.name}</TableCell>
-                      <TableCell>{h.guardian_name}</TableCell>
-                      <TableCell><Badge variant="outline">{h.holding_no}</Badge></TableCell>
-                      <TableCell><Badge variant="secondary">{h.ward_no}</Badge></TableCell>
-                      <TableCell>{h.village}</TableCell>
-                      <TableCell className="text-right font-mono">{Number(h.tax).toLocaleString()}</TableCell>
-                      <TableCell className="text-center">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-8 w-8">
-                              <MoreHorizontal className="h-4 w-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => setViewItem(h)}>
-                              <Eye className="mr-2 h-4 w-4" /> View
-                            </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => openEdit(h)}>
-                              <Pencil className="mr-2 h-4 w-4" /> Edit
-                            </DropdownMenuItem>
-                            <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteMutation.mutate(h.id)}>
-                              <Trash2 className="mr-2 h-4 w-4" /> Delete
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
+      {/* Content */}
+      {isLoading ? (
+        <div className="flex items-center justify-center py-16">
+          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+        </div>
+      ) : !filtered.length ? (
+        <div className="py-16 text-center text-muted-foreground">
+          {holdings?.length ? "No results match your filters." : "No holding cards yet. Add your first one!"}
+        </div>
+      ) : (
+        <>
+          {/* Mobile Card View */}
+          <div className="grid gap-3 grid-cols-1 md:hidden">
+            {filtered.map((h, i) => (
+              <Card key={h.id} className="overflow-hidden">
+                <div className="flex items-start justify-between p-4 pb-2">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary text-sm font-bold">
+                      {i + 1}
+                    </div>
+                    <div>
+                      <p className="font-semibold text-foreground leading-tight">{h.name}</p>
+                      <p className="text-xs text-muted-foreground">s/o {h.guardian_name}</p>
+                    </div>
+                  </div>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0">
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => setViewItem(h)}>
+                        <Eye className="mr-2 h-4 w-4" /> View
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => openEdit(h)}>
+                        <Pencil className="mr-2 h-4 w-4" /> Edit
+                      </DropdownMenuItem>
+                      <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteMutation.mutate(h.id)}>
+                        <Trash2 className="mr-2 h-4 w-4" /> Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+                <div className="grid grid-cols-3 gap-2 px-4 pb-3">
+                  <div className="rounded-md bg-muted/50 px-2.5 py-1.5 text-center">
+                    <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Holding</p>
+                    <p className="text-sm font-semibold text-foreground">{h.holding_no}</p>
+                  </div>
+                  <div className="rounded-md bg-muted/50 px-2.5 py-1.5 text-center">
+                    <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Ward</p>
+                    <p className="text-sm font-semibold text-foreground">{h.ward_no}</p>
+                  </div>
+                  <div className="rounded-md bg-muted/50 px-2.5 py-1.5 text-center">
+                    <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Tax</p>
+                    <p className="text-sm font-semibold text-primary">৳{Number(h.tax).toLocaleString()}</p>
+                  </div>
+                </div>
+                <div className="border-t px-4 py-2 flex items-center gap-1.5 text-xs text-muted-foreground">
+                  <MapPin className="h-3 w-3" />
+                  {h.village}
+                </div>
+              </Card>
+            ))}
+          </div>
+
+          {/* Desktop Table View */}
+          <Card className="hidden md:block">
+            <CardContent className="p-0">
+              <div className="overflow-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-muted/40">
+                      <TableHead className="w-10 text-center">#</TableHead>
+                      <TableHead>Name</TableHead>
+                      <TableHead>Guardian</TableHead>
+                      <TableHead>Holding</TableHead>
+                      <TableHead>Ward</TableHead>
+                      <TableHead>Village</TableHead>
+                      <TableHead className="text-right">Tax (৳)</TableHead>
+                      <TableHead className="w-12 text-center">Actions</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          )}
-        </CardContent>
-      </Card>
+                  </TableHeader>
+                  <TableBody>
+                    {filtered.map((h, i) => (
+                      <TableRow key={h.id}>
+                        <TableCell className="text-center text-xs text-muted-foreground font-mono">{i + 1}</TableCell>
+                        <TableCell className="font-medium">{h.name}</TableCell>
+                        <TableCell>{h.guardian_name}</TableCell>
+                        <TableCell><Badge variant="outline">{h.holding_no}</Badge></TableCell>
+                        <TableCell><Badge variant="secondary">{h.ward_no}</Badge></TableCell>
+                        <TableCell>{h.village}</TableCell>
+                        <TableCell className="text-right font-mono">{Number(h.tax).toLocaleString()}</TableCell>
+                        <TableCell className="text-center">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" size="icon" className="h-8 w-8">
+                                <MoreHorizontal className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem onClick={() => setViewItem(h)}>
+                                <Eye className="mr-2 h-4 w-4" /> View
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => openEdit(h)}>
+                                <Pencil className="mr-2 h-4 w-4" /> Edit
+                              </DropdownMenuItem>
+                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteMutation.mutate(h.id)}>
+                                <Trash2 className="mr-2 h-4 w-4" /> Delete
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </CardContent>
+          </Card>
+        </>
+      )}
 
       {/* View Dialog */}
       <Dialog open={!!viewItem} onOpenChange={() => setViewItem(null)}>
