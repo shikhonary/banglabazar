@@ -33,7 +33,10 @@ const HoldingList = () => {
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
   const [wardFilter, setWardFilter] = useState("all");
-  const [villageFilter, setVillageFilter] = useState("all");
+  const [villageFilter, setVillageFilter] = useState("");
+  const [holdingFilter, setHoldingFilter] = useState("all");
+  const [page, setPage] = useState(1);
+  const perPage = 10;
   const [viewItem, setViewItem] = useState<HoldingCard | null>(null);
   const [editItem, setEditItem] = useState<HoldingCard | null>(null);
   const [editForm, setEditForm] = useState({ name: "", guardian_name: "", ward_no: "", holding_no: "", village: "", tax: "" });
@@ -84,10 +87,15 @@ const HoldingList = () => {
       const matchSearch = !search || [h.name, h.guardian_name, h.holding_no, h.village]
         .some((v) => v?.toLowerCase().includes(search.toLowerCase()));
       const matchWard = wardFilter === "all" || h.ward_no === wardFilter;
-      const matchVillage = villageFilter === "all" || h.village === villageFilter;
-      return matchSearch && matchWard && matchVillage;
+      const matchVillage = !villageFilter || h.village?.toLowerCase().includes(villageFilter.toLowerCase());
+      const matchHolding = holdingFilter === "all" || h.holding_no === holdingFilter;
+      return matchSearch && matchWard && matchVillage && matchHolding;
     });
-  }, [holdings, search, wardFilter, villageFilter]);
+  }, [holdings, search, wardFilter, villageFilter, holdingFilter]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
+  const safeePage = Math.min(page, totalPages);
+  const paginated = useMemo(() => filtered.slice((safeePage - 1) * perPage, safeePage * perPage), [filtered, safeePage]);
 
   const totalTax = useMemo(() => filtered.reduce((s, h) => s + Number(h.tax), 0), [filtered]);
   const uniqueVillages = useMemo(() => new Set(filtered.map((h) => h.village)).size, [filtered]);
