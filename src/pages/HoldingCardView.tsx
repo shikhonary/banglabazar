@@ -48,8 +48,8 @@ const HoldingCardView = () => {
   if (!holding) return null;
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
+    <div className="max-w-2xl mx-auto px-4 sm:px-0">
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
         <Button variant="ghost" size="sm" asChild>
           <Link to="/holdings">
             <ArrowLeft className="mr-2 h-4 w-4" /> Back
@@ -61,18 +61,21 @@ const HoldingCardView = () => {
         </Button>
       </div>
 
-      <div className="mx-auto h-[440px] w-[640px] max-w-full" style={{ perspective: "1200px" }}>
+      <div className="mx-auto w-full sm:w-[640px]" style={{ perspective: "1200px" }}>
         <div
-          className="relative w-full h-full transition-transform duration-700"
+          className="relative transition-transform duration-700"
           style={{
             transformStyle: "preserve-3d",
             transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
           }}
         >
-          <div className="absolute inset-0" style={{ backfaceVisibility: "hidden" }}>
+          <div style={{ backfaceVisibility: "hidden" }} className={flipped ? "invisible" : ""}>
             <CardFront holding={holding} />
           </div>
-          <div className="absolute inset-0" style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
+          <div
+            className={`absolute inset-0 ${!flipped ? "invisible" : ""}`}
+            style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+          >
             <CardBack />
           </div>
         </div>
@@ -82,41 +85,41 @@ const HoldingCardView = () => {
 };
 
 const CardFront = ({ holding }: { holding: HoldingCardType }) => (
-  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative h-full flex flex-col" style={{ fontFamily: "'SolaimanLipi', sans-serif" }}>
+  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative flex flex-col" style={{ fontFamily: "'SolaimanLipi', sans-serif" }}>
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
       <img src={bdGovtSeal} alt="" className="w-48 h-48 opacity-10" />
     </div>
 
-    <div className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-700 text-white text-center py-3 px-4 relative z-10">
-      <p className="text-[10px] tracking-wide opacity-90">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
+    <div className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-700 text-white text-center py-2 sm:py-3 px-3 sm:px-4 relative z-10">
+      <p className="text-[9px] sm:text-[10px] tracking-wide opacity-90">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
     </div>
 
-    <div className="text-center py-3 px-4 space-y-1 border-b border-emerald-200">
-      <div className="flex items-center justify-center gap-3">
-        <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-emerald-400 flex items-center justify-center bg-white">
-          <img src={bdGovtSeal} alt="বাংলাদেশ সরকার" className="w-10 h-10 object-contain" />
+    <div className="text-center py-2 sm:py-3 px-3 sm:px-4 space-y-1 border-b border-emerald-200">
+      <div className="flex items-center justify-center gap-2 sm:gap-3">
+        <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-full overflow-hidden border-2 border-emerald-400 flex items-center justify-center bg-white shrink-0">
+          <img src={bdGovtSeal} alt="বাংলাদেশ সরকার" className="w-7 h-7 sm:w-10 sm:h-10 object-contain" />
         </div>
 
         <div>
-          <h1 className="text-lg font-bold text-emerald-800 leading-tight">৪নং ফুলসুতী ইউনিয়ন পরিষদ</h1>
-          <p className="text-[10px] text-emerald-600">উপজেলা : নগরকান্দা, জেলা : ফরিদপুর</p>
+          <h1 className="text-base sm:text-lg font-bold text-emerald-800 leading-tight">৪নং ফুলসুতী ইউনিয়ন পরিষদ</h1>
+          <p className="text-[9px] sm:text-[10px] text-emerald-600">উপজেলা : নগরকান্দা, জেলা : ফরিদপুর</p>
         </div>
 
-        <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-emerald-400 flex items-center justify-center bg-white">
-          <img src={bdNationalEmblem} alt="জাতীয় প্রতীক" className="w-10 h-10 object-contain" />
+        <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-full overflow-hidden border-2 border-emerald-400 flex items-center justify-center bg-white shrink-0">
+          <img src={bdNationalEmblem} alt="জাতীয় প্রতীক" className="w-7 h-7 sm:w-10 sm:h-10 object-contain" />
         </div>
       </div>
     </div>
 
     <div className="flex justify-center -mt-3 relative z-10">
-      <div className="bg-red-600 text-white px-6 py-1 rounded-full text-sm font-bold shadow-md border-2 border-red-700">
+      <div className="bg-red-600 text-white px-4 sm:px-6 py-1 rounded-full text-xs sm:text-sm font-bold shadow-md border-2 border-red-700">
         হোল্ডিং স্মার্ট কার্ড
       </div>
     </div>
 
-    <div className="px-6 pt-3 pb-3 space-y-2 flex-1 flex flex-col justify-between">
-      <div className="flex gap-4">
-        <div className="w-20 h-20 shrink-0 rounded-lg border-2 border-emerald-300 bg-white p-1 flex items-center justify-center">
+    <div className="px-4 sm:px-6 pt-3 pb-3 space-y-2 flex-1 flex flex-col justify-between">
+      <div className="flex gap-3 sm:gap-4">
+        <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-lg border-2 border-emerald-300 bg-white p-1 flex items-center justify-center">
           <div className="w-full h-full grid grid-cols-5 grid-rows-5 gap-[1px]">
             {Array.from({ length: 25 }).map((_, i) => (
               <div
@@ -156,7 +159,7 @@ const CardFront = ({ holding }: { holding: HoldingCardType }) => (
 );
 
 const CardBack = () => (
-  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative h-full flex flex-col" style={{ fontFamily: "'SolaimanLipi', sans-serif" }}>
+  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative flex flex-col" style={{ fontFamily: "'SolaimanLipi', sans-serif" }}>
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
       <img src={bdGovtSeal} alt="" className="w-48 h-48 opacity-10" />
     </div>
