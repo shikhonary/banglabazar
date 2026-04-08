@@ -216,7 +216,7 @@ const CardFront = ({ holding }: { holding: HoldingCardType }) => (
       <img src={bdGovtSeal} alt="" className="w-48 h-48 opacity-10" />
     </div>
 
-    <div className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-700 text-white text-center py-2 sm:py-3 px-3 sm:px-4 relative z-10">
+    <div className="text-white text-center py-2 sm:py-3 px-3 sm:px-4 relative z-10" style={{ background: "linear-gradient(to right, #047857, #059669, #047857)" }}>
       <p className="text-[9px] sm:text-[10px] tracking-wide opacity-90">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
     </div>
 
@@ -278,7 +278,7 @@ const CardFront = ({ holding }: { holding: HoldingCardType }) => (
       </div>
     </div>
 
-    <div className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-700 text-white text-center py-2 px-4">
+    <div className="text-white text-center py-2 px-4" style={{ background: "linear-gradient(to right, #047857, #059669, #047857)" }}>
       <p className="text-[10px] tracking-wide opacity-90">https://fulsutiup.faridpur.gov.bd</p>
     </div>
   </div>
@@ -290,7 +290,7 @@ const CardBack = () => (
       <img src={bdGovtSeal} alt="" className="w-48 h-48 opacity-10" />
     </div>
 
-    <div className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-700 text-white text-center py-3 px-4 relative z-10">
+    <div className="text-white text-center py-3 px-4 relative z-10" style={{ background: "linear-gradient(to right, #047857, #059669, #047857)" }}>
       <p className="text-sm font-bold">জরুরী প্রয়োজনে কল করুন</p>
     </div>
 
@@ -328,7 +328,7 @@ const CardBack = () => (
       </div>
     </div>
 
-    <div className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-700 text-white text-center py-2 px-4">
+    <div className="text-white text-center py-2 px-4" style={{ background: "linear-gradient(to right, #047857, #059669, #047857)" }}>
       <p className="text-[10px] tracking-wide opacity-90">https://fulsutiup.faridpur.gov.bd</p>
     </div>
   </div>
