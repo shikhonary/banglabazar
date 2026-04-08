@@ -49,15 +49,16 @@ const HoldingCardView = () => {
     void document.fonts.load("700 1em SolaimanLipi");
   }, []);
 
-  const downloadCard = async (side: "front" | "back") => {
+  const downloadCard = async () => {
     if (!holding) return;
     setDownloading(true);
 
-    const targetRef = side === "front" ? frontRef.current : backRef.current;
+    const frontEl = frontRef.current;
+    const backEl = backRef.current;
     const flipContainer = flipContainerRef.current;
     const wrapper = wrapperRef.current;
 
-    if (!targetRef || !flipContainer || !wrapper) {
+    if (!frontEl || !backEl || !flipContainer || !wrapper) {
       setDownloading(false);
       return;
     }
@@ -66,13 +67,14 @@ const HoldingCardView = () => {
     const origTransition = flipContainer.style.transition;
     const origTransformStyle = flipContainer.style.transformStyle;
     const origWrapperPerspective = wrapper.style.perspective;
-    const origPadding = targetRef.style.padding;
 
-    const backDiv = backRef.current?.parentElement;
-    const frontDiv = frontRef.current?.parentElement;
+    const backDiv = backEl.parentElement;
+    const frontDiv = frontEl.parentElement;
     const origBackTransform = backDiv?.style.transform || "";
     const origBackBfv = backDiv?.style.backfaceVisibility || "";
     const origFrontBfv = frontDiv?.style.backfaceVisibility || "";
+    const origBackPos = backDiv?.style.position || "";
+    const origBackInset = backDiv?.style.inset || "";
 
     try {
       flipContainer.style.transition = "none";
@@ -80,93 +82,83 @@ const HoldingCardView = () => {
       flipContainer.style.transformStyle = "flat";
       wrapper.style.perspective = "none";
 
-      if (side === "back") {
-        if (frontDiv) frontDiv.style.display = "none";
-        if (backDiv) {
-          backDiv.style.position = "relative";
-          backDiv.style.transform = "none";
-          backDiv.style.backfaceVisibility = "visible";
-        }
-      } else {
-        if (backDiv) backDiv.style.display = "none";
-        if (frontDiv) {
-          frontDiv.style.backfaceVisibility = "visible";
-        }
+      // Show both sides stacked vertically
+      if (frontDiv) frontDiv.style.backfaceVisibility = "visible";
+      if (backDiv) {
+        backDiv.style.position = "relative";
+        backDiv.style.inset = "auto";
+        backDiv.style.transform = "none";
+        backDiv.style.backfaceVisibility = "visible";
       }
 
       ensureEmbeddedFontCss();
       await document.fonts.load("400 1em SolaimanLipi");
       await document.fonts.load("700 1em SolaimanLipi");
       await document.fonts.ready;
-      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
-      await new Promise((resolve) => setTimeout(resolve, 200));
+      await new Promise<void>((r) => requestAnimationFrame(() => r()));
+      await new Promise((r) => setTimeout(r, 200));
 
-      targetRef.style.padding = "20px";
-
+      const scale = 3;
       const exportOptions = {
-        pixelRatio: 3,
+        pixelRatio: scale,
         cacheBust: true,
         includeQueryParams: true,
         fontEmbedCSS: solaimanLipiEmbeddedCss,
-        style: {
-          fontFamily: BENGALI_FONT_FAMILY,
-          lineHeight: "1.6",
-        },
+        style: { fontFamily: BENGALI_FONT_FAMILY, lineHeight: "1.6" },
         useCORS: true,
         allowTaint: false,
-        logging: true,
-      } as Parameters<typeof toPng>[1] & {
-        useCORS: true;
-        allowTaint: false;
-        logging: true;
+      } as Parameters<typeof toPng>[1];
+
+      // Capture both sides separately
+      const frontPng = await toPng(frontEl, exportOptions);
+      const backPng = await toPng(backEl, exportOptions);
+
+      // Load both images
+      const loadImg = (src: string) => {
+        const img = new Image();
+        img.src = src;
+        return new Promise<HTMLImageElement>((res) => { img.onload = () => res(img); });
       };
 
-      const dataUrl = await toPng(targetRef, exportOptions);
+      const [frontImg, backImg] = await Promise.all([loadImg(frontPng), loadImg(backPng)]);
 
-      const img = new Image();
-      img.src = dataUrl;
-      await new Promise((resolve) => {
-        img.onload = resolve;
-      });
+      // Combine vertically with a gap
+      const gap = 60 * scale;
+      const maxW = Math.max(frontImg.width, backImg.width);
+      const totalH = frontImg.height + gap + backImg.height;
 
       const canvas = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
+      canvas.width = maxW;
+      canvas.height = totalH;
       const ctx = canvas.getContext("2d")!;
       ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0);
+      ctx.fillRect(0, 0, maxW, totalH);
+
+      const frontX = Math.round((maxW - frontImg.width) / 2);
+      const backX = Math.round((maxW - backImg.width) / 2);
+      ctx.drawImage(frontImg, frontX, 0);
+      ctx.drawImage(backImg, backX, frontImg.height + gap);
 
       const link = document.createElement("a");
-      link.download = `holding-card-${side}-${holding.holding_no}.jpg`;
+      link.download = `holding-card-${holding.holding_no}.jpg`;
       link.href = canvas.toDataURL("image/jpeg", 0.95);
       link.click();
 
-      toast({
-        title: "সফল!",
-        description: `${side === "front" ? "সামনের" : "পেছনের"} কার্ড ডাউনলোড হয়েছে।`,
-      });
+      toast({ title: "সফল!", description: "কার্ড ডাউনলোড হয়েছে।" });
     } catch {
-      toast({
-        title: "ত্রুটি",
-        description: "ডাউনলোড করতে সমস্যা হয়েছে।",
-        variant: "destructive",
-      });
+      toast({ title: "ত্রুটি", description: "ডাউনলোড করতে সমস্যা হয়েছে।", variant: "destructive" });
     } finally {
-      targetRef.style.padding = origPadding;
       flipContainer.style.transform = origTransform;
       flipContainer.style.transition = origTransition;
       flipContainer.style.transformStyle = origTransformStyle;
       wrapper.style.perspective = origWrapperPerspective;
 
       if (frontDiv) {
-        frontDiv.style.display = "";
         frontDiv.style.backfaceVisibility = origFrontBfv;
       }
-
       if (backDiv) {
-        backDiv.style.display = "";
-        backDiv.style.position = "";
+        backDiv.style.position = origBackPos;
+        backDiv.style.inset = origBackInset;
         backDiv.style.transform = origBackTransform;
         backDiv.style.backfaceVisibility = origBackBfv;
       }
@@ -240,7 +232,7 @@ const HoldingCardView = () => {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => downloadCard(flipped ? "back" : "front")}
+            onClick={() => downloadCard()}
             disabled={downloading}
             className="border-emerald-300 text-emerald-700 hover:bg-emerald-50"
           >
