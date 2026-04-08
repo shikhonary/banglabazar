@@ -1,18 +1,4 @@
-@font-face {
-  font-family: "SolaimanLipi";
-  src: url("./assets/fonts/solaimanlipi-normal.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "SolaimanLipi";
-  src: url("./assets/fonts/solaimanlipi-bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
+@import "./styles/solaimanLipiEmbedded.css";
 
 @tailwind base;
 @tailwind components;
@@ -126,4 +112,15 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.bengali-text,
+.bengali-text * {
+  font-family: "SolaimanLipi", sans-serif;
+}
+
+.bengali-text :is(h1, h2, h3, p, span, a, button) {
+  line-height: 1.6;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
