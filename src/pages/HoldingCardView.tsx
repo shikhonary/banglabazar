@@ -61,7 +61,7 @@ const HoldingCardView = () => {
         </Button>
       </div>
 
-      <div className="min-h-[420px]">
+      <div className="mx-auto w-[640px] max-w-full">
         {!flipped ? (
           <CardFront holding={holding} />
         ) : (
