@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Plus, Loader2, FileUp, Search, MoreHorizontal, Eye, Pencil, Trash2,
   LayoutDashboard, MapPin, Banknote, Users, ChevronLeft, ChevronRight, SlidersHorizontal,
@@ -31,6 +31,7 @@ type HoldingCard = Tables<"holding_cards">;
 
 const HoldingList = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
   const [wardFilter, setWardFilter] = useState("all");
@@ -40,8 +41,6 @@ const HoldingList = () => {
   const [perPage, setPerPage] = useState(10);
   const [filterOpen, setFilterOpen] = useState(false);
   const [viewItem, setViewItem] = useState<HoldingCard | null>(null);
-  const [editItem, setEditItem] = useState<HoldingCard | null>(null);
-  const [editForm, setEditForm] = useState({ name: "", guardian_name: "", ward_no: "", holding_no: "", village: "", tax: "" });
 
   const { data: holdings, isLoading } = useQuery({
     queryKey: ["holdings"],
@@ -67,18 +66,6 @@ const HoldingList = () => {
     onError: (err: Error) => toast({ title: "Error", description: err.message, variant: "destructive" }),
   });
 
-  const updateMutation = useMutation({
-    mutationFn: async ({ id, data }: { id: string; data: Partial<HoldingCard> }) => {
-      const { error } = await supabase.from("holding_cards").update(data).eq("id", id);
-      if (error) throw error;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["holdings"] });
-      toast({ title: "Updated", description: "Holding card updated." });
-      setEditItem(null);
-    },
-    onError: (err: Error) => toast({ title: "Error", description: err.message, variant: "destructive" }),
-  });
 
   const activeFilterCount = [search, villageFilter, wardFilter !== "all" ? wardFilter : "", holdingFilter !== "all" ? holdingFilter : ""].filter(Boolean).length;
   const clearFilters = () => { setSearch(""); setVillageFilter(""); setWardFilter("all"); setHoldingFilter("all"); setPage(1); };
@@ -103,18 +90,6 @@ const HoldingList = () => {
   const uniqueVillages = useMemo(() => new Set(filtered.map((h) => h.village)).size, [filtered]);
   const uniqueWards = useMemo(() => new Set(filtered.map((h) => h.ward_no)).size, [filtered]);
 
-  const openEdit = (h: HoldingCard) => {
-    setEditItem(h);
-    setEditForm({ name: h.name, guardian_name: h.guardian_name, ward_no: h.ward_no, holding_no: h.holding_no, village: h.village, tax: String(h.tax) });
-  };
-
-  const saveEdit = () => {
-    if (!editItem) return;
-    updateMutation.mutate({
-      id: editItem.id,
-      data: { ...editForm, tax: Number(editForm.tax) || 0 },
-    });
-  };
 
   const stats = [
     { label: "Total Holdings", value: filtered.length, icon: LayoutDashboard, color: "text-primary" },
@@ -304,7 +279,7 @@ const HoldingList = () => {
                       <DropdownMenuItem onClick={() => setViewItem(h)}>
                         <Eye className="mr-2 h-4 w-4" /> View
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => openEdit(h)}>
+                      <DropdownMenuItem onClick={() => navigate(`/holdings/edit/${h.id}`)}>
                         <Pencil className="mr-2 h-4 w-4" /> Edit
                       </DropdownMenuItem>
                       <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteMutation.mutate(h.id)}>
@@ -373,7 +348,7 @@ const HoldingList = () => {
                               <DropdownMenuItem onClick={() => setViewItem(h)}>
                                 <Eye className="mr-2 h-4 w-4" /> View
                               </DropdownMenuItem>
-                              <DropdownMenuItem onClick={() => openEdit(h)}>
+                              <DropdownMenuItem onClick={() => navigate(`/holdings/edit/${h.id}`)}>
                                 <Pencil className="mr-2 h-4 w-4" /> Edit
                               </DropdownMenuItem>
                               <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteMutation.mutate(h.id)}>
@@ -463,41 +438,6 @@ const HoldingList = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Edit Dialog */}
-      <Dialog open={!!editItem} onOpenChange={() => setEditItem(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Edit Holding Card</DialogTitle>
-            <DialogDescription>Update the holding card details below.</DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {[
-              { key: "name", label: "Name", type: "text" },
-              { key: "guardian_name", label: "Guardian Name", type: "text" },
-              { key: "holding_no", label: "Holding No", type: "text" },
-              { key: "ward_no", label: "Ward No", type: "text" },
-              { key: "village", label: "Village", type: "text" },
-              { key: "tax", label: "Tax (৳)", type: "number" },
-            ].map((f) => (
-              <div key={f.key} className="space-y-1.5">
-                <Label>{f.label}</Label>
-                <Input
-                  type={f.type}
-                  value={editForm[f.key as keyof typeof editForm]}
-                  onChange={(e) => setEditForm((prev) => ({ ...prev, [f.key]: e.target.value }))}
-                />
-              </div>
-            ))}
-          </div>
-          <div className="flex justify-end gap-2 pt-2">
-            <Button variant="outline" onClick={() => setEditItem(null)}>Cancel</Button>
-            <Button onClick={saveEdit} disabled={updateMutation.isPending}>
-              {updateMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Save Changes
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };
