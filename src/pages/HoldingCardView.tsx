@@ -75,7 +75,7 @@ const HoldingCardView = () => {
         </div>
       </div>
 
-      <div className="mx-auto w-full max-w-[640px]" style={{ perspective: "1200px" }}>
+      <div className="mx-auto w-full max-w-[640px]" style={{ perspective: "1200px", fontFamily: "'SolaimanLipi', sans-serif" }}>
         <div
           className="relative transition-transform duration-700 ease-in-out"
           style={{
@@ -99,7 +99,7 @@ const HoldingCardView = () => {
 };
 
 const CardFront = ({ holding }: { holding: HoldingCardType }) => (
-  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative flex flex-col" style={{ fontFamily: "'SolaimanLipi', sans-serif" }}>
+  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative flex flex-col">
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
       <img src={bdGovtSeal} alt="" className="w-48 h-48 opacity-10" />
     </div>
@@ -173,7 +173,7 @@ const CardFront = ({ holding }: { holding: HoldingCardType }) => (
 );
 
 const CardBack = () => (
-  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative flex flex-col" style={{ fontFamily: "'SolaimanLipi', sans-serif" }}>
+  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative flex flex-col">
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
       <img src={bdGovtSeal} alt="" className="w-48 h-48 opacity-10" />
     </div>
@@ -186,17 +186,17 @@ const CardBack = () => (
       <div className="bg-red-50/35 border border-red-200 rounded-lg p-3 space-y-1.5">
         <div className="flex items-center justify-between">
           <span className="text-sm text-red-800 font-medium">জাতীয়জরুরীসেবা সেবা</span>
-          <span className="text-lg font-bold text-red-700 font-mono">৯৯৯</span>
+          <span className="text-lg font-bold text-red-700">৯৯৯</span>
         </div>
         <div className="h-px bg-red-200" />
         <div className="flex items-center justify-between">
           <span className="text-sm text-red-800 font-medium">ফায়ার সার্ভিস</span>
-          <span className="text-lg font-bold text-red-700 font-mono">১০২</span>
+          <span className="text-lg font-bold text-red-700">১০২</span>
         </div>
         <div className="h-px bg-red-200" />
         <div className="flex items-center justify-between">
           <span className="text-sm text-red-800 font-medium">পুলিশ সেবা</span>
-          <span className="text-lg font-bold text-red-700 font-mono">১০০</span>
+          <span className="text-lg font-bold text-red-700">১০০</span>
         </div>
       </div>
 
