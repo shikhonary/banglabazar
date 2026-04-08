@@ -33,7 +33,7 @@ const EditHolding = () => {
         .eq("id", id)
         .single();
       if (error || !data) {
-        toast({ title: "Error", description: "Holding card not found.", variant: "destructive" });
+        toast({ title: "ত্রুটি", description: "হোল্ডিং কার্ড পাওয়া যায়নি।", variant: "destructive" });
         navigate("/holdings");
         return;
       }
@@ -71,22 +71,22 @@ const EditHolding = () => {
         })
         .eq("id", id);
       if (error) throw error;
-      toast({ title: "Updated", description: "Holding card updated successfully." });
+      toast({ title: "সফল!", description: "হোল্ডিং কার্ড সফলভাবে আপডেট হয়েছে।" });
       navigate("/holdings");
     } catch (error: any) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "ত্রুটি", description: error.message, variant: "destructive" });
     } finally {
       setSubmitting(false);
     }
   };
 
   const fields = [
-    { name: "name", label: "Name", type: "text", placeholder: "Card holder name" },
-    { name: "guardian_name", label: "Guardian Name", type: "text", placeholder: "Father/Guardian name" },
-    { name: "ward_no", label: "Ward No", type: "text", placeholder: "Ward number" },
-    { name: "holding_no", label: "Holding No", type: "text", placeholder: "Holding number" },
-    { name: "village", label: "Village", type: "text", placeholder: "Village name" },
-    { name: "tax", label: "Tax (৳)", type: "number", placeholder: "Tax amount" },
+    { name: "name", label: "নাম", type: "text", placeholder: "কার্ডধারীর নাম" },
+    { name: "guardian_name", label: "অভিভাবকের নাম", type: "text", placeholder: "পিতা/অভিভাবকের নাম" },
+    { name: "ward_no", label: "ওয়ার্ড নং", type: "text", placeholder: "ওয়ার্ড নম্বর" },
+    { name: "holding_no", label: "হোল্ডিং নং", type: "text", placeholder: "হোল্ডিং নম্বর" },
+    { name: "village", label: "গ্রাম/মহল্লা", type: "text", placeholder: "গ্রামের নাম" },
+    { name: "tax", label: "কর (৳)", type: "number", placeholder: "করের পরিমাণ" },
   ];
 
   if (loading) {
@@ -100,12 +100,12 @@ const EditHolding = () => {
   return (
     <div className="max-w-2xl mx-auto">
       <Button variant="ghost" size="sm" asChild className="mb-4">
-        <Link to="/holdings"><ArrowLeft className="mr-2 h-4 w-4" /> Back to Holdings</Link>
+        <Link to="/holdings"><ArrowLeft className="mr-2 h-4 w-4" /> হোল্ডিং তালিকায় ফিরুন</Link>
       </Button>
       <Card>
         <CardHeader>
-          <CardTitle>Edit Holding Card</CardTitle>
-          <CardDescription>Update the holding card details below.</CardDescription>
+          <CardTitle>হোল্ডিং কার্ড সম্পাদনা</CardTitle>
+          <CardDescription>নিচের তথ্য আপডেট করুন।</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="grid gap-4 sm:grid-cols-2">
@@ -126,10 +126,10 @@ const EditHolding = () => {
             <div className="sm:col-span-2 pt-2 flex gap-2">
               <Button type="submit" disabled={submitting}>
                 {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Save Changes
+                সংরক্ষণ করুন
               </Button>
               <Button type="button" variant="outline" onClick={() => navigate("/holdings")}>
-                Cancel
+                বাতিল
               </Button>
             </div>
           </form>
