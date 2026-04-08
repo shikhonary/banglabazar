@@ -61,23 +61,11 @@ const HoldingCardView = () => {
         </Button>
       </div>
 
-      <div className="perspective-[1200px]">
-        <div
-          className={`relative w-full transition-transform duration-700 [transform-style:preserve-3d] ${
-            flipped ? "[transform:rotateY(180deg)]" : ""
-          }`}
-        >
-          {/* Front Side */}
-          <div className="[backface-visibility:hidden]">
-            <CardFront holding={holding} />
-          </div>
-
-          {/* Back Side */}
-          <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)]">
-            <CardBack />
-          </div>
-        </div>
-      </div>
+      {!flipped ? (
+        <CardFront holding={holding} />
+      ) : (
+        <CardBack />
+      )}
     </div>
   );
 };
