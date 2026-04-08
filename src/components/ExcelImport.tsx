@@ -64,12 +64,27 @@ const ExcelImport = () => {
 
         const mapped: HoldingRow[] = jsonData.map((row) => {
           const result: Record<string, any> = {};
-          for (const [header, value] of Object.entries(row)) {
+          const entries = Object.entries(row);
+
+          // Try header-based mapping first
+          let matched = 0;
+          for (const [header, value] of entries) {
             const trimmed = header.trim();
             const field = HEADER_MAP[trimmed];
             if (field) {
               result[field] = field === "tax" ? Number(value) || 0 : String(value).trim();
+              matched++;
             }
+          }
+
+          // Positional fallback if no headers matched
+          if (matched === 0) {
+            const values = entries.map(([, v]) => v);
+            POSITIONAL_FIELDS.forEach((field, i) => {
+              if (i < values.length && values[i] != null) {
+                result[field] = field === "tax" ? Number(values[i]) || 0 : String(values[i]).trim();
+              }
+            });
           }
           return {
             name: result.name || "",
