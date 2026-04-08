@@ -61,7 +61,7 @@ const HoldingCardView = () => {
         </Button>
       </div>
 
-      <div className="mx-auto h-[420px] w-[640px] max-w-full">
+      <div className="mx-auto h-[440px] w-[640px] max-w-full">
         {!flipped ? (
           <CardFront holding={holding} />
         ) : (
@@ -82,7 +82,7 @@ const CardFront = ({ holding }: { holding: HoldingCardType }) => (
       <p className="text-[10px] tracking-wide opacity-90">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
     </div>
 
-    <div className="text-center py-4 px-4 space-y-1 border-b border-emerald-200">
+    <div className="text-center py-3 px-4 space-y-1 border-b border-emerald-200">
       <div className="flex items-center justify-center gap-3">
         <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-emerald-400 flex items-center justify-center bg-white">
           <img src={bdGovtSeal} alt="বাংলাদেশ সরকার" className="w-10 h-10 object-contain" />
@@ -105,7 +105,7 @@ const CardFront = ({ holding }: { holding: HoldingCardType }) => (
       </div>
     </div>
 
-    <div className="px-6 pt-4 pb-5 space-y-3 flex-1 flex flex-col justify-between">
+    <div className="px-6 pt-3 pb-3 space-y-2 flex-1 flex flex-col justify-between">
       <div className="flex gap-4">
         <div className="w-20 h-20 shrink-0 rounded-lg border-2 border-emerald-300 bg-white p-1 flex items-center justify-center">
           <div className="w-full h-full grid grid-cols-5 grid-rows-5 gap-[1px]">
