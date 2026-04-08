@@ -7,6 +7,7 @@ import { ArrowLeft, Loader2, Download } from "lucide-react";
 import type { Tables } from "@/integrations/supabase/types";
 import { toPng } from "html-to-image";
 import { QRCodeSVG } from "qrcode.react";
+import { useIsMobile } from "@/hooks/use-mobile";
 import bdGovtSeal from "@/assets/bd-govt-seal.png";
 import bdNationalEmblem from "@/assets/bd-national-emblem.png";
 import solaimanLipiEmbeddedCss from "@/styles/solaimanLipiEmbedded.css?raw";
@@ -283,12 +284,12 @@ const HoldingCardView = () => {
 
 const CARD_ASPECT = 1.586; // ISO ID-1 standard (w:h)
 
-const CardFront = ({ holding }: { holding: HoldingCardType }) => (
+const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: boolean }) => (
   <div
     className="bengali-text rounded-xl border-2 border-emerald-600 overflow-hidden shadow-xl relative flex flex-col"
     style={{
       background: "linear-gradient(to bottom, #f0fdf4, rgba(254,252,232,0.3), #f0fdf4)",
-      aspectRatio: `${CARD_ASPECT} / 1`,
+      ...(isMobile ? {} : { aspectRatio: `${CARD_ASPECT} / 1` }),
       ...BENGALI_TEXT_STYLE,
     }}
   >
@@ -377,12 +378,12 @@ const CardFront = ({ holding }: { holding: HoldingCardType }) => (
   </div>
 );
 
-const CardBack = () => (
+const CardBack = ({ isMobile }: { isMobile: boolean }) => (
   <div
     className="bengali-text rounded-xl border-2 border-emerald-600 overflow-hidden shadow-xl relative flex flex-col"
     style={{
       background: "linear-gradient(to bottom, #f0fdf4, rgba(254,252,232,0.3), #f0fdf4)",
-      aspectRatio: `${CARD_ASPECT} / 1`,
+      ...(isMobile ? {} : { aspectRatio: `${CARD_ASPECT} / 1` }),
       ...BENGALI_TEXT_STYLE,
     }}
   >
