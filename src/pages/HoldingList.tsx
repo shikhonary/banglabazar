@@ -13,6 +13,7 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import { Plus, Trash2, Loader2 } from "lucide-react";
+import ExcelImport from "@/components/ExcelImport";
 
 const HoldingList = () => {
   const { toast } = useToast();
