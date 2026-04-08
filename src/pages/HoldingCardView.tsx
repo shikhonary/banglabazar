@@ -122,10 +122,11 @@ const HoldingCardView = () => {
 
       const [frontImg, backImg] = await Promise.all([loadImg(frontPng), loadImg(backPng)]);
 
-      // Combine vertically with a gap
+      // Combine vertically with padding and gap
+      const padding = 40 * scale;
       const gap = 60 * scale;
-      const maxW = Math.max(frontImg.width, backImg.width);
-      const totalH = frontImg.height + gap + backImg.height;
+      const maxW = Math.max(frontImg.width, backImg.width) + padding * 2;
+      const totalH = padding + frontImg.height + gap + backImg.height + padding;
 
       const canvas = document.createElement("canvas");
       canvas.width = maxW;
@@ -136,8 +137,8 @@ const HoldingCardView = () => {
 
       const frontX = Math.round((maxW - frontImg.width) / 2);
       const backX = Math.round((maxW - backImg.width) / 2);
-      ctx.drawImage(frontImg, frontX, 0);
-      ctx.drawImage(backImg, backX, frontImg.height + gap);
+      ctx.drawImage(frontImg, frontX, padding);
+      ctx.drawImage(backImg, backX, padding + frontImg.height + gap);
 
       const link = document.createElement("a");
       link.download = `holding-card-${holding.holding_no}.jpg`;
