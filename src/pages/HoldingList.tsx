@@ -15,7 +15,7 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription,
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
@@ -41,6 +41,7 @@ const HoldingList = () => {
   const [perPage, setPerPage] = useState(10);
   const [filterOpen, setFilterOpen] = useState(false);
   const [viewItem, setViewItem] = useState<HoldingCard | null>(null);
+  const [deleteItem, setDeleteItem] = useState<HoldingCard | null>(null);
 
   const { data: holdings, isLoading } = useQuery({
     queryKey: ["holdings"],
@@ -62,6 +63,7 @@ const HoldingList = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["holdings"] });
       toast({ title: "Deleted", description: "Holding card removed." });
+      setDeleteItem(null);
     },
     onError: (err: Error) => toast({ title: "Error", description: err.message, variant: "destructive" }),
   });
