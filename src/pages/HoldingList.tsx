@@ -155,27 +155,37 @@ const HoldingList = () => {
       </div>
 
       {/* Filters */}
-      <div className="flex flex-col gap-3 sm:flex-row">
-        <div className="relative flex-1">
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Search by name, guardian, holding no..." className="pl-9" value={search} onChange={(e) => setSearch(e.target.value)} />
+          <Input placeholder="Search by name, guardian..." className="pl-9" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} />
         </div>
-        <Select value={wardFilter} onValueChange={setWardFilter}>
-          <SelectTrigger className="w-full sm:w-40">
+        <Select value={wardFilter} onValueChange={(v) => { setWardFilter(v); setPage(1); }}>
+          <SelectTrigger className="w-full sm:w-36">
             <SelectValue placeholder="Ward" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Wards</SelectItem>
-            {wards.map((w) => <SelectItem key={w} value={w}>{`Ward ${w}`}</SelectItem>)}
+            {Array.from({ length: 9 }, (_, i) => String(i + 1)).map((w) => (
+              <SelectItem key={w} value={w}>{`Ward ${w}`}</SelectItem>
+            ))}
           </SelectContent>
         </Select>
-        <Select value={villageFilter} onValueChange={setVillageFilter}>
-          <SelectTrigger className="w-full sm:w-44">
-            <SelectValue placeholder="Village" />
+        <Input
+          placeholder="Filter by village..."
+          className="w-full sm:w-44"
+          value={villageFilter}
+          onChange={(e) => { setVillageFilter(e.target.value); setPage(1); }}
+        />
+        <Select value={holdingFilter} onValueChange={(v) => { setHoldingFilter(v); setPage(1); }}>
+          <SelectTrigger className="w-full sm:w-40">
+            <SelectValue placeholder="Holding" />
           </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Villages</SelectItem>
-            {villages.map((v) => <SelectItem key={v} value={v}>{v}</SelectItem>)}
+          <SelectContent className="max-h-60">
+            <SelectItem value="all">All Holdings</SelectItem>
+            {Array.from({ length: 200 }, (_, i) => String(i + 1)).map((h) => (
+              <SelectItem key={h} value={h}>{`Holding ${h}`}</SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
