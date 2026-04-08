@@ -11,6 +11,7 @@ import AddHolding from "./pages/AddHolding";
 import HoldingList from "./pages/HoldingList";
 import ImportHoldings from "./pages/ImportHoldings";
 import EditHolding from "./pages/EditHolding";
+import ViewHolding from "./pages/ViewHolding";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -29,6 +30,7 @@ const App = () => (
               <Route path="/holdings" element={<HoldingList />} />
               <Route path="/holdings/add" element={<AddHolding />} />
               <Route path="/holdings/edit/:id" element={<EditHolding />} />
+              <Route path="/holdings/:id" element={<ViewHolding />} />
               <Route path="/holdings/import" element={<ImportHoldings />} />
             </Route>
             <Route path="*" element={<NotFound />} />
