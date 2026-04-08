@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Loader2 } from "lucide-react";
+import { ArrowLeft, Loader2, Download } from "lucide-react";
 import type { Tables } from "@/integrations/supabase/types";
+import html2canvas from "html2canvas";
 import bdGovtSeal from "@/assets/bd-govt-seal.png";
 import bdNationalEmblem from "@/assets/bd-national-emblem.png";
 
@@ -17,6 +18,58 @@ const HoldingCardView = () => {
   const [holding, setHolding] = useState<HoldingCardType | null>(null);
   const [loading, setLoading] = useState(true);
   const [flipped, setFlipped] = useState(false);
+  const [downloading, setDownloading] = useState(false);
+
+  const downloadCard = useCallback(async (side: "front" | "back") => {
+    if (!holding) return;
+    setDownloading(true);
+
+    // Create an offscreen container at fixed desktop width
+    const offscreen = document.createElement("div");
+    offscreen.style.position = "fixed";
+    offscreen.style.left = "-9999px";
+    offscreen.style.top = "0";
+    offscreen.style.width = "640px";
+    offscreen.style.fontFamily = "'SolaimanLipi', sans-serif";
+    offscreen.style.zIndex = "-1";
+    document.body.appendChild(offscreen);
+
+    // Import ReactDOM to render card
+    const { createRoot } = await import("react-dom/client");
+    const root = createRoot(offscreen);
+
+    const CardComponent = side === "front"
+      ? <CardFront holding={holding} />
+      : <CardBack />;
+
+    root.render(CardComponent);
+
+    // Wait for fonts and images to load
+    await new Promise((r) => setTimeout(r, 500));
+
+    try {
+      const canvas = await html2canvas(offscreen, {
+        scale: 3,
+        useCORS: true,
+        backgroundColor: null,
+        width: 640,
+      });
+
+      // Convert to JPG
+      const link = document.createElement("a");
+      link.download = `holding-card-${side}-${holding.holding_no}.jpg`;
+      link.href = canvas.toDataURL("image/jpeg", 0.95);
+      link.click();
+
+      toast({ title: "সফল!", description: `${side === "front" ? "সামনের" : "পেছনের"} কার্ড ডাউনলোড হয়েছে।` });
+    } catch {
+      toast({ title: "ত্রুটি", description: "ডাউনলোড করতে সমস্যা হয়েছে।", variant: "destructive" });
+    } finally {
+      root.unmount();
+      document.body.removeChild(offscreen);
+      setDownloading(false);
+    }
+  }, [holding, toast]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,6 +124,16 @@ const HoldingCardView = () => {
             className={flipped ? "bg-emerald-600 hover:bg-emerald-700 text-white shadow-md" : ""}
           >
             পেছনে
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => downloadCard(flipped ? "back" : "front")}
+            disabled={downloading}
+            className="border-emerald-300 text-emerald-700 hover:bg-emerald-50"
+          >
+            {downloading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
+            ডাউনলোড
           </Button>
         </div>
       </div>
