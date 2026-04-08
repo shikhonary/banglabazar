@@ -171,7 +171,7 @@ const CardFront = ({ holding }: { holding: HoldingCardType }) => (
 );
 
 const CardBack = () => (
-  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative h-full">
+  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative h-full flex flex-col">
     {/* Watermark */}
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
       <img src={bdGovtSeal} alt="" className="w-48 h-48 opacity-10" />
@@ -181,7 +181,7 @@ const CardBack = () => (
       <p className="text-sm font-bold">জরুরী প্রয়োজনে কল করুন</p>
     </div>
 
-    <div className="px-6 py-5 space-y-4 relative z-10">
+    <div className="px-6 py-5 space-y-4 flex-1 flex flex-col justify-between relative z-10">
       {/* Emergency Numbers */}
       <div className="bg-red-50 border border-red-200 rounded-lg p-4 space-y-2">
         <div className="flex items-center justify-between">
