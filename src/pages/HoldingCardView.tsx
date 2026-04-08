@@ -262,7 +262,9 @@ const HoldingCardView = () => {
         </div>
       </div>
 
-      <div ref={outerRef} className="mx-auto w-full">
+      <div ref={outerRef} className="mx-auto w-full"
+        style={{ height: cardScale < 1 ? `${(CARD_FIXED_WIDTH / CARD_ASPECT) * cardScale}px` : "auto" }}
+      >
         <div
           ref={wrapperRef}
           className="bengali-text mx-auto"
