@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Loader2, Download } from "lucide-react";
 import type { Tables } from "@/integrations/supabase/types";
-import { toJpeg } from "html-to-image";
+import { toPng } from "html-to-image";
 import bdGovtSeal from "@/assets/bd-govt-seal.png";
 import bdNationalEmblem from "@/assets/bd-national-emblem.png";
 
@@ -74,21 +74,37 @@ const HoldingCardView = () => {
       // Wait for layout reflow
       await new Promise((r) => setTimeout(r, 200));
 
-      const scale = 3;
-      const width = targetRef.scrollWidth;
-      const height = targetRef.scrollHeight;
+      // Add temporary padding for capture
+      const origPadding = targetRef.style.padding;
+      targetRef.style.padding = "20px";
 
-      const dataUrl = await toJpeg(targetRef, {
-        quality: 0.95,
+      const scale = 3;
+
+      const dataUrl = await toPng(targetRef, {
         pixelRatio: scale,
-        canvasWidth: width * scale,
-        canvasHeight: height * scale,
+        cacheBust: true,
+        fontEmbedCSS: `@import url('https://fonts.cdnfonts.com/css/solaimanlipi');`,
       });
+
+      // Convert PNG data to JPG via canvas
+      const img = new Image();
+      img.src = dataUrl;
+      await new Promise((resolve) => { img.onload = resolve; });
+      const canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext("2d")!;
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0);
 
       const link = document.createElement("a");
       link.download = `holding-card-${side}-${holding.holding_no}.jpg`;
-      link.href = dataUrl;
+      link.href = canvas.toDataURL("image/jpeg", 0.95);
       link.click();
+
+      // Restore padding
+      targetRef.style.padding = origPadding;
 
       toast({ title: "সফল!", description: `${side === "front" ? "সামনের" : "পেছনের"} কার্ড ডাউনলোড হয়েছে।` });
     } catch {
@@ -182,7 +198,7 @@ const HoldingCardView = () => {
         </div>
       </div>
 
-      <div ref={wrapperRef} className="mx-auto w-full max-w-[640px]" style={{ perspective: "1200px", fontFamily: "'SolaimanLipi', sans-serif" }}>
+      <div ref={wrapperRef} className="mx-auto w-full max-w-[640px]" style={{ perspective: "1200px", fontFamily: "'SolaimanLipi', sans-serif", lineHeight: 1.8 }}>
         <div
           ref={flipContainerRef}
           className="relative transition-transform duration-700 ease-in-out"
