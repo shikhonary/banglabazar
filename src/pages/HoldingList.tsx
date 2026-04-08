@@ -36,7 +36,7 @@ const HoldingList = () => {
   const [villageFilter, setVillageFilter] = useState("");
   const [holdingFilter, setHoldingFilter] = useState("all");
   const [page, setPage] = useState(1);
-  const perPage = 10;
+  const [perPage, setPerPage] = useState(10);
   const [viewItem, setViewItem] = useState<HoldingCard | null>(null);
   const [editItem, setEditItem] = useState<HoldingCard | null>(null);
   const [editForm, setEditForm] = useState({ name: "", guardian_name: "", ward_no: "", holding_no: "", village: "", tax: "" });
@@ -156,35 +156,35 @@ const HoldingList = () => {
 
       {/* Filters */}
       <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-        <div className="relative flex-1 min-w-[200px]">
+        <div className="relative flex-1 min-w-[150px]">
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
           <Input placeholder="Search by name, guardian..." className="pl-9" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} />
         </div>
+        <Input
+          placeholder="Filter by village..."
+          className="w-full sm:w-44 flex-1 min-w-[150px]"
+          value={villageFilter}
+          onChange={(e) => { setVillageFilter(e.target.value); setPage(1); }}
+        />
         <Select value={wardFilter} onValueChange={(v) => { setWardFilter(v); setPage(1); }}>
-          <SelectTrigger className="w-full sm:w-36">
+          <SelectTrigger className="w-full sm:w-32">
             <SelectValue placeholder="Ward" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Wards</SelectItem>
             {Array.from({ length: 9 }, (_, i) => String(i + 1)).map((w) => (
-              <SelectItem key={w} value={w}>{`Ward ${w}`}</SelectItem>
+              <SelectItem key={w} value={w}>{w}</SelectItem>
             ))}
           </SelectContent>
         </Select>
-        <Input
-          placeholder="Filter by village..."
-          className="w-full sm:w-44"
-          value={villageFilter}
-          onChange={(e) => { setVillageFilter(e.target.value); setPage(1); }}
-        />
         <Select value={holdingFilter} onValueChange={(v) => { setHoldingFilter(v); setPage(1); }}>
-          <SelectTrigger className="w-full sm:w-40">
+          <SelectTrigger className="w-full sm:w-36">
             <SelectValue placeholder="Holding" />
           </SelectTrigger>
           <SelectContent className="max-h-60">
             <SelectItem value="all">All Holdings</SelectItem>
             {Array.from({ length: 200 }, (_, i) => String(i + 1)).map((h) => (
-              <SelectItem key={h} value={h}>{`Holding ${h}`}</SelectItem>
+              <SelectItem key={h} value={h}>{h}</SelectItem>
             ))}
           </SelectContent>
         </Select>
@@ -313,9 +313,24 @@ const HoldingList = () => {
 
           {/* Pagination */}
           <div className="flex items-center justify-between">
-            <p className="text-sm text-muted-foreground">
-              Showing {(safeePage - 1) * perPage + 1}–{Math.min(safeePage * perPage, filtered.length)} of {filtered.length}
-            </p>
+          {/* Pagination */}
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-2">
+              <p className="text-sm text-muted-foreground">
+                Showing {(safeePage - 1) * perPage + 1}–{Math.min(safeePage * perPage, filtered.length)} of {filtered.length}
+              </p>
+              <Select value={String(perPage)} onValueChange={(v) => { setPerPage(Number(v)); setPage(1); }}>
+                <SelectTrigger className="h-8 w-[70px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {[10, 20, 50, 100].map((n) => (
+                    <SelectItem key={n} value={String(n)}>{n}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <span className="text-sm text-muted-foreground">per page</span>
+            </div>
             <div className="flex items-center gap-1">
               <Button variant="outline" size="icon" className="h-8 w-8" disabled={safeePage <= 1} onClick={() => setPage(safeePage - 1)}>
                 <ChevronLeft className="h-4 w-4" />
