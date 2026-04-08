@@ -54,6 +54,20 @@ const HoldingCardView = () => {
     void document.fonts.load("700 1em SolaimanLipi");
   }, []);
 
+  // Scale card to fit container width
+  useEffect(() => {
+    const outer = outerRef.current;
+    if (!outer) return;
+    const updateScale = () => {
+      const availableWidth = outer.clientWidth;
+      setCardScale(Math.min(1, availableWidth / CARD_FIXED_WIDTH));
+    };
+    updateScale();
+    const ro = new ResizeObserver(updateScale);
+    ro.observe(outer);
+    return () => ro.disconnect();
+  }, []);
+
   const downloadCard = async () => {
     if (!holding) return;
     setDownloading(true);
