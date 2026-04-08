@@ -17,13 +17,13 @@ const HEADER_MAP: Record<string, string> = {
   "ওয়ার্ড নং": "ward_no",
   "গ্রামের নাম": "village",
   "ধার্যকৃত বাৎসরিক কর": "tax",
-  // Bijoy-encoded headers (from legacy Excel files)
+  // Bijoy-encoded headers (using Unicode escapes for safety)
   "bvg": "name",
-  "wcZv/¯^vgxi bvg": "guardian_name",
-  "†nvwìs bs": "holding_no",
-  "IqvW© bs": "ward_no",
-  "MÖv‡gi bvg": "village",
-  "avh©K…Z evrmwiK Ki": "tax",
+  "wcZv/\u00AF^vgxi bvg": "guardian_name",
+  "\u2020nvw\u00ECs bs": "holding_no",
+  "IqvW\u00A9 bs": "ward_no",
+  "M\u00D6v\u2021gi bvg": "village",
+  "avh\u00A9K\u2026Z evrmwiK Ki": "tax",
   // English fallbacks
   "name": "name",
   "guardian name": "guardian_name",
