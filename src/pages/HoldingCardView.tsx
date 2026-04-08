@@ -77,17 +77,17 @@ const HoldingCardView = () => {
 
       <div className="mx-auto w-full max-w-[640px]" style={{ perspective: "1200px" }}>
         <div
-          className="relative transition-transform duration-700"
+          className="relative transition-transform duration-700 ease-in-out"
           style={{
             transformStyle: "preserve-3d",
             transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
           }}
         >
-          <div style={{ backfaceVisibility: "hidden" }} className={flipped ? "invisible" : ""}>
+          <div className="relative" style={{ backfaceVisibility: "hidden" }}>
             <CardFront holding={holding} />
           </div>
           <div
-            className={`absolute inset-0 ${!flipped ? "invisible" : ""}`}
+            className="absolute inset-0"
             style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
           >
             <CardBack />
