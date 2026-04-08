@@ -10,6 +10,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import bdGovtSeal from "@/assets/bd-govt-seal.png";
 import bdNationalEmblem from "@/assets/bd-national-emblem.png";
+import unionParishadLogo from "@/assets/union-parishad-logo.png";
 import solaimanLipiEmbeddedCss from "@/styles/solaimanLipiEmbedded.css?raw";
 
 type HoldingCardType = Tables<"holding_cards">;
@@ -288,7 +289,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
     }}
   >
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-      <img src={bdGovtSeal} alt="" className="w-36 h-36 opacity-10" />
+      <img src={bdNationalEmblem} alt="" className="w-36 h-36 opacity-10" />
     </div>
 
     {/* Top bar */}
@@ -313,7 +314,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
           <p className="text-[8px] sm:text-[9px] text-emerald-600">উপজেলা : নগরকান্দা, জেলা : ফরিদপুর</p>
         </div>
         <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-emerald-400 flex items-center justify-center bg-white shrink-0">
-          <img src={bdNationalEmblem} alt="জাতীয় প্রতীক" className="w-5 h-5 sm:w-7 sm:h-7 object-contain" />
+          <img src={unionParishadLogo} alt="ইউনিয়ন পরিষদ" className="w-5 h-5 sm:w-7 sm:h-7 object-contain" />
         </div>
       </div>
     </div>
