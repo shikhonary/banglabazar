@@ -8,8 +8,27 @@ import type { Tables } from "@/integrations/supabase/types";
 import { toPng } from "html-to-image";
 import bdGovtSeal from "@/assets/bd-govt-seal.png";
 import bdNationalEmblem from "@/assets/bd-national-emblem.png";
+import solaimanLipiNormal from "@/assets/fonts/solaimanlipi-normal.woff2?inline";
+import solaimanLipiBold from "@/assets/fonts/solaimanlipi-bold.woff2?inline";
 
 type HoldingCardType = Tables<"holding_cards">;
+
+const BENGALI_FONT_FAMILY = "'SolaimanLipi', sans-serif";
+const FONT_EMBED_CSS = `
+  @font-face {
+    font-family: 'SolaimanLipi';
+    src: url('${solaimanLipiNormal}') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'SolaimanLipi';
+    src: url('${solaimanLipiBold}') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+  }
+`;
 
 const HoldingCardView = () => {
   const { id } = useParams<{ id: string }>();
@@ -37,13 +56,11 @@ const HoldingCardView = () => {
       return;
     }
 
-    // Save original styles
     const origTransform = flipContainer.style.transform;
     const origTransition = flipContainer.style.transition;
     const origTransformStyle = flipContainer.style.transformStyle;
     const origWrapperPerspective = wrapper.style.perspective;
 
-    // For back side, we need to show it; for front side, reset rotation
     const backDiv = backRef.current?.parentElement;
     const frontDiv = frontRef.current?.parentElement;
     const origBackTransform = backDiv?.style.transform || "";
@@ -51,7 +68,6 @@ const HoldingCardView = () => {
     const origFrontBfv = frontDiv?.style.backfaceVisibility || "";
 
     try {
-      // Temporarily flatten 3D for clean capture
       flipContainer.style.transition = "none";
       flipContainer.style.transform = "none";
       flipContainer.style.transformStyle = "flat";
@@ -71,28 +87,37 @@ const HoldingCardView = () => {
         }
       }
 
-      // Wait for layout reflow
-      await new Promise((r) => setTimeout(r, 200));
+      await document.fonts.ready;
+      await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
+      await new Promise((resolve) => setTimeout(resolve, 200));
 
-      // Add temporary padding for capture
       const origPadding = targetRef.style.padding;
       targetRef.style.padding = "20px";
 
       const scale = 3;
-
-      await document.fonts.ready;
-
-      const dataUrl = await toPng(targetRef, {
+      const exportOptions = {
         pixelRatio: scale,
         cacheBust: true,
         includeQueryParams: true,
-        fontEmbedCSS: `@import url('https://fonts.maateen.me/solaiman-lipi/font.css');`,
-      });
+        fontEmbedCSS: FONT_EMBED_CSS,
+        style: {
+          fontFamily: BENGALI_FONT_FAMILY,
+          lineHeight: "1.8",
+        },
+        useCORS: true,
+        allowTaint: true,
+      } as Parameters<typeof toPng>[1] & {
+        useCORS: true;
+        allowTaint: true;
+      };
 
-      // Convert PNG data to JPG via canvas
+      const dataUrl = await toPng(targetRef, exportOptions);
+
       const img = new Image();
       img.src = dataUrl;
-      await new Promise((resolve) => { img.onload = resolve; });
+      await new Promise((resolve) => {
+        img.onload = resolve;
+      });
       const canvas = document.createElement("canvas");
       canvas.width = img.width;
       canvas.height = img.height;
@@ -106,14 +131,12 @@ const HoldingCardView = () => {
       link.href = canvas.toDataURL("image/jpeg", 0.95);
       link.click();
 
-      // Restore padding
       targetRef.style.padding = origPadding;
 
       toast({ title: "সফল!", description: `${side === "front" ? "সামনের" : "পেছনের"} কার্ড ডাউনলোড হয়েছে।` });
     } catch {
       toast({ title: "ত্রুটি", description: "ডাউনলোড করতে সমস্যা হয়েছে।", variant: "destructive" });
     } finally {
-      // Restore all styles
       flipContainer.style.transform = origTransform;
       flipContainer.style.transition = origTransition;
       flipContainer.style.transformStyle = origTransformStyle;
@@ -201,7 +224,15 @@ const HoldingCardView = () => {
         </div>
       </div>
 
-      <div ref={wrapperRef} className="mx-auto w-full max-w-[640px]" style={{ perspective: "1200px", fontFamily: "'SolaimanLipi', sans-serif", lineHeight: 1.8 }}>
+      <div
+        ref={wrapperRef}
+        className="mx-auto w-full max-w-[640px]"
+        style={{
+          perspective: "1200px",
+          fontFamily: BENGALI_FONT_FAMILY,
+          lineHeight: 1.8,
+        }}
+      >
         <div
           ref={flipContainerRef}
           className="relative transition-transform duration-700 ease-in-out"
@@ -230,16 +261,23 @@ const HoldingCardView = () => {
 };
 
 const CardFront = ({ holding }: { holding: HoldingCardType }) => (
-  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden shadow-xl relative flex flex-col" style={{ background: "linear-gradient(to bottom, #f0fdf4, rgba(254,252,232,0.3), #f0fdf4)" }}>
+  <div
+    className="rounded-xl border-2 border-emerald-600 overflow-hidden shadow-xl relative flex flex-col"
+    style={{
+      background: "linear-gradient(to bottom, #f0fdf4, rgba(254,252,232,0.3), #f0fdf4)",
+      fontFamily: BENGALI_FONT_FAMILY,
+      lineHeight: 1.8,
+    }}
+  >
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
       <img src={bdGovtSeal} alt="" className="w-48 h-48 opacity-10" />
     </div>
 
-    <div className="text-white text-center py-2 sm:py-3 px-3 sm:px-4 relative z-10" style={{ background: "linear-gradient(to right, #047857, #059669, #047857)" }}>
+    <div className="text-white text-center py-2 sm:py-3 px-3 sm:px-4 relative z-10" style={{ background: "linear-gradient(to right, #047857, #059669, #047857)", fontFamily: BENGALI_FONT_FAMILY }}>
       <p className="text-[9px] sm:text-[10px] tracking-wide opacity-90">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
     </div>
 
-    <div className="text-center py-2 sm:py-3 px-3 sm:px-4 space-y-1 border-b border-emerald-200">
+    <div className="text-center py-2 sm:py-3 px-3 sm:px-4 space-y-1 border-b border-emerald-200" style={{ fontFamily: BENGALI_FONT_FAMILY }}>
       <div className="flex items-center justify-center gap-2 sm:gap-3">
         <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-full overflow-hidden border-2 border-emerald-400 flex items-center justify-center bg-white shrink-0">
           <img src={bdGovtSeal} alt="বাংলাদেশ সরকার" className="w-7 h-7 sm:w-10 sm:h-10 object-contain" />
@@ -256,13 +294,13 @@ const CardFront = ({ holding }: { holding: HoldingCardType }) => (
       </div>
     </div>
 
-    <div className="flex justify-center -mt-3 relative z-10">
+    <div className="flex justify-center -mt-3 relative z-10" style={{ fontFamily: BENGALI_FONT_FAMILY }}>
       <div className="bg-red-600 text-white px-4 sm:px-6 py-1 rounded-full text-xs sm:text-sm font-bold shadow-md border-2 border-red-700">
         হোল্ডিং স্মার্ট কার্ড
       </div>
     </div>
 
-    <div className="px-4 sm:px-6 pt-3 pb-3 space-y-2 flex-1 flex flex-col justify-between">
+    <div className="px-4 sm:px-6 pt-3 pb-3 space-y-2 flex-1 flex flex-col justify-between" style={{ fontFamily: BENGALI_FONT_FAMILY }}>
       <div className="flex gap-3 sm:gap-4">
         <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-lg border-2 border-emerald-300 bg-white p-1 flex items-center justify-center">
           <div className="w-full h-full grid grid-cols-5 grid-rows-5 gap-[1px]">
@@ -287,33 +325,40 @@ const CardFront = ({ holding }: { holding: HoldingCardType }) => (
         </div>
       </div>
 
-      <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-center">
+      <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-center" style={{ fontFamily: BENGALI_FONT_FAMILY }}>
         <p className="text-xs text-emerald-600 mb-0.5">বার্ষিক কর (ট্যাক্স)</p>
         <p className="text-xl font-bold text-emerald-800">৳{Number(holding.tax).toLocaleString()}</p>
       </div>
 
-      <div className="text-center pt-1">
+      <div className="text-center pt-1" style={{ fontFamily: BENGALI_FONT_FAMILY }}>
         <p className="text-[10px] text-emerald-600 leading-relaxed">★ নিয়মিত ইউপি কর (ট্যাক্স) পরিশোধ করুন ★</p>
       </div>
     </div>
 
-    <div className="text-white text-center py-2 px-4" style={{ background: "linear-gradient(to right, #047857, #059669, #047857)" }}>
+    <div className="text-white text-center py-2 px-4" style={{ background: "linear-gradient(to right, #047857, #059669, #047857)", fontFamily: BENGALI_FONT_FAMILY }}>
       <p className="text-[10px] tracking-wide opacity-90">https://fulsutiup.faridpur.gov.bd</p>
     </div>
   </div>
 );
 
 const CardBack = () => (
-  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden shadow-xl relative flex flex-col" style={{ background: "linear-gradient(to bottom, #f0fdf4, rgba(254,252,232,0.3), #f0fdf4)" }}>
+  <div
+    className="rounded-xl border-2 border-emerald-600 overflow-hidden shadow-xl relative flex flex-col"
+    style={{
+      background: "linear-gradient(to bottom, #f0fdf4, rgba(254,252,232,0.3), #f0fdf4)",
+      fontFamily: BENGALI_FONT_FAMILY,
+      lineHeight: 1.8,
+    }}
+  >
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
       <img src={bdGovtSeal} alt="" className="w-48 h-48 opacity-10" />
     </div>
 
-    <div className="text-white text-center py-3 px-4 relative z-10" style={{ background: "linear-gradient(to right, #047857, #059669, #047857)" }}>
+    <div className="text-white text-center py-3 px-4 relative z-10" style={{ background: "linear-gradient(to right, #047857, #059669, #047857)", fontFamily: BENGALI_FONT_FAMILY }}>
       <p className="text-sm font-bold">জরুরী প্রয়োজনে কল করুন</p>
     </div>
 
-    <div className="px-6 py-4 space-y-3 flex-1 flex flex-col justify-evenly relative z-10">
+    <div className="px-6 py-4 space-y-3 flex-1 flex flex-col justify-evenly relative z-10" style={{ fontFamily: BENGALI_FONT_FAMILY }}>
       <div className="bg-red-50/35 border border-red-200 rounded-lg p-3 space-y-1.5">
         <div className="flex items-center justify-between">
           <span className="text-sm text-red-800 font-medium">জাতীয়জরুরীসেবা সেবা</span>
@@ -331,14 +376,14 @@ const CardBack = () => (
         </div>
       </div>
 
-      <div className="bg-emerald-50/35 border border-emerald-200 rounded-lg p-3 text-center space-y-1">
+      <div className="bg-emerald-50/35 border border-emerald-200 rounded-lg p-3 text-center space-y-1" style={{ fontFamily: BENGALI_FONT_FAMILY }}>
         <p className="text-sm text-emerald-800 font-semibold leading-relaxed">হোল্ডিং না আমার কুঁড়ে ঘর,</p>
         <p className="text-sm text-emerald-800 leading-relaxed">আখিরে দিব অল্প কর ।</p>
         <p className="text-sm text-emerald-800 leading-relaxed">হোল্ডিং সেবা পেতে হলে,</p>
         <p className="text-sm text-emerald-800 leading-relaxed">কার্ডটি সনে রাখুন ।</p>
       </div>
 
-      <div className="text-center">
+      <div className="text-center" style={{ fontFamily: BENGALI_FONT_FAMILY }}>
         <p className="text-[9px] text-muted-foreground leading-relaxed">
           এই কার্ডটি ফুলসুতী ইউনিয়ন পরিষদ কর্তৃক প্রদত্ত।
           <br />
@@ -347,14 +392,14 @@ const CardBack = () => (
       </div>
     </div>
 
-    <div className="text-white text-center py-2 px-4" style={{ background: "linear-gradient(to right, #047857, #059669, #047857)" }}>
+    <div className="text-white text-center py-2 px-4" style={{ background: "linear-gradient(to right, #047857, #059669, #047857)", fontFamily: BENGALI_FONT_FAMILY }}>
       <p className="text-[10px] tracking-wide opacity-90">https://fulsutiup.faridpur.gov.bd</p>
     </div>
   </div>
 );
 
 const DetailRow = ({ label, value }: { label: string; value: string }) => (
-  <div className="flex items-baseline gap-2">
+  <div className="flex items-baseline gap-2" style={{ fontFamily: BENGALI_FONT_FAMILY }}>
     <span className="text-xs text-emerald-700 font-medium whitespace-nowrap min-w-[70px]">{label} :</span>
     <span className="text-sm font-bold text-foreground border-b border-dashed border-emerald-300 flex-1 pb-0.5">
       {value}
