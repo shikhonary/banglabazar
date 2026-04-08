@@ -93,10 +93,10 @@ const HoldingList = () => {
 
 
   const stats = [
-    { label: "Total Holdings", value: filtered.length, icon: LayoutDashboard, color: "text-primary" },
-    { label: "Wards", value: uniqueWards, icon: MapPin, color: "text-blue-600" },
-    { label: "Villages", value: uniqueVillages, icon: Users, color: "text-emerald-600" },
-    { label: "Total Tax", value: `৳${totalTax.toLocaleString()}`, icon: Banknote, color: "text-amber-600" },
+    { label: "মোট হোল্ডিং", value: filtered.length, icon: LayoutDashboard, color: "text-primary" },
+    { label: "ওয়ার্ড", value: uniqueWards, icon: MapPin, color: "text-blue-600" },
+    { label: "গ্রাম", value: uniqueVillages, icon: Users, color: "text-emerald-600" },
+    { label: "মোট কর", value: `৳${totalTax.toLocaleString()}`, icon: Banknote, color: "text-amber-600" },
   ];
 
   return (
@@ -104,15 +104,15 @@ const HoldingList = () => {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-foreground">Holding Cards</h2>
-          <p className="text-muted-foreground">Manage all holding card records.</p>
+          <h2 className="text-2xl font-bold text-foreground">হোল্ডিং তালিকা</h2>
+          <p className="text-muted-foreground">সকল হোল্ডিং কার্ড পরিচালনা করুন।</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" asChild>
-            <Link to="/holdings/import"><FileUp className="mr-2 h-4 w-4" /> Import</Link>
+            <Link to="/holdings/import"><FileUp className="mr-2 h-4 w-4" /> ইম্পোর্ট</Link>
           </Button>
           <Button asChild>
-            <Link to="/holdings/add"><Plus className="mr-2 h-4 w-4" /> Add New</Link>
+            <Link to="/holdings/add"><Plus className="mr-2 h-4 w-4" /> নতুন যোগ</Link>
           </Button>
         </div>
       </div>
@@ -138,35 +138,35 @@ const HoldingList = () => {
           <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
             <div className="relative">
               <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search name, guardian..." className="pl-9 bg-background" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} />
+              <Input placeholder="নাম, অভিভাবক খুঁজুন..." className="pl-9 bg-background" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} />
             </div>
             <div className="relative">
               <MapPin className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Filter village..." className="pl-9 bg-background" value={villageFilter} onChange={(e) => { setVillageFilter(e.target.value); setPage(1); }} />
+              <Input placeholder="গ্রাম খুঁজুন..." className="pl-9 bg-background" value={villageFilter} onChange={(e) => { setVillageFilter(e.target.value); setPage(1); }} />
             </div>
-            <Select value={wardFilter} onValueChange={(v) => { setWardFilter(v); setPage(1); }}>
-              <SelectTrigger className="bg-background"><SelectValue placeholder="Ward" /></SelectTrigger>
+             <Select value={wardFilter} onValueChange={(v) => { setWardFilter(v); setPage(1); }}>
+              <SelectTrigger className="bg-background"><SelectValue placeholder="ওয়ার্ড" /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Wards</SelectItem>
+                <SelectItem value="all">সকল ওয়ার্ড</SelectItem>
                 {Array.from({ length: 9 }, (_, i) => String(i + 1)).map((w) => <SelectItem key={w} value={w}>{w}</SelectItem>)}
               </SelectContent>
             </Select>
             <Select value={holdingFilter} onValueChange={(v) => { setHoldingFilter(v); setPage(1); }}>
-              <SelectTrigger className="bg-background"><SelectValue placeholder="Holding" /></SelectTrigger>
+              <SelectTrigger className="bg-background"><SelectValue placeholder="হোল্ডিং" /></SelectTrigger>
               <SelectContent className="max-h-60">
-                <SelectItem value="all">All Holdings</SelectItem>
+                <SelectItem value="all">সকল হোল্ডিং</SelectItem>
                 {Array.from({ length: 200 }, (_, i) => String(i + 1)).map((h) => <SelectItem key={h} value={h}>{h}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>
           {activeFilterCount > 0 && (
             <div className="mt-3 flex items-center gap-2 flex-wrap">
-              <span className="text-xs text-muted-foreground">Active:</span>
-              {search && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setSearch(""); setPage(1); }}>Search: {search} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
-              {villageFilter && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setVillageFilter(""); setPage(1); }}>Village: {villageFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
-              {wardFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setWardFilter("all"); setPage(1); }}>Ward: {wardFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
-              {holdingFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setHoldingFilter("all"); setPage(1); }}>Holding: {holdingFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
-              <Button variant="ghost" size="sm" className="h-6 text-xs text-muted-foreground" onClick={clearFilters}>Clear all</Button>
+              <span className="text-xs text-muted-foreground">সক্রিয়:</span>
+              {search && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setSearch(""); setPage(1); }}>অনুসন্ধান: {search} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              {villageFilter && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setVillageFilter(""); setPage(1); }}>গ্রাম: {villageFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              {wardFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setWardFilter("all"); setPage(1); }}>ওয়ার্ড: {wardFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              {holdingFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setHoldingFilter("all"); setPage(1); }}>হোল্ডিং: {holdingFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              <Button variant="ghost" size="sm" className="h-6 text-xs text-muted-foreground" onClick={clearFilters}>সব মুছুন</Button>
             </div>
           )}
         </CardContent>
@@ -179,7 +179,7 @@ const HoldingList = () => {
           <div className="flex gap-2">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search..." className="pl-9 bg-background" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} />
+              <Input placeholder="খুঁজুন..." className="pl-9 bg-background" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} />
             </div>
             <Sheet open={filterOpen} onOpenChange={setFilterOpen}>
               <SheetTrigger asChild>
@@ -194,41 +194,41 @@ const HoldingList = () => {
               </SheetTrigger>
               <SheetContent side="bottom" className="rounded-t-2xl">
                 <SheetHeader>
-                  <SheetTitle>Filters</SheetTitle>
+                  <SheetTitle>ফিল্টার</SheetTitle>
                 </SheetHeader>
                 <div className="grid gap-4 py-4">
                   <div className="space-y-1.5">
-                    <Label className="text-xs text-muted-foreground">Village</Label>
+                     <Label className="text-xs text-muted-foreground">গ্রাম</Label>
                     <div className="relative">
                       <MapPin className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-                      <Input placeholder="Filter village..." className="pl-9" value={villageFilter} onChange={(e) => { setVillageFilter(e.target.value); setPage(1); }} />
+                      <Input placeholder="গ্রাম খুঁজুন..." className="pl-9" value={villageFilter} onChange={(e) => { setVillageFilter(e.target.value); setPage(1); }} />
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1.5">
-                      <Label className="text-xs text-muted-foreground">Ward</Label>
+                      <Label className="text-xs text-muted-foreground">ওয়ার্ড</Label>
                       <Select value={wardFilter} onValueChange={(v) => { setWardFilter(v); setPage(1); }}>
-                        <SelectTrigger><SelectValue placeholder="Ward" /></SelectTrigger>
+                        <SelectTrigger><SelectValue placeholder="ওয়ার্ড" /></SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="all">All Wards</SelectItem>
+                          <SelectItem value="all">সকল ওয়ার্ড</SelectItem>
                           {Array.from({ length: 9 }, (_, i) => String(i + 1)).map((w) => <SelectItem key={w} value={w}>{w}</SelectItem>)}
                         </SelectContent>
                       </Select>
                     </div>
                     <div className="space-y-1.5">
-                      <Label className="text-xs text-muted-foreground">Holding</Label>
+                      <Label className="text-xs text-muted-foreground">হোল্ডিং</Label>
                       <Select value={holdingFilter} onValueChange={(v) => { setHoldingFilter(v); setPage(1); }}>
-                        <SelectTrigger><SelectValue placeholder="Holding" /></SelectTrigger>
+                        <SelectTrigger><SelectValue placeholder="হোল্ডিং" /></SelectTrigger>
                         <SelectContent className="max-h-60">
-                          <SelectItem value="all">All Holdings</SelectItem>
+                          <SelectItem value="all">সকল হোল্ডিং</SelectItem>
                           {Array.from({ length: 200 }, (_, i) => String(i + 1)).map((h) => <SelectItem key={h} value={h}>{h}</SelectItem>)}
                         </SelectContent>
                       </Select>
                     </div>
                   </div>
                   <div className="flex gap-2 pt-2">
-                    <Button variant="outline" className="flex-1" onClick={clearFilters}>Clear all</Button>
-                    <Button className="flex-1" onClick={() => setFilterOpen(false)}>Apply</Button>
+                    <Button variant="outline" className="flex-1" onClick={clearFilters}>সব মুছুন</Button>
+                    <Button className="flex-1" onClick={() => setFilterOpen(false)}>প্রয়োগ করুন</Button>
                   </div>
                 </div>
               </SheetContent>
@@ -236,10 +236,10 @@ const HoldingList = () => {
           </div>
           {activeFilterCount > 0 && (
             <div className="mt-2 flex items-center gap-2 flex-wrap">
-              {search && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setSearch(""); setPage(1); }}>Search: {search} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
-              {villageFilter && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setVillageFilter(""); setPage(1); }}>Village: {villageFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
-              {wardFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setWardFilter("all"); setPage(1); }}>Ward: {wardFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
-              {holdingFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setHoldingFilter("all"); setPage(1); }}>Holding: {holdingFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              {search && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setSearch(""); setPage(1); }}>অনুসন্ধান: {search} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              {villageFilter && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setVillageFilter(""); setPage(1); }}>গ্রাম: {villageFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              {wardFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setWardFilter("all"); setPage(1); }}>ওয়ার্ড: {wardFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              {holdingFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setHoldingFilter("all"); setPage(1); }}>হোল্ডিং: {holdingFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
             </div>
           )}
         </CardContent>
