@@ -35,6 +35,7 @@ const ensureEmbeddedFontCss = () => {
 const HoldingCardView = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
   const { toast } = useToast();
   const [holding, setHolding] = useState<HoldingCardType | null>(null);
   const [loading, setLoading] = useState(true);
@@ -264,7 +265,7 @@ const HoldingCardView = () => {
         >
           <div className="relative" style={{ backfaceVisibility: "hidden" }}>
             <div ref={frontRef}>
-              <CardFront holding={holding} />
+              <CardFront holding={holding} isMobile={isMobile} />
             </div>
           </div>
 
@@ -273,7 +274,7 @@ const HoldingCardView = () => {
             style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
           >
             <div ref={backRef}>
-              <CardBack />
+              <CardBack isMobile={isMobile} />
             </div>
           </div>
         </div>
