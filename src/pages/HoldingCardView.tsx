@@ -292,80 +292,86 @@ const CardFront = ({ holding }: { holding: HoldingCardType }) => (
     }}
   >
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-      <img src={bdGovtSeal} alt="" className="w-48 h-48 opacity-10" />
+      <img src={bdGovtSeal} alt="" className="w-36 h-36 opacity-10" />
     </div>
 
+    {/* Top bar */}
     <div
-      className="text-white text-center py-2 sm:py-3 px-3 sm:px-4 relative z-10"
+      className="text-white text-center py-1.5 px-3 relative z-10"
       style={{
         background: "linear-gradient(to right, #047857, #059669, #047857)",
         ...BENGALI_TEXT_STYLE,
       }}
     >
-      <p className="text-[9px] sm:text-[10px] tracking-wide opacity-90">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
+      <p className="text-[8px] sm:text-[9px] tracking-wide opacity-90">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
     </div>
 
-    <div className="text-center py-2 sm:py-3 px-3 sm:px-4 space-y-1 border-b border-emerald-200" style={BENGALI_TEXT_STYLE}>
-      <div className="flex items-center justify-center gap-2 sm:gap-3">
-        <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-full overflow-hidden border-2 border-emerald-400 flex items-center justify-center bg-white shrink-0">
-          <img src={bdGovtSeal} alt="বাংলাদেশ সরকার" className="w-7 h-7 sm:w-10 sm:h-10 object-contain" />
+    {/* Header with emblems */}
+    <div className="text-center py-1 px-3 border-b border-emerald-200" style={BENGALI_TEXT_STYLE}>
+      <div className="flex items-center justify-center gap-2">
+        <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-emerald-400 flex items-center justify-center bg-white shrink-0">
+          <img src={bdGovtSeal} alt="বাংলাদেশ সরকার" className="w-5 h-5 sm:w-7 sm:h-7 object-contain" />
         </div>
-
         <div>
-          <h1 className="text-base sm:text-lg font-bold text-emerald-800 leading-tight">৪নং ফুলসুতী ইউনিয়ন পরিষদ</h1>
-          <p className="text-[9px] sm:text-[10px] text-emerald-600">উপজেলা : নগরকান্দা, জেলা : ফরিদপুর</p>
+          <h1 className="text-sm sm:text-base font-bold text-emerald-800 leading-tight">৪নং ফুলসুতী ইউনিয়ন পরিষদ</h1>
+          <p className="text-[8px] sm:text-[9px] text-emerald-600">উপজেলা : নগরকান্দা, জেলা : ফরিদপুর</p>
         </div>
-
-        <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-full overflow-hidden border-2 border-emerald-400 flex items-center justify-center bg-white shrink-0">
-          <img src={bdNationalEmblem} alt="জাতীয় প্রতীক" className="w-7 h-7 sm:w-10 sm:h-10 object-contain" />
+        <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-emerald-400 flex items-center justify-center bg-white shrink-0">
+          <img src={bdNationalEmblem} alt="জাতীয় প্রতীক" className="w-5 h-5 sm:w-7 sm:h-7 object-contain" />
         </div>
       </div>
     </div>
 
-    <div className="flex justify-center -mt-3 relative z-10" style={BENGALI_TEXT_STYLE}>
-      <div className="bg-red-600 text-white px-4 sm:px-6 py-1 rounded-full text-xs sm:text-sm font-bold shadow-md border-2 border-red-700">
+    {/* Badge */}
+    <div className="flex justify-center -mt-2.5 relative z-10" style={BENGALI_TEXT_STYLE}>
+      <div className="bg-red-600 text-white px-3 sm:px-5 py-0.5 rounded-full text-[10px] sm:text-xs font-bold shadow-md border-2 border-red-700">
         হোল্ডিং স্মার্ট কার্ড
       </div>
     </div>
 
-    <div className="px-4 sm:px-6 pt-3 pb-3 space-y-2 flex-1 flex flex-col justify-between" style={BENGALI_TEXT_STYLE}>
-      <div className="flex gap-3 sm:gap-4">
-        <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-lg border-2 border-emerald-300 bg-white p-1 flex items-center justify-center">
+    {/* Main content - horizontal layout */}
+    <div className="px-3 sm:px-4 pt-1.5 pb-1 flex-1 flex flex-col justify-between relative z-10" style={BENGALI_TEXT_STYLE}>
+      <div className="flex gap-3 items-start">
+        {/* QR Code */}
+        <div className="w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-lg border-2 border-emerald-300 bg-white p-0.5 flex items-center justify-center">
           <QRCodeSVG
             value={`${window.location.origin}/holdings/card/${holding.id}`}
-            size={64}
+            size={52}
             level="M"
             fgColor="#065f46"
             bgColor="#ffffff"
           />
         </div>
 
-        <div className="flex-1 space-y-2">
+        {/* Details */}
+        <div className="flex-1 space-y-1">
           <DetailRow label="নাম" value={holding.name} />
           <DetailRow label="হোল্ডিং নং" value={holding.holding_no} />
           <DetailRow label="ওয়ার্ড নং" value={holding.ward_no} />
           <DetailRow label="গ্রাম/মহল্লা" value={holding.village} />
         </div>
+
+        {/* Tax box */}
+        <div className="shrink-0 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-1.5 text-center" style={BENGALI_TEXT_STYLE}>
+          <p className="text-[9px] text-emerald-600 mb-0.5">বার্ষিক কর</p>
+          <p className="text-base sm:text-lg font-bold text-emerald-800">৳{Number(holding.tax).toLocaleString()}</p>
+        </div>
       </div>
 
-      <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-center" style={BENGALI_TEXT_STYLE}>
-        <p className="text-xs text-emerald-600 mb-0.5">বার্ষিক কর (ট্যাক্স)</p>
-        <p className="text-xl font-bold text-emerald-800">৳{Number(holding.tax).toLocaleString()}</p>
-      </div>
-
-      <div className="text-center pt-1" style={BENGALI_TEXT_STYLE}>
-        <p className="text-[10px] text-emerald-600 leading-relaxed">★ নিয়মিত ইউপি কর (ট্যাক্স) পরিশোধ করুন ★</p>
+      <div className="text-center" style={BENGALI_TEXT_STYLE}>
+        <p className="text-[9px] text-emerald-600 leading-relaxed">★ নিয়মিত ইউপি কর (ট্যাক্স) পরিশোধ করুন ★</p>
       </div>
     </div>
 
+    {/* Bottom bar */}
     <div
-      className="text-white text-center py-2 px-4"
+      className="text-white text-center py-1 px-4"
       style={{
         background: "linear-gradient(to right, #047857, #059669, #047857)",
         ...BENGALI_TEXT_STYLE,
       }}
     >
-      <p className="text-[10px] tracking-wide opacity-90">https://fulsutiup.faridpur.gov.bd</p>
+      <p className="text-[9px] tracking-wide opacity-90">https://fulsutiup.faridpur.gov.bd</p>
     </div>
   </div>
 );
@@ -380,61 +386,66 @@ const CardBack = () => (
     }}
   >
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-      <img src={bdGovtSeal} alt="" className="w-48 h-48 opacity-10" />
+      <img src={bdGovtSeal} alt="" className="w-36 h-36 opacity-10" />
     </div>
 
+    {/* Top bar */}
     <div
-      className="text-white text-center py-3 px-4 relative z-10"
+      className="text-white text-center py-1.5 px-4 relative z-10"
       style={{
         background: "linear-gradient(to right, #047857, #059669, #047857)",
         ...BENGALI_TEXT_STYLE,
       }}
     >
-      <p className="text-sm font-bold">জরুরী প্রয়োজনে কল করুন</p>
+      <p className="text-xs font-bold">জরুরী প্রয়োজনে কল করুন</p>
     </div>
 
-    <div className="px-6 py-4 space-y-3 flex-1 flex flex-col justify-evenly relative z-10" style={BENGALI_TEXT_STYLE}>
-      <div className="bg-red-50/35 border border-red-200 rounded-lg p-3 space-y-1.5">
+    {/* Main content - two columns */}
+    <div className="px-4 py-2 flex-1 flex gap-3 relative z-10" style={BENGALI_TEXT_STYLE}>
+      {/* Left: Emergency numbers */}
+      <div className="flex-1 bg-red-50/35 border border-red-200 rounded-lg p-2 space-y-1">
         <div className="flex items-center justify-between">
-          <span className="text-sm text-red-800 font-medium">জাতীয়জরুরীসেবা সেবা</span>
-          <span className="text-lg font-bold text-red-700">৯৯৯</span>
+          <span className="text-xs text-red-800 font-medium">জাতীয় জরুরী সেবা</span>
+          <span className="text-sm font-bold text-red-700">৯৯৯</span>
         </div>
         <div className="h-px bg-red-200" />
         <div className="flex items-center justify-between">
-          <span className="text-sm text-red-800 font-medium">ফায়ার সার্ভিস</span>
-          <span className="text-lg font-bold text-red-700">১০২</span>
+          <span className="text-xs text-red-800 font-medium">ফায়ার সার্ভিস</span>
+          <span className="text-sm font-bold text-red-700">১০২</span>
         </div>
         <div className="h-px bg-red-200" />
         <div className="flex items-center justify-between">
-          <span className="text-sm text-red-800 font-medium">পুলিশ সেবা</span>
-          <span className="text-lg font-bold text-red-700">১০০</span>
+          <span className="text-xs text-red-800 font-medium">পুলিশ সেবা</span>
+          <span className="text-sm font-bold text-red-700">১০০</span>
         </div>
       </div>
 
-      <div className="bg-emerald-50/35 border border-emerald-200 rounded-lg p-3 text-center space-y-1" style={BENGALI_TEXT_STYLE}>
-        <p className="text-sm text-emerald-800 font-semibold leading-relaxed">হোল্ডিং না আমার কুঁড়ে ঘর,</p>
-        <p className="text-sm text-emerald-800 leading-relaxed">আখিরে দিব অল্প কর ।</p>
-        <p className="text-sm text-emerald-800 leading-relaxed">হোল্ডিং সেবা পেতে হলে,</p>
-        <p className="text-sm text-emerald-800 leading-relaxed">কার্ডটি সনে রাখুন ।</p>
-      </div>
+      {/* Right: Poem + disclaimer */}
+      <div className="flex-1 flex flex-col justify-between">
+        <div className="bg-emerald-50/35 border border-emerald-200 rounded-lg p-2 text-center space-y-0.5" style={BENGALI_TEXT_STYLE}>
+          <p className="text-xs text-emerald-800 font-semibold leading-relaxed">হোল্ডিং না আমার কুঁড়ে ঘর,</p>
+          <p className="text-xs text-emerald-800 leading-relaxed">আখিরে দিব অল্প কর ।</p>
+          <p className="text-xs text-emerald-800 leading-relaxed">হোল্ডিং সেবা পেতে হলে,</p>
+          <p className="text-xs text-emerald-800 leading-relaxed">কার্ডটি সনে রাখুন ।</p>
+        </div>
 
-      <div className="text-center" style={BENGALI_TEXT_STYLE}>
-        <p className="text-[9px] text-muted-foreground leading-relaxed">
-          এই কার্ডটি ফুলসুতী ইউনিয়ন পরিষদ কর্তৃক প্রদত্ত।
-          <br />
-          কার্ডটি হস্তান্তরযোগ্য নয়।
-        </p>
+        <div className="text-center mt-1" style={BENGALI_TEXT_STYLE}>
+          <p className="text-[8px] text-muted-foreground leading-relaxed">
+            এই কার্ডটি ফুলসুতী ইউনিয়ন পরিষদ কর্তৃক প্রদত্ত। কার্ডটি হস্তান্তরযোগ্য নয়।
+          </p>
+        </div>
       </div>
     </div>
 
+    {/* Bottom bar */}
     <div
-      className="text-white text-center py-2 px-4"
+      className="text-white text-center py-1 px-4"
       style={{
         background: "linear-gradient(to right, #047857, #059669, #047857)",
         ...BENGALI_TEXT_STYLE,
       }}
     >
-      <p className="text-[10px] tracking-wide opacity-90">https://fulsutiup.faridpur.gov.bd</p>
+      <p className="text-[9px] tracking-wide opacity-90">https://fulsutiup.faridpur.gov.bd</p>
     </div>
   </div>
 );
