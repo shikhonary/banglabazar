@@ -1,6 +1,6 @@
 import { useAuth } from "@/contexts/AuthContext";
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
-import { Loader2, LogOut, User, Settings, List, PlusCircle } from "lucide-react";
+import { Loader2, LogOut, List, PlusCircle } from "lucide-react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import {
@@ -28,34 +28,32 @@ const DashboardLayout = () => {
 
   if (!user) return <Navigate to="/auth" replace />;
 
-  const initials = user.email
-    ? user.email.substring(0, 2).toUpperCase()
-    : "U";
+  const initials = user.email ? user.email.substring(0, 2).toUpperCase() : "U";
 
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full">
+      <div className="flex min-h-screen w-full overflow-x-hidden">
         <AppSidebar />
-        <div className="flex-1 flex flex-col">
-          <header className="sticky top-0 z-30 border-b bg-card">
-            <div className="flex h-14 items-center justify-between px-4">
-              <div className="flex items-center gap-2">
-                <SidebarTrigger />
-                <h1 className="text-lg font-bold text-foreground">Holding Card Manager</h1>
+        <div className="flex min-w-0 flex-1 flex-col overflow-x-hidden">
+          <header className="sticky top-0 z-30 overflow-x-hidden border-b bg-card">
+            <div className="flex h-14 items-center justify-between gap-2 px-3 sm:px-4">
+              <div className="flex min-w-0 items-center gap-2">
+                <SidebarTrigger className="shrink-0" />
+                <h1 className="truncate text-base font-bold text-foreground sm:text-lg">Holding Card Manager</h1>
               </div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="rounded-full">
+                  <Button variant="ghost" size="icon" className="shrink-0 rounded-full">
                     <Avatar className="h-8 w-8">
-                      <AvatarFallback className="bg-primary text-primary-foreground text-xs">
+                      <AvatarFallback className="bg-primary text-xs text-primary-foreground">
                         {initials}
                       </AvatarFallback>
                     </Avatar>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuContent align="end" className="w-56 max-w-[calc(100vw-1rem)]">
                   <DropdownMenuLabel className="font-normal">
-                    <p className="text-sm font-medium">{user.email}</p>
+                    <p className="truncate text-sm font-medium">{user.email}</p>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => navigate("/holdings")}>
@@ -75,7 +73,7 @@ const DashboardLayout = () => {
               </DropdownMenu>
             </div>
           </header>
-          <main className="flex-1 container py-6">
+          <main className="container flex-1 overflow-x-hidden py-6">
             <Outlet />
           </main>
         </div>
@@ -85,3 +83,4 @@ const DashboardLayout = () => {
 };
 
 export default DashboardLayout;
+
