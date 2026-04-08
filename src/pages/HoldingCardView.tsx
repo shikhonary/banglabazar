@@ -331,7 +331,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
         {/* QR Code */}
         <div className="w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-lg border-2 border-emerald-300 bg-white p-0.5 flex items-center justify-center">
           <QRCodeSVG
-            value={`${window.location.origin}/holdings/card/${holding.id}`}
+            value={`${window.location.origin}/invoice/${holding.id}`}
             size={52}
             level="M"
             fgColor="#065f46"
