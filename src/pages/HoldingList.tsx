@@ -61,6 +61,8 @@ const HoldingList = () => {
         </Button>
       </div>
 
+      <ExcelImport />
+
       <Card>
         <CardContent className="p-0">
           {isLoading ? (
