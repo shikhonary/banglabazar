@@ -61,12 +61,21 @@ const HoldingCardView = () => {
         </Button>
       </div>
 
-      <div className="mx-auto h-[440px] w-[640px] max-w-full">
-        {!flipped ? (
-          <CardFront holding={holding} />
-        ) : (
-          <CardBack />
-        )}
+      <div className="mx-auto h-[440px] w-[640px] max-w-full" style={{ perspective: "1200px" }}>
+        <div
+          className="relative w-full h-full transition-transform duration-700"
+          style={{
+            transformStyle: "preserve-3d",
+            transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
+          }}
+        >
+          <div className="absolute inset-0" style={{ backfaceVisibility: "hidden" }}>
+            <CardFront holding={holding} />
+          </div>
+          <div className="absolute inset-0" style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
+            <CardBack />
+          </div>
+        </div>
       </div>
     </div>
   );
