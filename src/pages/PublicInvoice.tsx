@@ -5,7 +5,7 @@ import { Loader2, Download } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import type { Tables } from "@/integrations/supabase/types";
 import bdGovtSeal from "@/assets/bd-govt-seal.png";
-import bdNationalEmblem from "@/assets/bd-national-emblem.png";
+
 import unionParishadLogo from "@/assets/union-parishad-logo.png";
 import solaimanLipiEmbeddedCss from "@/styles/solaimanLipiEmbedded.css?raw";
 import { toPng } from "html-to-image";
