@@ -186,17 +186,17 @@ const CardBack = () => (
       <div className="bg-red-50/35 border border-red-200 rounded-lg p-3 space-y-1.5">
         <div className="flex items-center justify-between">
           <span className="text-sm text-red-800 font-medium">জাতীয়জরুরীসেবা সেবা</span>
-          <span className="text-lg font-bold text-red-700 font-mono">৯৯৯</span>
+          <span className="text-lg font-bold text-red-700">৯৯৯</span>
         </div>
         <div className="h-px bg-red-200" />
         <div className="flex items-center justify-between">
           <span className="text-sm text-red-800 font-medium">ফায়ার সার্ভিস</span>
-          <span className="text-lg font-bold text-red-700 font-mono">১০২</span>
+          <span className="text-lg font-bold text-red-700">১০২</span>
         </div>
         <div className="h-px bg-red-200" />
         <div className="flex items-center justify-between">
           <span className="text-sm text-red-800 font-medium">পুলিশ সেবা</span>
-          <span className="text-lg font-bold text-red-700 font-mono">১০০</span>
+          <span className="text-lg font-bold text-red-700">১০০</span>
         </div>
       </div>
 
