@@ -284,7 +284,7 @@ const HoldingList = () => {
                       <DropdownMenuItem onClick={() => navigate(`/holdings/edit/${h.id}`)}>
                         <Pencil className="mr-2 h-4 w-4" /> Edit
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteMutation.mutate(h.id)}>
+                      <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => setDeleteItem(h)}>
                         <Trash2 className="mr-2 h-4 w-4" /> Delete
                       </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -353,7 +353,7 @@ const HoldingList = () => {
                               <DropdownMenuItem onClick={() => navigate(`/holdings/edit/${h.id}`)}>
                                 <Pencil className="mr-2 h-4 w-4" /> Edit
                               </DropdownMenuItem>
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteMutation.mutate(h.id)}>
+                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => setDeleteItem(h)}>
                                 <Trash2 className="mr-2 h-4 w-4" /> Delete
                               </DropdownMenuItem>
                             </DropdownMenuContent>
