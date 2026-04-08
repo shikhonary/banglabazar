@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Loader2, RotateCcw } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import type { Tables } from "@/integrations/supabase/types";
 import bdGovtSeal from "@/assets/bd-govt-seal.png";
 import bdNationalEmblem from "@/assets/bd-national-emblem.png";
@@ -48,20 +48,34 @@ const HoldingCardView = () => {
   if (!holding) return null;
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-0">
+    <div className="max-w-2xl mx-auto px-3 sm:px-4 md:px-0">
       <div className="flex items-center justify-between mb-4 sm:mb-6">
         <Button variant="ghost" size="sm" asChild>
           <Link to="/holdings">
             <ArrowLeft className="mr-2 h-4 w-4" /> Back
           </Link>
         </Button>
-        <Button variant="outline" size="sm" onClick={() => setFlipped(!flipped)}>
-          <RotateCcw className="mr-2 h-4 w-4" />
-          {flipped ? "Front Side" : "Back Side"}
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            variant={!flipped ? "default" : "outline"}
+            size="sm"
+            onClick={() => setFlipped(false)}
+            className={!flipped ? "bg-emerald-600 hover:bg-emerald-700 text-white shadow-md" : ""}
+          >
+            সামনে
+          </Button>
+          <Button
+            variant={flipped ? "default" : "outline"}
+            size="sm"
+            onClick={() => setFlipped(true)}
+            className={flipped ? "bg-emerald-600 hover:bg-emerald-700 text-white shadow-md" : ""}
+          >
+            পেছনে
+          </Button>
+        </div>
       </div>
 
-      <div className="mx-auto w-full sm:w-[640px]" style={{ perspective: "1200px" }}>
+      <div className="mx-auto w-full max-w-[640px]" style={{ perspective: "1200px" }}>
         <div
           className="relative transition-transform duration-700"
           style={{
