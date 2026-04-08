@@ -22,7 +22,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import {
   Plus, Loader2, FileUp, Search, MoreHorizontal, Eye, Pencil, Trash2,
-  LayoutDashboard, MapPin, Banknote, Users,
+  LayoutDashboard, MapPin, Banknote, Users, ChevronLeft, ChevronRight,
 } from "lucide-react";
 import type { Tables } from "@/integrations/supabase/types";
 
