@@ -14,9 +14,9 @@ import {
 } from "@/components/ui/sidebar";
 
 const items = [
-  { title: "Dashboard", url: "/", icon: Home },
-  { title: "Holdings", url: "/holdings", icon: List },
-  { title: "Add Holding", url: "/holdings/add", icon: PlusCircle },
+  { title: "ড্যাশবোর্ড", url: "/", icon: Home },
+  { title: "হোল্ডিং তালিকা", url: "/holdings", icon: List },
+  { title: "নতুন হোল্ডিং", url: "/holdings/add", icon: PlusCircle },
 ];
 
 export function AppSidebar() {
@@ -28,7 +28,7 @@ export function AppSidebar() {
     <Sidebar collapsible="icon">
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Menu</SidebarGroupLabel>
+          <SidebarGroupLabel>মেনু</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (

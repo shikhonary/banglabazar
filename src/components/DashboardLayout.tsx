@@ -39,7 +39,7 @@ const DashboardLayout = () => {
             <div className="flex h-14 items-center justify-between gap-2 px-3 sm:px-4">
               <div className="flex min-w-0 items-center gap-2">
                 <SidebarTrigger className="shrink-0" />
-                <h1 className="truncate text-base font-bold text-foreground sm:text-lg">Holding Card Manager</h1>
+                <h1 className="truncate text-base font-bold text-foreground sm:text-lg">হোল্ডিং কার্ড ম্যানেজার</h1>
               </div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -58,16 +58,16 @@ const DashboardLayout = () => {
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={() => navigate("/holdings")}>
                     <List className="mr-2 h-4 w-4" />
-                    Holdings
+                    হোল্ডিং তালিকা
                   </DropdownMenuItem>
                   <DropdownMenuItem onClick={() => navigate("/holdings/add")}>
                     <PlusCircle className="mr-2 h-4 w-4" />
-                    Add Holding
+                    নতুন হোল্ডিং
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={signOut} className="text-destructive focus:text-destructive">
                     <LogOut className="mr-2 h-4 w-4" />
-                    Sign out
+                    লগ আউট
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
