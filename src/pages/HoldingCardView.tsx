@@ -280,6 +280,8 @@ const HoldingCardView = () => {
   );
 };
 
+const CARD_ASPECT = 1.586; // ISO ID-1 standard (w:h)
+
 const CardFront = ({ holding }: { holding: HoldingCardType }) => (
   <div
     className="bengali-text rounded-xl border-2 border-emerald-600 overflow-hidden shadow-xl relative flex flex-col"
