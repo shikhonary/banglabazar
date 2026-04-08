@@ -7,14 +7,23 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Upload, Loader2, FileSpreadsheet } from "lucide-react";
 import * as XLSX from "xlsx";
 
-// Map Bengali headers to database fields
+// Map headers to database fields using positional fallback
+// Supports Unicode Bengali, Bijoy-encoded Bengali, and English headers
 const HEADER_MAP: Record<string, string> = {
+  // Unicode Bengali
   "নাম": "name",
   "পিতা/স্বামীর নাম": "guardian_name",
   "হোল্ডিং নং": "holding_no",
   "ওয়ার্ড নং": "ward_no",
   "গ্রামের নাম": "village",
   "ধার্যকৃত বাৎসরিক কর": "tax",
+  // Bijoy-encoded headers (from legacy Excel files)
+  "bvg": "name",
+  "wcZv/¯^vgxi bvg": "guardian_name",
+  "†nvwìs bs": "holding_no",
+  "IqvW© bs": "ward_no",
+  "MÖv‡gi bvg": "village",
+  "avh©K…Z evrmwiK Ki": "tax",
   // English fallbacks
   "name": "name",
   "guardian name": "guardian_name",
@@ -23,6 +32,9 @@ const HEADER_MAP: Record<string, string> = {
   "village": "village",
   "tax": "tax",
 };
+
+// Positional fallback: if no headers match, use column order
+const POSITIONAL_FIELDS = ["name", "guardian_name", "holding_no", "ward_no", "village", "tax"];
 
 interface HoldingRow {
   name: string;
@@ -52,12 +64,27 @@ const ExcelImport = () => {
 
         const mapped: HoldingRow[] = jsonData.map((row) => {
           const result: Record<string, any> = {};
-          for (const [header, value] of Object.entries(row)) {
+          const entries = Object.entries(row);
+
+          // Try header-based mapping first
+          let matched = 0;
+          for (const [header, value] of entries) {
             const trimmed = header.trim();
             const field = HEADER_MAP[trimmed];
             if (field) {
               result[field] = field === "tax" ? Number(value) || 0 : String(value).trim();
+              matched++;
             }
+          }
+
+          // Positional fallback if no headers matched
+          if (matched === 0) {
+            const values = entries.map(([, v]) => v);
+            POSITIONAL_FIELDS.forEach((field, i) => {
+              if (i < values.length && values[i] != null) {
+                result[field] = field === "tax" ? Number(values[i]) || 0 : String(values[i]).trim();
+              }
+            });
           }
           return {
             name: result.name || "",
