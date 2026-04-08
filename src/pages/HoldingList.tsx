@@ -22,8 +22,9 @@ import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import {
   Plus, Loader2, FileUp, Search, MoreHorizontal, Eye, Pencil, Trash2,
-  LayoutDashboard, MapPin, Banknote, Users, ChevronLeft, ChevronRight,
+  LayoutDashboard, MapPin, Banknote, Users, ChevronLeft, ChevronRight, SlidersHorizontal,
 } from "lucide-react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import type { Tables } from "@/integrations/supabase/types";
 
 type HoldingCard = Tables<"holding_cards">;
@@ -37,6 +38,7 @@ const HoldingList = () => {
   const [holdingFilter, setHoldingFilter] = useState("all");
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
+  const [filterOpen, setFilterOpen] = useState(false);
   const [viewItem, setViewItem] = useState<HoldingCard | null>(null);
   const [editItem, setEditItem] = useState<HoldingCard | null>(null);
   const [editForm, setEditForm] = useState({ name: "", guardian_name: "", ward_no: "", holding_no: "", village: "", tax: "" });
@@ -78,8 +80,8 @@ const HoldingList = () => {
     onError: (err: Error) => toast({ title: "Error", description: err.message, variant: "destructive" }),
   });
 
-  const wards = useMemo(() => [...new Set(holdings?.map((h) => h.ward_no).filter(Boolean))].sort(), [holdings]);
-  const villages = useMemo(() => [...new Set(holdings?.map((h) => h.village).filter(Boolean))].sort(), [holdings]);
+  const activeFilterCount = [search, villageFilter, wardFilter !== "all" ? wardFilter : "", holdingFilter !== "all" ? holdingFilter : ""].filter(Boolean).length;
+  const clearFilters = () => { setSearch(""); setVillageFilter(""); setWardFilter("all"); setHoldingFilter("all"); setPage(1); };
 
   const filtered = useMemo(() => {
     if (!holdings) return [];
@@ -154,86 +156,114 @@ const HoldingList = () => {
         ))}
       </div>
 
-      {/* Filters */}
-      <Card className="border-dashed">
+      {/* Filters - Desktop */}
+      <Card className="border-dashed hidden md:block">
         <CardContent className="p-4">
-          <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="relative sm:col-span-2 lg:col-span-1">
+          <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
+            <div className="relative col-span-1">
               <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Search name, guardian..."
-                className="pl-9 bg-background"
-                value={search}
-                onChange={(e) => { setSearch(e.target.value); setPage(1); }}
-              />
+              <Input placeholder="Search name, guardian..." className="pl-9 bg-background" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} />
             </div>
             <div className="relative">
               <MapPin className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input
-                placeholder="Filter village..."
-                className="pl-9 bg-background"
-                value={villageFilter}
-                onChange={(e) => { setVillageFilter(e.target.value); setPage(1); }}
-              />
+              <Input placeholder="Filter village..." className="pl-9 bg-background" value={villageFilter} onChange={(e) => { setVillageFilter(e.target.value); setPage(1); }} />
             </div>
             <Select value={wardFilter} onValueChange={(v) => { setWardFilter(v); setPage(1); }}>
-              <SelectTrigger className="bg-background">
-                <SelectValue placeholder="Ward" />
-              </SelectTrigger>
+              <SelectTrigger className="bg-background"><SelectValue placeholder="Ward" /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All Wards</SelectItem>
-                {Array.from({ length: 9 }, (_, i) => String(i + 1)).map((w) => (
-                  <SelectItem key={w} value={w}>{w}</SelectItem>
-                ))}
+                {Array.from({ length: 9 }, (_, i) => String(i + 1)).map((w) => <SelectItem key={w} value={w}>{w}</SelectItem>)}
               </SelectContent>
             </Select>
             <Select value={holdingFilter} onValueChange={(v) => { setHoldingFilter(v); setPage(1); }}>
-              <SelectTrigger className="bg-background">
-                <SelectValue placeholder="Holding" />
-              </SelectTrigger>
+              <SelectTrigger className="bg-background"><SelectValue placeholder="Holding" /></SelectTrigger>
               <SelectContent className="max-h-60">
                 <SelectItem value="all">All Holdings</SelectItem>
-                {Array.from({ length: 200 }, (_, i) => String(i + 1)).map((h) => (
-                  <SelectItem key={h} value={h}>{h}</SelectItem>
-                ))}
+                {Array.from({ length: 200 }, (_, i) => String(i + 1)).map((h) => <SelectItem key={h} value={h}>{h}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>
-          {(search || villageFilter || wardFilter !== "all" || holdingFilter !== "all") && (
+          {activeFilterCount > 0 && (
             <div className="mt-3 flex items-center gap-2 flex-wrap">
-              <span className="text-xs text-muted-foreground">Active filters:</span>
-              {search && (
-                <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setSearch(""); setPage(1); }}>
-                  Search: {search} <span className="ml-0.5 opacity-60">&times;</span>
-                </Badge>
-              )}
-              {villageFilter && (
-                <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setVillageFilter(""); setPage(1); }}>
-                  Village: {villageFilter} <span className="ml-0.5 opacity-60">&times;</span>
-                </Badge>
-              )}
-              {wardFilter !== "all" && (
-                <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setWardFilter("all"); setPage(1); }}>
-                  Ward: {wardFilter} <span className="ml-0.5 opacity-60">&times;</span>
-                </Badge>
-              )}
-              {holdingFilter !== "all" && (
-                <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setHoldingFilter("all"); setPage(1); }}>
-                  Holding: {holdingFilter} <span className="ml-0.5 opacity-60">&times;</span>
-                </Badge>
-              )}
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-6 text-xs text-muted-foreground hover:text-foreground"
-                onClick={() => { setSearch(""); setVillageFilter(""); setWardFilter("all"); setHoldingFilter("all"); setPage(1); }}
-              >
-                Clear all
-              </Button>
+              <span className="text-xs text-muted-foreground">Active:</span>
+              {search && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setSearch(""); setPage(1); }}>Search: {search} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              {villageFilter && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setVillageFilter(""); setPage(1); }}>Village: {villageFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              {wardFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setWardFilter("all"); setPage(1); }}>Ward: {wardFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              {holdingFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setHoldingFilter("all"); setPage(1); }}>Holding: {holdingFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              <Button variant="ghost" size="sm" className="h-6 text-xs text-muted-foreground" onClick={clearFilters}>Clear all</Button>
             </div>
           )}
         </CardContent>
       </Card>
+
+      {/* Filters - Mobile */}
+      <div className="flex gap-2 md:hidden">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+          <Input placeholder="Search..." className="pl-9" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} />
+        </div>
+        <Sheet open={filterOpen} onOpenChange={setFilterOpen}>
+          <SheetTrigger asChild>
+            <Button variant="outline" size="icon" className="shrink-0 relative">
+              <SlidersHorizontal className="h-4 w-4" />
+              {activeFilterCount > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                  {activeFilterCount}
+                </span>
+              )}
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="bottom" className="rounded-t-2xl">
+            <SheetHeader>
+              <SheetTitle>Filters</SheetTitle>
+            </SheetHeader>
+            <div className="grid gap-4 py-4">
+              <div className="space-y-1.5">
+                <Label className="text-xs text-muted-foreground">Village</Label>
+                <div className="relative">
+                  <MapPin className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input placeholder="Filter village..." className="pl-9" value={villageFilter} onChange={(e) => { setVillageFilter(e.target.value); setPage(1); }} />
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="space-y-1.5">
+                  <Label className="text-xs text-muted-foreground">Ward</Label>
+                  <Select value={wardFilter} onValueChange={(v) => { setWardFilter(v); setPage(1); }}>
+                    <SelectTrigger><SelectValue placeholder="Ward" /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Wards</SelectItem>
+                      {Array.from({ length: 9 }, (_, i) => String(i + 1)).map((w) => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-1.5">
+                  <Label className="text-xs text-muted-foreground">Holding</Label>
+                  <Select value={holdingFilter} onValueChange={(v) => { setHoldingFilter(v); setPage(1); }}>
+                    <SelectTrigger><SelectValue placeholder="Holding" /></SelectTrigger>
+                    <SelectContent className="max-h-60">
+                      <SelectItem value="all">All Holdings</SelectItem>
+                      {Array.from({ length: 200 }, (_, i) => String(i + 1)).map((h) => <SelectItem key={h} value={h}>{h}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+              <div className="flex gap-2 pt-2">
+                <Button variant="outline" className="flex-1" onClick={clearFilters}>Clear all</Button>
+                <Button className="flex-1" onClick={() => setFilterOpen(false)}>Apply</Button>
+              </div>
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
+      {/* Mobile active filter chips */}
+      {activeFilterCount > 0 && (
+        <div className="flex items-center gap-2 flex-wrap md:hidden">
+          {search && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setSearch(""); setPage(1); }}>Search: {search} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+          {villageFilter && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setVillageFilter(""); setPage(1); }}>Village: {villageFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+          {wardFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setWardFilter("all"); setPage(1); }}>Ward: {wardFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+          {holdingFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setHoldingFilter("all"); setPage(1); }}>Holding: {holdingFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+        </div>
+      )}
 
       {/* Content */}
       {isLoading ? (
