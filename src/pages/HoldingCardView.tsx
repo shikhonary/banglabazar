@@ -209,20 +209,20 @@ const HoldingCardView = () => {
   if (!holding) return null;
 
   return (
-    <div className="max-w-2xl mx-auto px-3 sm:px-4 md:px-0 overflow-x-hidden">
-      <div className="flex items-center justify-between mb-4 sm:mb-6">
-        <Button variant="ghost" size="sm" asChild>
+    <div className="max-w-2xl mx-auto overflow-x-hidden px-3 sm:px-4 md:px-0">
+      <div className="mb-4 flex flex-wrap items-center justify-between gap-2 sm:mb-6">
+        <Button variant="ghost" size="sm" asChild className="shrink-0">
           <Link to="/holdings">
             <ArrowLeft className="mr-2 h-4 w-4" /> Back
           </Link>
         </Button>
 
-        <div className="flex items-center gap-2">
+        <div className="flex max-w-full flex-wrap items-center justify-end gap-2">
           <Button
             variant="outline"
             size="sm"
             onClick={() => setFlipped((f) => !f)}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-md border-emerald-600"
+            className="border-emerald-600 bg-emerald-600 text-white shadow-md hover:bg-emerald-700"
           >
             <RefreshCw className="mr-2 h-4 w-4" />
             {flipped ? "সামনে" : "পেছনে"}
