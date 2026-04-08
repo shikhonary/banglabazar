@@ -6,6 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Loader2, Download } from "lucide-react";
 import type { Tables } from "@/integrations/supabase/types";
 import { toPng } from "html-to-image";
+import { QRCodeSVG } from "qrcode.react";
 import bdGovtSeal from "@/assets/bd-govt-seal.png";
 import bdNationalEmblem from "@/assets/bd-national-emblem.png";
 import solaimanLipiEmbeddedCss from "@/styles/solaimanLipiEmbedded.css?raw";
@@ -327,18 +328,13 @@ const CardFront = ({ holding }: { holding: HoldingCardType }) => (
     <div className="px-4 sm:px-6 pt-3 pb-3 space-y-2 flex-1 flex flex-col justify-between" style={BENGALI_TEXT_STYLE}>
       <div className="flex gap-3 sm:gap-4">
         <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-lg border-2 border-emerald-300 bg-white p-1 flex items-center justify-center">
-          <div className="w-full h-full grid grid-cols-5 grid-rows-5 gap-[1px]">
-            {Array.from({ length: 25 }).map((_, i) => (
-              <div
-                key={i}
-                className={`rounded-[1px] ${
-                  [0, 1, 2, 4, 5, 6, 10, 12, 14, 18, 20, 22, 23, 24].includes(i)
-                    ? "bg-emerald-800"
-                    : "bg-emerald-100"
-                }`}
-              />
-            ))}
-          </div>
+          <QRCodeSVG
+            value={`${window.location.origin}/holdings/card/${holding.id}`}
+            size={64}
+            level="M"
+            fgColor="#065f46"
+            bgColor="#ffffff"
+          />
         </div>
 
         <div className="flex-1 space-y-2">
