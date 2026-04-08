@@ -80,8 +80,8 @@ const HoldingList = () => {
     onError: (err: Error) => toast({ title: "Error", description: err.message, variant: "destructive" }),
   });
 
-  const wards = useMemo(() => [...new Set(holdings?.map((h) => h.ward_no).filter(Boolean))].sort(), [holdings]);
-  const villages = useMemo(() => [...new Set(holdings?.map((h) => h.village).filter(Boolean))].sort(), [holdings]);
+  const activeFilterCount = [search, villageFilter, wardFilter !== "all" ? wardFilter : "", holdingFilter !== "all" ? holdingFilter : ""].filter(Boolean).length;
+  const clearFilters = () => { setSearch(""); setVillageFilter(""); setWardFilter("all"); setHoldingFilter("all"); setPage(1); };
 
   const filtered = useMemo(() => {
     if (!holdings) return [];
