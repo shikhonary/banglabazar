@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -19,43 +19,71 @@ const HoldingCardView = () => {
   const [loading, setLoading] = useState(true);
   const [flipped, setFlipped] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const frontRef = useRef<HTMLDivElement>(null);
+  const backRef = useRef<HTMLDivElement>(null);
+  const flipContainerRef = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
-  const downloadCard = useCallback(async (side: "front" | "back") => {
+  const downloadCard = async (side: "front" | "back") => {
     if (!holding) return;
     setDownloading(true);
 
-    // Create an offscreen container at fixed desktop width
-    const offscreen = document.createElement("div");
-    offscreen.style.position = "fixed";
-    offscreen.style.left = "-9999px";
-    offscreen.style.top = "0";
-    offscreen.style.width = "640px";
-    offscreen.style.fontFamily = "'SolaimanLipi', sans-serif";
-    offscreen.style.zIndex = "-1";
-    document.body.appendChild(offscreen);
+    const targetRef = side === "front" ? frontRef.current : backRef.current;
+    const flipContainer = flipContainerRef.current;
+    const wrapper = wrapperRef.current;
 
-    // Import ReactDOM to render card
-    const { createRoot } = await import("react-dom/client");
-    const root = createRoot(offscreen);
+    if (!targetRef || !flipContainer || !wrapper) {
+      setDownloading(false);
+      return;
+    }
 
-    const CardComponent = side === "front"
-      ? <CardFront holding={holding} />
-      : <CardBack />;
+    // Save original styles
+    const origTransform = flipContainer.style.transform;
+    const origTransition = flipContainer.style.transition;
+    const origTransformStyle = flipContainer.style.transformStyle;
+    const origWrapperPerspective = wrapper.style.perspective;
 
-    root.render(CardComponent);
-
-    // Wait for fonts and images to load
-    await new Promise((r) => setTimeout(r, 500));
+    // For back side, we need to show it; for front side, reset rotation
+    const backDiv = backRef.current?.parentElement;
+    const frontDiv = frontRef.current?.parentElement;
+    const origBackTransform = backDiv?.style.transform || "";
+    const origBackBfv = backDiv?.style.backfaceVisibility || "";
+    const origFrontBfv = frontDiv?.style.backfaceVisibility || "";
 
     try {
-      const canvas = await html2canvas(offscreen, {
+      // Temporarily flatten 3D for clean capture
+      flipContainer.style.transition = "none";
+      flipContainer.style.transform = "none";
+      flipContainer.style.transformStyle = "flat";
+      wrapper.style.perspective = "none";
+
+      if (side === "back") {
+        // Show back, hide front
+        if (frontDiv) frontDiv.style.display = "none";
+        if (backDiv) {
+          backDiv.style.position = "relative";
+          backDiv.style.transform = "none";
+          backDiv.style.backfaceVisibility = "visible";
+        }
+      } else {
+        // Show front, hide back
+        if (backDiv) backDiv.style.display = "none";
+        if (frontDiv) {
+          frontDiv.style.backfaceVisibility = "visible";
+        }
+      }
+
+      // Wait a frame for layout
+      await new Promise((r) => setTimeout(r, 100));
+
+      const canvas = await html2canvas(targetRef, {
         scale: 3,
         useCORS: true,
         backgroundColor: null,
-        width: 640,
+        width: targetRef.scrollWidth,
+        height: targetRef.scrollHeight,
       });
 
-      // Convert to JPG
       const link = document.createElement("a");
       link.download = `holding-card-${side}-${holding.holding_no}.jpg`;
       link.href = canvas.toDataURL("image/jpeg", 0.95);
@@ -65,11 +93,26 @@ const HoldingCardView = () => {
     } catch {
       toast({ title: "ত্রুটি", description: "ডাউনলোড করতে সমস্যা হয়েছে।", variant: "destructive" });
     } finally {
-      root.unmount();
-      document.body.removeChild(offscreen);
+      // Restore all styles
+      flipContainer.style.transform = origTransform;
+      flipContainer.style.transition = origTransition;
+      flipContainer.style.transformStyle = origTransformStyle;
+      wrapper.style.perspective = origWrapperPerspective;
+
+      if (frontDiv) {
+        frontDiv.style.display = "";
+        frontDiv.style.backfaceVisibility = origFrontBfv;
+      }
+      if (backDiv) {
+        backDiv.style.display = "";
+        backDiv.style.position = "";
+        backDiv.style.transform = origBackTransform;
+        backDiv.style.backfaceVisibility = origBackBfv;
+      }
+
       setDownloading(false);
     }
-  }, [holding, toast]);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -138,8 +181,9 @@ const HoldingCardView = () => {
         </div>
       </div>
 
-      <div className="mx-auto w-full max-w-[640px]" style={{ perspective: "1200px", fontFamily: "'SolaimanLipi', sans-serif" }}>
+      <div ref={wrapperRef} className="mx-auto w-full max-w-[640px]" style={{ perspective: "1200px", fontFamily: "'SolaimanLipi', sans-serif" }}>
         <div
+          ref={flipContainerRef}
           className="relative transition-transform duration-700 ease-in-out"
           style={{
             transformStyle: "preserve-3d",
@@ -147,13 +191,17 @@ const HoldingCardView = () => {
           }}
         >
           <div className="relative" style={{ backfaceVisibility: "hidden" }}>
-            <CardFront holding={holding} />
+            <div ref={frontRef}>
+              <CardFront holding={holding} />
+            </div>
           </div>
           <div
             className="absolute inset-0"
             style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
           >
-            <CardBack />
+            <div ref={backRef}>
+              <CardBack />
+            </div>
           </div>
         </div>
       </div>
