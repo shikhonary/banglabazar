@@ -99,7 +99,7 @@ const HoldingCardView = () => {
 };
 
 const CardFront = ({ holding }: { holding: HoldingCardType }) => (
-  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative flex flex-col" style={{ fontFamily: "'SolaimanLipi', sans-serif" }}>
+  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative flex flex-col">
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
       <img src={bdGovtSeal} alt="" className="w-48 h-48 opacity-10" />
     </div>
@@ -173,7 +173,7 @@ const CardFront = ({ holding }: { holding: HoldingCardType }) => (
 );
 
 const CardBack = () => (
-  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative flex flex-col" style={{ fontFamily: "'SolaimanLipi', sans-serif" }}>
+  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative flex flex-col">
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
       <img src={bdGovtSeal} alt="" className="w-48 h-48 opacity-10" />
     </div>
