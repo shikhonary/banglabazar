@@ -66,7 +66,6 @@ const HoldingList = () => {
     onError: (err: Error) => toast({ title: "Error", description: err.message, variant: "destructive" }),
   });
 
-  });
 
   const activeFilterCount = [search, villageFilter, wardFilter !== "all" ? wardFilter : "", holdingFilter !== "all" ? holdingFilter : ""].filter(Boolean).length;
   const clearFilters = () => { setSearch(""); setVillageFilter(""); setWardFilter("all"); setHoldingFilter("all"); setPage(1); };
