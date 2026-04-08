@@ -203,12 +203,12 @@ const HoldingList = () => {
         <>
           {/* Mobile Card View */}
           <div className="grid gap-3 grid-cols-1 md:hidden">
-            {filtered.map((h, i) => (
+            {paginated.map((h, i) => (
               <Card key={h.id} className="overflow-hidden">
                 <div className="flex items-start justify-between p-4 pb-2">
                   <div className="flex items-center gap-3">
                     <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary text-sm font-bold">
-                      {i + 1}
+                      {(safeePage - 1) * perPage + i + 1}
                     </div>
                     <div>
                       <p className="font-semibold text-foreground leading-tight">{h.name}</p>
@@ -274,9 +274,9 @@ const HoldingList = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {filtered.map((h, i) => (
+                    {paginated.map((h, i) => (
                       <TableRow key={h.id}>
-                        <TableCell className="text-center text-xs text-muted-foreground font-mono">{i + 1}</TableCell>
+                        <TableCell className="text-center text-xs text-muted-foreground font-mono">{(safeePage - 1) * perPage + i + 1}</TableCell>
                         <TableCell className="font-medium">{h.name}</TableCell>
                         <TableCell>{h.guardian_name}</TableCell>
                         <TableCell><Badge variant="outline">{h.holding_no}</Badge></TableCell>
@@ -310,6 +310,37 @@ const HoldingList = () => {
               </div>
             </CardContent>
           </Card>
+
+          {/* Pagination */}
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-muted-foreground">
+              Showing {(safeePage - 1) * perPage + 1}–{Math.min(safeePage * perPage, filtered.length)} of {filtered.length}
+            </p>
+            <div className="flex items-center gap-1">
+              <Button variant="outline" size="icon" className="h-8 w-8" disabled={safeePage <= 1} onClick={() => setPage(safeePage - 1)}>
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .filter((p) => p === 1 || p === totalPages || Math.abs(p - safeePage) <= 1)
+                .reduce<(number | "ellipsis")[]>((acc, p, idx, arr) => {
+                  if (idx > 0 && p - (arr[idx - 1] as number) > 1) acc.push("ellipsis");
+                  acc.push(p);
+                  return acc;
+                }, [])
+                .map((p, idx) =>
+                  p === "ellipsis" ? (
+                    <span key={`e${idx}`} className="px-1 text-muted-foreground">…</span>
+                  ) : (
+                    <Button key={p} variant={p === safeePage ? "default" : "outline"} size="icon" className="h-8 w-8 text-xs" onClick={() => setPage(p)}>
+                      {p}
+                    </Button>
+                  )
+                )}
+              <Button variant="outline" size="icon" className="h-8 w-8" disabled={safeePage >= totalPages} onClick={() => setPage(safeePage + 1)}>
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
         </>
       )}
 
