@@ -107,13 +107,8 @@ const CardFront = ({ holding }: { holding: HoldingCardType }) => (
         </div>
 
         {/* Right Emblem */}
-        <div className="w-12 h-12 rounded-full bg-emerald-100 border-2 border-emerald-400 flex items-center justify-center">
-          <svg viewBox="0 0 40 40" className="w-8 h-8 text-emerald-700">
-            <rect x="10" y="12" width="20" height="16" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" />
-            <line x1="15" y1="16" x2="25" y2="16" stroke="currentColor" strokeWidth="1" />
-            <line x1="15" y1="20" x2="25" y2="20" stroke="currentColor" strokeWidth="1" />
-            <line x1="15" y1="24" x2="25" y2="24" stroke="currentColor" strokeWidth="1" />
-          </svg>
+        <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-emerald-400 flex items-center justify-center bg-white">
+          <img src={bdNationalEmblem} alt="জাতীয় প্রতীক" className="w-10 h-10 object-contain" />
         </div>
       </div>
     </div>
