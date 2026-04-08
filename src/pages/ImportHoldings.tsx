@@ -111,12 +111,12 @@ const ImportHoldings = () => {
 
         const valid = mapped.filter((r) => r.name && r.holding_no);
         if (!valid.length) {
-          toast({ title: "Error", description: "No valid rows found. Check column headers.", variant: "destructive" });
+                    toast({ title: "ত্রুটি", description: "সঠিক সারি পাওয়া যায়নি। কলাম হেডার চেক করুন।", variant: "destructive" });
           return;
         }
         setPreview(valid);
       } catch {
-        toast({ title: "Error", description: "Failed to parse file.", variant: "destructive" });
+        toast({ title: "ত্রুটি", description: "ফাইল পার্স করতে সমস্যা হয়েছে।", variant: "destructive" });
       }
     };
     reader.readAsArrayBuffer(file);
@@ -129,13 +129,13 @@ const ImportHoldings = () => {
       const rows = preview.map((r) => ({ ...r, user_id: user.id }));
       const { error } = await supabase.from("holding_cards").insert(rows);
       if (error) throw error;
-      toast({ title: "Success", description: `${rows.length} holding cards imported successfully.` });
+      toast({ title: "সফল!", description: `${rows.length}টি হোল্ডিং কার্ড সফলভাবে ইম্পোর্ট হয়েছে।` });
       queryClient.invalidateQueries({ queryKey: ["holdings"] });
       queryClient.invalidateQueries({ queryKey: ["holdings-count"] });
       queryClient.invalidateQueries({ queryKey: ["holdings-tax"] });
       navigate("/holdings");
     } catch (error: unknown) {
-      toast({ title: "Error", description: error instanceof Error ? error.message : "Import failed", variant: "destructive" });
+      toast({ title: "ত্রুটি", description: error instanceof Error ? error.message : "ইম্পোর্ট ব্যর্থ হয়েছে", variant: "destructive" });
     } finally {
       setImporting(false);
     }
@@ -150,8 +150,8 @@ const ImportHoldings = () => {
   return (
     <div className="max-w-5xl space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-foreground">Import Holdings</h2>
-        <p className="text-muted-foreground">Upload an Excel or CSV file to bulk-import holding cards.</p>
+        <h2 className="text-2xl font-bold text-foreground">হোল্ডিং ইম্পোর্ট</h2>
+        <p className="text-muted-foreground">এক্সেল বা CSV ফাইল আপলোড করে বাল্ক ইম্পোর্ট করুন।</p>
       </div>
 
       {/* Upload area */}
@@ -167,9 +167,9 @@ const ImportHoldings = () => {
                 <FileUp className="h-8 w-8 text-primary" />
               </div>
               <div>
-                <p className="text-lg font-medium text-foreground">Click to upload Excel or CSV file</p>
+               <p className="text-lg font-medium text-foreground">এক্সেল বা CSV ফাইল আপলোড করতে ক্লিক করুন</p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  Supports .xlsx, .xls, and .csv formats
+                  .xlsx, .xls এবং .csv ফরম্যাট সাপোর্ট করে
                 </p>
               </div>
             </button>
@@ -201,7 +201,7 @@ const ImportHoldings = () => {
                   <CardTitle className="text-lg">{fileName}</CardTitle>
                   <CardDescription className="flex items-center gap-2 mt-1">
                     <CheckCircle2 className="h-3.5 w-3.5 text-green-600" />
-                    {preview.length} rows ready to import
+                    {preview.length}টি সারি ইম্পোর্টের জন্য প্রস্তুত
                   </CardDescription>
                 </div>
               </div>
@@ -251,13 +251,13 @@ const ImportHoldings = () => {
             </div>
             <div className="flex items-center justify-between border-t px-6 py-4">
               <p className="text-sm text-muted-foreground">
-                Total tax: <span className="font-semibold text-foreground">৳{preview.reduce((s, r) => s + r.tax, 0).toLocaleString()}</span>
+                মোট কর: <span className="font-semibold text-foreground">৳{preview.reduce((s, r) => s + r.tax, 0).toLocaleString()}</span>
               </p>
               <div className="flex gap-2">
-                <Button variant="outline" onClick={clearPreview}>Cancel</Button>
+                <Button variant="outline" onClick={clearPreview}>বাতিল</Button>
                 <Button onClick={handleImport} disabled={importing}>
                   {importing ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Upload className="mr-2 h-4 w-4" />}
-                  Import {preview.length} Holdings
+                  {preview.length}টি হোল্ডিং ইম্পোর্ট
                 </Button>
               </div>
             </div>
