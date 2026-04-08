@@ -1,4 +1,4 @@
-import { Home, Plus, List, LogOut } from "lucide-react";
+import { Home, Plus, List, LogOut, FileUp } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -20,6 +20,7 @@ const navItems = [
   { title: "Home", url: "/", icon: Home },
   { title: "Add Holding", url: "/holdings/add", icon: Plus },
   { title: "Holding List", url: "/holdings", icon: List },
+  { title: "Import Excel", url: "/holdings/import", icon: FileUp },
 ];
 
 export function AppSidebar() {
