@@ -6,6 +6,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Loader2, RotateCcw } from "lucide-react";
 import type { Tables } from "@/integrations/supabase/types";
 import bdGovtSeal from "@/assets/bd-govt-seal.png";
+import bdNationalEmblem from "@/assets/bd-national-emblem.png";
 
 type HoldingCardType = Tables<"holding_cards">;
 
