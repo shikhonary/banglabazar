@@ -40,7 +40,6 @@ const HoldingList = () => {
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [filterOpen, setFilterOpen] = useState(false);
-  const [viewItem, setViewItem] = useState<HoldingCard | null>(null);
   const [deleteItem, setDeleteItem] = useState<HoldingCard | null>(null);
 
   const { data: holdings, isLoading } = useQuery({
@@ -412,33 +411,6 @@ const HoldingList = () => {
           </div>
         </>
       )}
-
-      {/* View Dialog */}
-      <Dialog open={!!viewItem} onOpenChange={() => setViewItem(null)}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Holding Card Details</DialogTitle>
-            <DialogDescription>Full details for this holding card.</DialogDescription>
-          </DialogHeader>
-          {viewItem && (
-            <div className="grid gap-3 text-sm">
-              {[
-                ["Name", viewItem.name],
-                ["Guardian", viewItem.guardian_name],
-                ["Holding No", viewItem.holding_no],
-                ["Ward No", viewItem.ward_no],
-                ["Village", viewItem.village],
-                ["Tax", `৳${Number(viewItem.tax).toLocaleString()}`],
-              ].map(([label, value]) => (
-                <div key={label} className="flex justify-between border-b pb-2 last:border-0">
-                  <span className="text-muted-foreground">{label}</span>
-                  <span className="font-medium">{value}</span>
-                </div>
-              ))}
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={!!deleteItem} onOpenChange={() => setDeleteItem(null)}>
