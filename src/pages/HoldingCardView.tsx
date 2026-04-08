@@ -48,8 +48,8 @@ const HoldingCardView = () => {
   if (!holding) return null;
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
+    <div className="max-w-2xl mx-auto px-4 sm:px-0">
+      <div className="flex items-center justify-between mb-4 sm:mb-6">
         <Button variant="ghost" size="sm" asChild>
           <Link to="/holdings">
             <ArrowLeft className="mr-2 h-4 w-4" /> Back
@@ -61,18 +61,21 @@ const HoldingCardView = () => {
         </Button>
       </div>
 
-      <div className="mx-auto h-[440px] w-[640px] max-w-full" style={{ perspective: "1200px" }}>
+      <div className="mx-auto w-full sm:w-[640px]" style={{ perspective: "1200px" }}>
         <div
-          className="relative w-full h-full transition-transform duration-700"
+          className="relative transition-transform duration-700"
           style={{
             transformStyle: "preserve-3d",
             transform: flipped ? "rotateY(180deg)" : "rotateY(0deg)",
           }}
         >
-          <div className="absolute inset-0" style={{ backfaceVisibility: "hidden" }}>
+          <div style={{ backfaceVisibility: "hidden" }} className={flipped ? "invisible" : ""}>
             <CardFront holding={holding} />
           </div>
-          <div className="absolute inset-0" style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
+          <div
+            className={`absolute inset-0 ${!flipped ? "invisible" : ""}`}
+            style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+          >
             <CardBack />
           </div>
         </div>
