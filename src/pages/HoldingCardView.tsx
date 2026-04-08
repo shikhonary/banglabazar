@@ -83,8 +83,12 @@ const HoldingCardView = () => {
 
 const CardFront = ({ holding }: { holding: HoldingCardType }) => (
   <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative">
+    {/* Watermark */}
+    <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+      <img src={bdGovtSeal} alt="" className="w-48 h-48 opacity-10" />
+    </div>
     {/* Top Header */}
-    <div className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-700 text-white text-center py-3 px-4">
+    <div className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-700 text-white text-center py-3 px-4 relative z-10">
       <p className="text-[10px] tracking-wide opacity-90">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
     </div>
 
