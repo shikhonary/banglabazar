@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Loader2, Download } from "lucide-react";
+import { ArrowLeft, Loader2, Download, RefreshCw } from "lucide-react";
 import type { Tables } from "@/integrations/supabase/types";
 import { toPng } from "html-to-image";
 import { QRCodeSVG } from "qrcode.react";
@@ -209,7 +209,7 @@ const HoldingCardView = () => {
   if (!holding) return null;
 
   return (
-    <div className="max-w-2xl mx-auto px-3 sm:px-4 md:px-0">
+    <div className="max-w-2xl mx-auto px-3 sm:px-4 md:px-0 overflow-x-hidden">
       <div className="flex items-center justify-between mb-4 sm:mb-6">
         <Button variant="ghost" size="sm" asChild>
           <Link to="/holdings">
@@ -219,20 +219,13 @@ const HoldingCardView = () => {
 
         <div className="flex items-center gap-2">
           <Button
-            variant={!flipped ? "default" : "outline"}
+            variant="outline"
             size="sm"
-            onClick={() => setFlipped(false)}
-            className={!flipped ? "bg-emerald-600 hover:bg-emerald-700 text-white shadow-md" : ""}
+            onClick={() => setFlipped((f) => !f)}
+            className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-md border-emerald-600"
           >
-            সামনে
-          </Button>
-          <Button
-            variant={flipped ? "default" : "outline"}
-            size="sm"
-            onClick={() => setFlipped(true)}
-            className={flipped ? "bg-emerald-600 hover:bg-emerald-700 text-white shadow-md" : ""}
-          >
-            পেছনে
+            <RefreshCw className="mr-2 h-4 w-4" />
+            {flipped ? "সামনে" : "পেছনে"}
           </Button>
           <Button
             variant="outline"
