@@ -262,14 +262,18 @@ const HoldingCardView = () => {
         </div>
       </div>
 
-      <div
-        ref={wrapperRef}
-        className="bengali-text mx-auto w-full max-w-[640px]"
-        style={{
-          perspective: "1200px",
-          ...BENGALI_TEXT_STYLE,
-        }}
-      >
+      <div ref={outerRef} className="mx-auto w-full">
+        <div
+          ref={wrapperRef}
+          className="bengali-text mx-auto"
+          style={{
+            width: `${CARD_FIXED_WIDTH}px`,
+            transform: `scale(${cardScale})`,
+            transformOrigin: "top center",
+            perspective: "1200px",
+            ...BENGALI_TEXT_STYLE,
+          }}
+        >
         <div
           ref={flipContainerRef}
           className="relative transition-transform duration-700 ease-in-out"
