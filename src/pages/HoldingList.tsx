@@ -12,8 +12,7 @@ import {
 } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
-import { Plus, Trash2, Loader2 } from "lucide-react";
-import ExcelImport from "@/components/ExcelImport";
+import { Plus, Trash2, Loader2, FileUp } from "lucide-react";
 
 const HoldingList = () => {
   const { toast } = useToast();
@@ -54,14 +53,19 @@ const HoldingList = () => {
           <h2 className="text-2xl font-bold text-foreground">Holding Cards</h2>
           <p className="text-muted-foreground">Manage all holding card records.</p>
         </div>
-        <Button asChild>
-          <Link to="/holdings/add">
-            <Plus className="mr-2 h-4 w-4" /> Add New
-          </Link>
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="outline" asChild>
+            <Link to="/holdings/import">
+              <FileUp className="mr-2 h-4 w-4" /> Import Excel
+            </Link>
+          </Button>
+          <Button asChild>
+            <Link to="/holdings/add">
+              <Plus className="mr-2 h-4 w-4" /> Add New
+            </Link>
+          </Button>
+        </div>
       </div>
-
-      <ExcelImport />
 
       <Card>
         <CardContent className="p-0">
