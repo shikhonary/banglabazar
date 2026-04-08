@@ -22,7 +22,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import {
   Plus, Loader2, FileUp, Search, MoreHorizontal, Eye, Pencil, Trash2,
-  LayoutDashboard, MapPin, Banknote, Users,
+  LayoutDashboard, MapPin, Banknote, Users, ChevronLeft, ChevronRight,
 } from "lucide-react";
 import type { Tables } from "@/integrations/supabase/types";
 
@@ -33,7 +33,10 @@ const HoldingList = () => {
   const queryClient = useQueryClient();
   const [search, setSearch] = useState("");
   const [wardFilter, setWardFilter] = useState("all");
-  const [villageFilter, setVillageFilter] = useState("all");
+  const [villageFilter, setVillageFilter] = useState("");
+  const [holdingFilter, setHoldingFilter] = useState("all");
+  const [page, setPage] = useState(1);
+  const perPage = 10;
   const [viewItem, setViewItem] = useState<HoldingCard | null>(null);
   const [editItem, setEditItem] = useState<HoldingCard | null>(null);
   const [editForm, setEditForm] = useState({ name: "", guardian_name: "", ward_no: "", holding_no: "", village: "", tax: "" });
@@ -84,10 +87,15 @@ const HoldingList = () => {
       const matchSearch = !search || [h.name, h.guardian_name, h.holding_no, h.village]
         .some((v) => v?.toLowerCase().includes(search.toLowerCase()));
       const matchWard = wardFilter === "all" || h.ward_no === wardFilter;
-      const matchVillage = villageFilter === "all" || h.village === villageFilter;
-      return matchSearch && matchWard && matchVillage;
+      const matchVillage = !villageFilter || h.village?.toLowerCase().includes(villageFilter.toLowerCase());
+      const matchHolding = holdingFilter === "all" || h.holding_no === holdingFilter;
+      return matchSearch && matchWard && matchVillage && matchHolding;
     });
-  }, [holdings, search, wardFilter, villageFilter]);
+  }, [holdings, search, wardFilter, villageFilter, holdingFilter]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
+  const safeePage = Math.min(page, totalPages);
+  const paginated = useMemo(() => filtered.slice((safeePage - 1) * perPage, safeePage * perPage), [filtered, safeePage]);
 
   const totalTax = useMemo(() => filtered.reduce((s, h) => s + Number(h.tax), 0), [filtered]);
   const uniqueVillages = useMemo(() => new Set(filtered.map((h) => h.village)).size, [filtered]);
@@ -147,27 +155,37 @@ const HoldingList = () => {
       </div>
 
       {/* Filters */}
-      <div className="flex flex-col gap-3 sm:flex-row">
-        <div className="relative flex-1">
+      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        <div className="relative flex-1 min-w-[200px]">
           <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Search by name, guardian, holding no..." className="pl-9" value={search} onChange={(e) => setSearch(e.target.value)} />
+          <Input placeholder="Search by name, guardian..." className="pl-9" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} />
         </div>
-        <Select value={wardFilter} onValueChange={setWardFilter}>
-          <SelectTrigger className="w-full sm:w-40">
+        <Select value={wardFilter} onValueChange={(v) => { setWardFilter(v); setPage(1); }}>
+          <SelectTrigger className="w-full sm:w-36">
             <SelectValue placeholder="Ward" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Wards</SelectItem>
-            {wards.map((w) => <SelectItem key={w} value={w}>{`Ward ${w}`}</SelectItem>)}
+            {Array.from({ length: 9 }, (_, i) => String(i + 1)).map((w) => (
+              <SelectItem key={w} value={w}>{`Ward ${w}`}</SelectItem>
+            ))}
           </SelectContent>
         </Select>
-        <Select value={villageFilter} onValueChange={setVillageFilter}>
-          <SelectTrigger className="w-full sm:w-44">
-            <SelectValue placeholder="Village" />
+        <Input
+          placeholder="Filter by village..."
+          className="w-full sm:w-44"
+          value={villageFilter}
+          onChange={(e) => { setVillageFilter(e.target.value); setPage(1); }}
+        />
+        <Select value={holdingFilter} onValueChange={(v) => { setHoldingFilter(v); setPage(1); }}>
+          <SelectTrigger className="w-full sm:w-40">
+            <SelectValue placeholder="Holding" />
           </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Villages</SelectItem>
-            {villages.map((v) => <SelectItem key={v} value={v}>{v}</SelectItem>)}
+          <SelectContent className="max-h-60">
+            <SelectItem value="all">All Holdings</SelectItem>
+            {Array.from({ length: 200 }, (_, i) => String(i + 1)).map((h) => (
+              <SelectItem key={h} value={h}>{`Holding ${h}`}</SelectItem>
+            ))}
           </SelectContent>
         </Select>
       </div>
@@ -185,12 +203,12 @@ const HoldingList = () => {
         <>
           {/* Mobile Card View */}
           <div className="grid gap-3 grid-cols-1 md:hidden">
-            {filtered.map((h, i) => (
+            {paginated.map((h, i) => (
               <Card key={h.id} className="overflow-hidden">
                 <div className="flex items-start justify-between p-4 pb-2">
                   <div className="flex items-center gap-3">
                     <div className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary text-sm font-bold">
-                      {i + 1}
+                      {(safeePage - 1) * perPage + i + 1}
                     </div>
                     <div>
                       <p className="font-semibold text-foreground leading-tight">{h.name}</p>
@@ -256,9 +274,9 @@ const HoldingList = () => {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {filtered.map((h, i) => (
+                    {paginated.map((h, i) => (
                       <TableRow key={h.id}>
-                        <TableCell className="text-center text-xs text-muted-foreground font-mono">{i + 1}</TableCell>
+                        <TableCell className="text-center text-xs text-muted-foreground font-mono">{(safeePage - 1) * perPage + i + 1}</TableCell>
                         <TableCell className="font-medium">{h.name}</TableCell>
                         <TableCell>{h.guardian_name}</TableCell>
                         <TableCell><Badge variant="outline">{h.holding_no}</Badge></TableCell>
@@ -292,6 +310,37 @@ const HoldingList = () => {
               </div>
             </CardContent>
           </Card>
+
+          {/* Pagination */}
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-muted-foreground">
+              Showing {(safeePage - 1) * perPage + 1}–{Math.min(safeePage * perPage, filtered.length)} of {filtered.length}
+            </p>
+            <div className="flex items-center gap-1">
+              <Button variant="outline" size="icon" className="h-8 w-8" disabled={safeePage <= 1} onClick={() => setPage(safeePage - 1)}>
+                <ChevronLeft className="h-4 w-4" />
+              </Button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .filter((p) => p === 1 || p === totalPages || Math.abs(p - safeePage) <= 1)
+                .reduce<(number | "ellipsis")[]>((acc, p, idx, arr) => {
+                  if (idx > 0 && p - (arr[idx - 1] as number) > 1) acc.push("ellipsis");
+                  acc.push(p);
+                  return acc;
+                }, [])
+                .map((p, idx) =>
+                  p === "ellipsis" ? (
+                    <span key={`e${idx}`} className="px-1 text-muted-foreground">…</span>
+                  ) : (
+                    <Button key={p} variant={p === safeePage ? "default" : "outline"} size="icon" className="h-8 w-8 text-xs" onClick={() => setPage(p)}>
+                      {p}
+                    </Button>
+                  )
+                )}
+              <Button variant="outline" size="icon" className="h-8 w-8" disabled={safeePage >= totalPages} onClick={() => setPage(safeePage + 1)}>
+                <ChevronRight className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
         </>
       )}
 
