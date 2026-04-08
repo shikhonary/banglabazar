@@ -21,7 +21,7 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Link, useNavigate } from "react-router-dom";
 import {
-  Plus, Loader2, FileUp, Search, MoreHorizontal, Eye, Pencil, Trash2,
+  Plus, Loader2, FileUp, Search, MoreHorizontal, Eye, Pencil, Trash2, CreditCard,
   LayoutDashboard, MapPin, Banknote, Users, ChevronLeft, ChevronRight, SlidersHorizontal,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -280,6 +280,9 @@ const HoldingList = () => {
                       <DropdownMenuItem onClick={() => navigate(`/holdings/${h.id}`)}>
                         <Eye className="mr-2 h-4 w-4" /> View
                       </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => navigate(`/holdings/card/${h.id}`)}>
+                        <CreditCard className="mr-2 h-4 w-4" /> View Card
+                      </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => navigate(`/holdings/edit/${h.id}`)}>
                         <Pencil className="mr-2 h-4 w-4" /> Edit
                       </DropdownMenuItem>
@@ -348,6 +351,9 @@ const HoldingList = () => {
                             <DropdownMenuContent align="end">
                               <DropdownMenuItem onClick={() => navigate(`/holdings/${h.id}`)}>
                                 <Eye className="mr-2 h-4 w-4" /> View
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => navigate(`/holdings/card/${h.id}`)}>
+                                <CreditCard className="mr-2 h-4 w-4" /> View Card
                               </DropdownMenuItem>
                               <DropdownMenuItem onClick={() => navigate(`/holdings/edit/${h.id}`)}>
                                 <Pencil className="mr-2 h-4 w-4" /> Edit
