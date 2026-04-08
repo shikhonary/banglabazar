@@ -204,18 +204,6 @@ const CardBack = () => (
         </p>
       </div>
 
-      {/* Government Seal */}
-      <div className="flex justify-center">
-        <div className="w-24 h-24 rounded-full border-2 border-emerald-300 bg-emerald-50 flex flex-col items-center justify-center opacity-60">
-          <svg viewBox="0 0 60 60" className="w-12 h-12 text-emerald-600">
-            <circle cx="30" cy="30" r="28" fill="none" stroke="currentColor" strokeWidth="1" />
-            <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" strokeWidth="0.5" />
-            <path d="M30 12 L32 20 L40 20 L34 25 L36 33 L30 28 L24 33 L26 25 L20 20 L28 20 Z" fill="currentColor" opacity="0.3" />
-            <text x="30" y="45" textAnchor="middle" fontSize="5" fill="currentColor" fontWeight="bold">সরকার</text>
-          </svg>
-          <p className="text-[8px] text-emerald-600 font-medium mt-0.5">বাংলাদেশ সরকার</p>
-        </div>
-      </div>
 
       {/* Terms */}
       <div className="text-center">
