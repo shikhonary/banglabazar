@@ -75,7 +75,7 @@ const HoldingCardView = () => {
         </div>
       </div>
 
-      <div className="mx-auto w-full max-w-[640px]" style={{ perspective: "1200px" }}>
+      <div className="mx-auto w-full max-w-[640px]" style={{ perspective: "1200px", fontFamily: "'SolaimanLipi', sans-serif" }}>
         <div
           className="relative transition-transform duration-700 ease-in-out"
           style={{
