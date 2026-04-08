@@ -1,10 +1,24 @@
-@import url('https://fonts.maateen.me/solaiman-lipi/font.css');
+@font-face {
+  font-family: "SolaimanLipi";
+  src: url("./assets/fonts/solaimanlipi-normal.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SolaimanLipi";
+  src: url("./assets/fonts/solaimanlipi-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here.
 All colors MUST be HSL.
 */
 
