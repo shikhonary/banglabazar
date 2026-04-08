@@ -31,6 +31,8 @@ const ensureEmbeddedFontCss = () => {
   document.head.appendChild(style);
 };
 
+const CARD_FIXED_WIDTH = 600; // px – design width for the card
+
 const HoldingCardView = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -39,10 +41,12 @@ const HoldingCardView = () => {
   const [loading, setLoading] = useState(true);
   const [flipped, setFlipped] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const [cardScale, setCardScale] = useState(1);
   const frontRef = useRef<HTMLDivElement>(null);
   const backRef = useRef<HTMLDivElement>(null);
   const flipContainerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const outerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     ensureEmbeddedFontCss();
