@@ -15,7 +15,7 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
 import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription,
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter,
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
@@ -41,6 +41,7 @@ const HoldingList = () => {
   const [perPage, setPerPage] = useState(10);
   const [filterOpen, setFilterOpen] = useState(false);
   const [viewItem, setViewItem] = useState<HoldingCard | null>(null);
+  const [deleteItem, setDeleteItem] = useState<HoldingCard | null>(null);
 
   const { data: holdings, isLoading } = useQuery({
     queryKey: ["holdings"],
@@ -62,6 +63,7 @@ const HoldingList = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["holdings"] });
       toast({ title: "Deleted", description: "Holding card removed." });
+      setDeleteItem(null);
     },
     onError: (err: Error) => toast({ title: "Error", description: err.message, variant: "destructive" }),
   });
@@ -282,7 +284,7 @@ const HoldingList = () => {
                       <DropdownMenuItem onClick={() => navigate(`/holdings/edit/${h.id}`)}>
                         <Pencil className="mr-2 h-4 w-4" /> Edit
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteMutation.mutate(h.id)}>
+                      <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => setDeleteItem(h)}>
                         <Trash2 className="mr-2 h-4 w-4" /> Delete
                       </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -351,7 +353,7 @@ const HoldingList = () => {
                               <DropdownMenuItem onClick={() => navigate(`/holdings/edit/${h.id}`)}>
                                 <Pencil className="mr-2 h-4 w-4" /> Edit
                               </DropdownMenuItem>
-                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => deleteMutation.mutate(h.id)}>
+                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => setDeleteItem(h)}>
                                 <Trash2 className="mr-2 h-4 w-4" /> Delete
                               </DropdownMenuItem>
                             </DropdownMenuContent>
@@ -435,6 +437,39 @@ const HoldingList = () => {
               ))}
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={!!deleteItem} onOpenChange={() => setDeleteItem(null)}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader className="text-center sm:text-center">
+            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10">
+              <Trash2 className="h-6 w-6 text-destructive" />
+            </div>
+            <DialogTitle className="text-lg">Delete Holding Card</DialogTitle>
+            <DialogDescription className="pt-1">
+              Are you sure you want to delete the holding card for{" "}
+              <span className="font-semibold text-foreground">{deleteItem?.name}</span>
+              {deleteItem?.holding_no && (
+                <> (Holding #{deleteItem.holding_no})</>
+              )}
+              ? This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button variant="outline" onClick={() => setDeleteItem(null)}>
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={() => deleteItem && deleteMutation.mutate(deleteItem.id)}
+              disabled={deleteMutation.isPending}
+            >
+              {deleteMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Delete
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
 
