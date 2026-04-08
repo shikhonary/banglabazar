@@ -80,10 +80,13 @@ const HoldingCardView = () => {
 
       const scale = 3;
 
+      await document.fonts.ready;
+
       const dataUrl = await toPng(targetRef, {
         pixelRatio: scale,
         cacheBust: true,
-        fontEmbedCSS: `@import url('https://fonts.cdnfonts.com/css/solaimanlipi');`,
+        includeQueryParams: true,
+        fontEmbedCSS: `@import url('https://fonts.maateen.me/solaiman-lipi/font.css');`,
       });
 
       // Convert PNG data to JPG via canvas
