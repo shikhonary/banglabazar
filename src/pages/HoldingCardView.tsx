@@ -211,12 +211,12 @@ const HoldingCardView = () => {
 };
 
 const CardFront = ({ holding }: { holding: HoldingCardType }) => (
-  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative flex flex-col">
+  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden shadow-xl relative flex flex-col" style={{ background: "linear-gradient(to bottom, #f0fdf4, rgba(254,252,232,0.3), #f0fdf4)" }}>
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
       <img src={bdGovtSeal} alt="" className="w-48 h-48 opacity-10" />
     </div>
 
-    <div className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-700 text-white text-center py-2 sm:py-3 px-3 sm:px-4 relative z-10">
+    <div className="text-white text-center py-2 sm:py-3 px-3 sm:px-4 relative z-10" style={{ background: "linear-gradient(to right, #047857, #059669, #047857)" }}>
       <p className="text-[9px] sm:text-[10px] tracking-wide opacity-90">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
     </div>
 
@@ -278,19 +278,19 @@ const CardFront = ({ holding }: { holding: HoldingCardType }) => (
       </div>
     </div>
 
-    <div className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-700 text-white text-center py-2 px-4">
+    <div className="text-white text-center py-2 px-4" style={{ background: "linear-gradient(to right, #047857, #059669, #047857)" }}>
       <p className="text-[10px] tracking-wide opacity-90">https://fulsutiup.faridpur.gov.bd</p>
     </div>
   </div>
 );
 
 const CardBack = () => (
-  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden bg-gradient-to-b from-green-50 via-yellow-50/30 to-green-50 shadow-xl relative flex flex-col">
+  <div className="rounded-xl border-2 border-emerald-600 overflow-hidden shadow-xl relative flex flex-col" style={{ background: "linear-gradient(to bottom, #f0fdf4, rgba(254,252,232,0.3), #f0fdf4)" }}>
     <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
       <img src={bdGovtSeal} alt="" className="w-48 h-48 opacity-10" />
     </div>
 
-    <div className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-700 text-white text-center py-3 px-4 relative z-10">
+    <div className="text-white text-center py-3 px-4 relative z-10" style={{ background: "linear-gradient(to right, #047857, #059669, #047857)" }}>
       <p className="text-sm font-bold">জরুরী প্রয়োজনে কল করুন</p>
     </div>
 
@@ -328,7 +328,7 @@ const CardBack = () => (
       </div>
     </div>
 
-    <div className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-700 text-white text-center py-2 px-4">
+    <div className="text-white text-center py-2 px-4" style={{ background: "linear-gradient(to right, #047857, #059669, #047857)" }}>
       <p className="text-[10px] tracking-wide opacity-90">https://fulsutiup.faridpur.gov.bd</p>
     </div>
   </div>
