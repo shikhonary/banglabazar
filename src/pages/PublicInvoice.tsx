@@ -5,7 +5,8 @@ import { Loader2, Download } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import type { Tables } from "@/integrations/supabase/types";
 import bdGovtSeal from "@/assets/bd-govt-seal.png";
-import bdNationalEmblem from "@/assets/bd-national-emblem.png";
+
+import unionParishadLogo from "@/assets/union-parishad-logo.png";
 import solaimanLipiEmbeddedCss from "@/styles/solaimanLipiEmbedded.css?raw";
 import { toPng } from "html-to-image";
 import { jsPDF } from "jspdf";
@@ -158,7 +159,7 @@ const PublicInvoice = () => {
                 <h1 className="text-lg font-bold text-emerald-800 sm:text-xl">৪নং ফুলসুতী ইউনিয়ন পরিষদ</h1>
                 <p className="text-xs text-emerald-600">উপজেলা : নগরকান্দা, জেলা : ফরিদপুর</p>
               </div>
-              <img src={bdNationalEmblem} alt="জাতীয় প্রতীক" className="h-10 w-10 sm:h-12 sm:w-12" />
+              <img src={unionParishadLogo} alt="ইউনিয়ন পরিষদ" className="h-10 w-10 sm:h-12 sm:w-12" />
             </div>
             <div className="mx-auto mt-2 inline-block rounded-full bg-red-600 px-5 py-1 text-xs font-bold text-white shadow-md">
               হোল্ডিং ইনভয়েস
