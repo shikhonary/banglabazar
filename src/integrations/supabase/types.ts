@@ -14,7 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      holding_cards: {
+        Row: {
+          created_at: string
+          guardian_name: string
+          holding_no: string
+          id: string
+          name: string
+          tax: number
+          updated_at: string
+          user_id: string
+          village: string
+          ward_no: string
+        }
+        Insert: {
+          created_at?: string
+          guardian_name: string
+          holding_no: string
+          id?: string
+          name: string
+          tax?: number
+          updated_at?: string
+          user_id: string
+          village: string
+          ward_no: string
+        }
+        Update: {
+          created_at?: string
+          guardian_name?: string
+          holding_no?: string
+          id?: string
+          name?: string
+          tax?: number
+          updated_at?: string
+          user_id?: string
+          village?: string
+          ward_no?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
