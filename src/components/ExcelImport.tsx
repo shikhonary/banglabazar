@@ -7,33 +7,46 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Upload, Loader2, FileSpreadsheet } from "lucide-react";
 import * as XLSX from "xlsx";
 
-// Map headers to database fields using positional fallback
-// Supports Unicode Bengali, Bijoy-encoded Bengali, and English headers
+// Normalize headers so visually identical Bengali text matches reliably
+const normalizeHeader = (value: string) =>
+  value
+    .normalize("NFKC")
+    .trim()
+    .replace(/\s+/g, " ")
+    .toLowerCase();
+
+// Supports Unicode Bengali, alternate Bengali spellings, Bijoy-encoded Bengali, and English headers
 const HEADER_MAP: Record<string, string> = {
   // Unicode Bengali
-  "নাম": "name",
-  "পিতা/স্বামীর নাম": "guardian_name",
-  "হোল্ডিং নং": "holding_no",
-  "ওয়ার্ড নং": "ward_no",
-  "গ্রামের নাম": "village",
-  "ধার্যকৃত বাৎসরিক কর": "tax",
-  // Bijoy-encoded headers (using Unicode escapes for safety)
-  "bvg": "name",
-  "wcZv/\u00AF^vgxi bvg": "guardian_name",
-  "\u2020nvw\u00ECs bs": "holding_no",
-  "IqvW\u00A9 bs": "ward_no",
-  "M\u00D6v\u2021gi bvg": "village",
-  "avh\u00A9K\u2026Z evrmwiK Ki": "tax",
+  [normalizeHeader("নাম")]: "name",
+  [normalizeHeader("পিতা/স্বামীর নাম")]: "guardian_name",
+  [normalizeHeader("অভিভাবক")]: "guardian_name",
+  [normalizeHeader("হোল্ডিং নং")]: "holding_no",
+  [normalizeHeader("হোল্ডিং")]: "holding_no",
+  [normalizeHeader("ওয়ার্ড নং")]: "ward_no",
+  [normalizeHeader("ওয়ার্ড নং")]: "ward_no",
+  [normalizeHeader("ওয়ার্ড")]: "ward_no",
+  [normalizeHeader("ওয়ার্ড")]: "ward_no",
+  [normalizeHeader("গ্রামের নাম")]: "village",
+  [normalizeHeader("গ্রাম")]: "village",
+  [normalizeHeader("ধার্যকৃত বাৎসরিক কর")]: "tax",
+  [normalizeHeader("কর")]: "tax",
+  // Bijoy-encoded headers
+  [normalizeHeader("bvg")]: "name",
+  [normalizeHeader("wcZv/¯^vgxi bvg")]: "guardian_name",
+  [normalizeHeader("†nvwìs bs")]: "holding_no",
+  [normalizeHeader("IqvW© bs")]: "ward_no",
+  [normalizeHeader("MÖv‡gi bvg")]: "village",
+  [normalizeHeader("avh©K…Z evrmwiK Ki")]: "tax",
   // English fallbacks
-  "name": "name",
-  "guardian name": "guardian_name",
-  "holding no": "holding_no",
-  "ward no": "ward_no",
-  "village": "village",
-  "tax": "tax",
+  [normalizeHeader("name")]: "name",
+  [normalizeHeader("guardian name")]: "guardian_name",
+  [normalizeHeader("holding no")]: "holding_no",
+  [normalizeHeader("ward no")]: "ward_no",
+  [normalizeHeader("village")]: "village",
+  [normalizeHeader("tax")]: "tax",
 };
 
-// Positional fallback: if no headers match, use column order
 const POSITIONAL_FIELDS = ["name", "guardian_name", "holding_no", "ward_no", "village", "tax"];
 
 interface HoldingRow {
@@ -60,39 +73,35 @@ const ExcelImport = () => {
         const data = new Uint8Array(e.target?.result as ArrayBuffer);
         const workbook = XLSX.read(data, { type: "array" });
         const sheet = workbook.Sheets[workbook.SheetNames[0]];
-        const jsonData = XLSX.utils.sheet_to_json<Record<string, any>>(sheet);
+        const jsonData = XLSX.utils.sheet_to_json<Record<string, unknown>>(sheet);
 
         const mapped: HoldingRow[] = jsonData.map((row) => {
-          const result: Record<string, any> = {};
+          const result: Record<string, unknown> = {};
           const entries = Object.entries(row);
 
-          // Try header-based mapping first
-          let matched = 0;
           for (const [header, value] of entries) {
-            const trimmed = header.trim();
-            const field = HEADER_MAP[trimmed];
+            const field = HEADER_MAP[normalizeHeader(String(header))];
             if (field) {
-              result[field] = field === "tax" ? Number(value) || 0 : String(value).trim();
-              matched++;
+              result[field] = field === "tax" ? Number(value) || 0 : String(value ?? "").trim();
             }
           }
 
-          // Positional fallback if no headers matched
-          if (matched === 0) {
-            const values = entries.map(([, v]) => v);
-            POSITIONAL_FIELDS.forEach((field, i) => {
-              if (i < values.length && values[i] != null) {
-                result[field] = field === "tax" ? Number(values[i]) || 0 : String(values[i]).trim();
-              }
-            });
-          }
+          // Always backfill missing fields positionally so partial header mismatches still import correctly
+          const values = entries.map(([, value]) => value);
+          POSITIONAL_FIELDS.forEach((field, index) => {
+            const current = result[field];
+            if ((current === undefined || current === "") && index < values.length && values[index] != null) {
+              result[field] = field === "tax" ? Number(values[index]) || 0 : String(values[index]).trim();
+            }
+          });
+
           return {
-            name: result.name || "",
-            guardian_name: result.guardian_name || "",
-            holding_no: result.holding_no || "",
-            ward_no: result.ward_no || "",
-            village: result.village || "",
-            tax: result.tax || 0,
+            name: String(result.name ?? ""),
+            guardian_name: String(result.guardian_name ?? ""),
+            holding_no: String(result.holding_no ?? ""),
+            ward_no: String(result.ward_no ?? ""),
+            village: String(result.village ?? ""),
+            tax: Number(result.tax ?? 0),
           };
         });
 
