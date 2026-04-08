@@ -87,19 +87,19 @@ const ViewHolding = () => {
   return (
     <div className="max-w-3xl mx-auto">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <Button variant="ghost" size="sm" asChild>
+      <div className="flex flex-col gap-3 mb-6 sm:flex-row sm:items-center sm:justify-between">
+        <Button variant="ghost" size="sm" asChild className="self-start">
           <Link to="/holdings">
             <ArrowLeft className="mr-2 h-4 w-4" /> Back to Holdings
           </Link>
         </Button>
         <div className="flex gap-2">
-          <Button variant="outline" size="sm" asChild>
+          <Button variant="outline" size="sm" className="flex-1 sm:flex-none" asChild>
             <Link to={`/holdings/edit/${holding.id}`}>
               <Pencil className="mr-2 h-4 w-4" /> Edit
             </Link>
           </Button>
-          <Button variant="destructive" size="sm" onClick={() => setDeleteOpen(true)}>
+          <Button variant="destructive" size="sm" className="flex-1 sm:flex-none" onClick={() => setDeleteOpen(true)}>
             <Trash2 className="mr-2 h-4 w-4" /> Delete
           </Button>
         </div>
@@ -107,21 +107,21 @@ const ViewHolding = () => {
 
       {/* Hero Card */}
       <Card className="overflow-hidden">
-        <div className="bg-gradient-to-br from-primary/10 via-accent/30 to-primary/5 px-6 py-8 sm:px-8 sm:py-10">
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/15 text-primary shrink-0">
-              <User className="h-8 w-8" />
+        <div className="bg-gradient-to-br from-primary/10 via-accent/30 to-primary/5 px-4 py-6 sm:px-8 sm:py-10">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+            <div className="flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-2xl bg-primary/15 text-primary shrink-0">
+              <User className="h-7 w-7 sm:h-8 sm:w-8" />
             </div>
-            <div className="space-y-1">
-              <h1 className="text-2xl font-bold text-foreground">{holding.name}</h1>
-              <p className="text-muted-foreground">
+            <div className="space-y-1 min-w-0">
+              <h1 className="text-xl sm:text-2xl font-bold text-foreground truncate">{holding.name}</h1>
+              <p className="text-sm sm:text-base text-muted-foreground">
                 s/o <span className="font-medium text-foreground/80">{holding.guardian_name}</span>
               </p>
-              <div className="flex items-center gap-2 pt-1">
-                <Badge variant="secondary" className="font-mono">
+              <div className="flex flex-wrap items-center gap-2 pt-1">
+                <Badge variant="secondary" className="font-mono text-xs">
                   Holding #{holding.holding_no}
                 </Badge>
-                <Badge variant="outline" className="font-mono">
+                <Badge variant="outline" className="font-mono text-xs">
                   Ward {holding.ward_no}
                 </Badge>
               </div>
@@ -131,29 +131,29 @@ const ViewHolding = () => {
 
         <CardContent className="p-0">
           {/* Details Grid */}
-          <div className="grid divide-y sm:grid-cols-2 sm:divide-y-0 sm:divide-x">
+          <div className="grid grid-cols-1 sm:grid-cols-2">
             {details.map((item, i) => (
               <div
                 key={item.label}
-                className={`flex items-center gap-4 px-6 py-5 ${
-                  i >= details.length - 2 ? "" : "sm:border-b"
-                } ${i % 2 === 0 && i < details.length - 2 ? "sm:border-b" : ""}`}
+                className={`flex items-center gap-3 px-4 py-4 sm:px-6 sm:py-5 border-b last:border-b-0 sm:last:border-b-0 ${
+                  i % 2 === 0 ? "sm:border-r" : ""
+                } ${i >= details.length - 2 ? "sm:border-b-0" : "sm:border-b"}`}
               >
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted shrink-0">
-                  <item.icon className="h-5 w-5 text-muted-foreground" />
+                <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl bg-muted shrink-0">
+                  <item.icon className="h-4 w-4 sm:h-5 sm:w-5 text-muted-foreground" />
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
+                  <p className="text-[10px] sm:text-xs font-medium uppercase tracking-wider text-muted-foreground">
                     {item.label}
                   </p>
                   {item.badge ? (
-                    <Badge variant="secondary" className="mt-1 font-mono text-sm">
+                    <Badge variant="secondary" className="mt-0.5 font-mono text-xs sm:text-sm">
                       {item.value}
                     </Badge>
                   ) : item.highlight ? (
-                    <p className="mt-0.5 text-lg font-bold text-primary">{item.value}</p>
+                    <p className="mt-0.5 text-base sm:text-lg font-bold text-primary">{item.value}</p>
                   ) : (
-                    <p className="mt-0.5 text-base font-semibold text-foreground">{item.value}</p>
+                    <p className="mt-0.5 text-sm sm:text-base font-semibold text-foreground truncate">{item.value}</p>
                   )}
                 </div>
               </div>
@@ -163,13 +163,13 @@ const ViewHolding = () => {
           <Separator />
 
           {/* Timestamps */}
-          <div className="flex flex-col gap-3 px-6 py-4 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <CalendarDays className="h-4 w-4" />
+          <div className="flex flex-col gap-2 px-4 py-3 sm:px-6 sm:py-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
+              <CalendarDays className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               <span>Created: <span className="font-medium text-foreground/80">{createdDate}</span></span>
             </div>
-            <div className="flex items-center gap-2 text-sm text-muted-foreground">
-              <CalendarDays className="h-4 w-4" />
+            <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
+              <CalendarDays className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               <span>Updated: <span className="font-medium text-foreground/80">{updatedDate}</span></span>
             </div>
           </div>
