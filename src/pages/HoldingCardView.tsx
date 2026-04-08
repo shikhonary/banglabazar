@@ -276,7 +276,6 @@ const HoldingCardView = () => {
             </div>
           </div>
         </div>
-        </div>
       </div>
     </div>
   );
