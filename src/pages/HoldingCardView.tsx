@@ -31,6 +31,8 @@ const ensureEmbeddedFontCss = () => {
   document.head.appendChild(style);
 };
 
+const CARD_FIXED_WIDTH = 600; // px – design width for the card
+
 const HoldingCardView = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
@@ -39,15 +41,31 @@ const HoldingCardView = () => {
   const [loading, setLoading] = useState(true);
   const [flipped, setFlipped] = useState(false);
   const [downloading, setDownloading] = useState(false);
+  const [cardScale, setCardScale] = useState(1);
   const frontRef = useRef<HTMLDivElement>(null);
   const backRef = useRef<HTMLDivElement>(null);
   const flipContainerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const outerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     ensureEmbeddedFontCss();
     void document.fonts.load("400 1em SolaimanLipi");
     void document.fonts.load("700 1em SolaimanLipi");
+  }, []);
+
+  // Scale card to fit container width
+  useEffect(() => {
+    const outer = outerRef.current;
+    if (!outer) return;
+    const updateScale = () => {
+      const availableWidth = outer.clientWidth;
+      setCardScale(Math.min(1, availableWidth / CARD_FIXED_WIDTH));
+    };
+    updateScale();
+    const ro = new ResizeObserver(updateScale);
+    ro.observe(outer);
+    return () => ro.disconnect();
   }, []);
 
   const downloadCard = async () => {
@@ -244,14 +262,20 @@ const HoldingCardView = () => {
         </div>
       </div>
 
-      <div
-        ref={wrapperRef}
-        className="bengali-text mx-auto w-full max-w-[640px]"
-        style={{
-          perspective: "1200px",
-          ...BENGALI_TEXT_STYLE,
-        }}
+      <div ref={outerRef} className="mx-auto w-full"
+        style={{ height: cardScale < 1 ? `${(CARD_FIXED_WIDTH / CARD_ASPECT) * cardScale}px` : "auto" }}
       >
+        <div
+          ref={wrapperRef}
+          className="bengali-text mx-auto"
+          style={{
+            width: `${CARD_FIXED_WIDTH}px`,
+            transform: `scale(${cardScale})`,
+            transformOrigin: "top center",
+            perspective: "1200px",
+            ...BENGALI_TEXT_STYLE,
+          }}
+        >
         <div
           ref={flipContainerRef}
           className="relative transition-transform duration-700 ease-in-out"
@@ -274,6 +298,7 @@ const HoldingCardView = () => {
               <CardBack />
             </div>
           </div>
+        </div>
         </div>
       </div>
     </div>
