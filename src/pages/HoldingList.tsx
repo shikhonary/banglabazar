@@ -156,11 +156,11 @@ const HoldingList = () => {
         ))}
       </div>
 
-      {/* Filters - Desktop */}
-      <Card className="border-dashed hidden md:block">
+      {/* Filters - Desktop & Tablet */}
+      <Card className="border-dashed hidden sm:block">
         <CardContent className="p-4">
           <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
-            <div className="relative col-span-1">
+            <div className="relative">
               <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input placeholder="Search name, guardian..." className="pl-9 bg-background" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} />
             </div>
@@ -197,72 +197,77 @@ const HoldingList = () => {
       </Card>
 
       {/* Filters - Mobile */}
-      <div className="flex gap-2 md:hidden">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-          <Input placeholder="Search..." className="pl-9" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} />
-        </div>
-        <Sheet open={filterOpen} onOpenChange={setFilterOpen}>
-          <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="shrink-0 relative">
-              <SlidersHorizontal className="h-4 w-4" />
-              {activeFilterCount > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
-                  {activeFilterCount}
-                </span>
-              )}
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="bottom" className="rounded-t-2xl">
-            <SheetHeader>
-              <SheetTitle>Filters</SheetTitle>
-            </SheetHeader>
-            <div className="grid gap-4 py-4">
-              <div className="space-y-1.5">
-                <Label className="text-xs text-muted-foreground">Village</Label>
-                <div className="relative">
-                  <MapPin className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input placeholder="Filter village..." className="pl-9" value={villageFilter} onChange={(e) => { setVillageFilter(e.target.value); setPage(1); }} />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <Label className="text-xs text-muted-foreground">Ward</Label>
-                  <Select value={wardFilter} onValueChange={(v) => { setWardFilter(v); setPage(1); }}>
-                    <SelectTrigger><SelectValue placeholder="Ward" /></SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all">All Wards</SelectItem>
-                      {Array.from({ length: 9 }, (_, i) => String(i + 1)).map((w) => <SelectItem key={w} value={w}>{w}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                </div>
-                <div className="space-y-1.5">
-                  <Label className="text-xs text-muted-foreground">Holding</Label>
-                  <Select value={holdingFilter} onValueChange={(v) => { setHoldingFilter(v); setPage(1); }}>
-                    <SelectTrigger><SelectValue placeholder="Holding" /></SelectTrigger>
-                    <SelectContent className="max-h-60">
-                      <SelectItem value="all">All Holdings</SelectItem>
-                      {Array.from({ length: 200 }, (_, i) => String(i + 1)).map((h) => <SelectItem key={h} value={h}>{h}</SelectItem>)}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-              <div className="flex gap-2 pt-2">
-                <Button variant="outline" className="flex-1" onClick={clearFilters}>Clear all</Button>
-                <Button className="flex-1" onClick={() => setFilterOpen(false)}>Apply</Button>
-              </div>
+      {/* Filters - Mobile */}
+      <Card className="border-dashed sm:hidden">
+        <CardContent className="p-3">
+          <div className="flex gap-2">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+              <Input placeholder="Search..." className="pl-9 bg-background" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} />
             </div>
-          </SheetContent>
-        </Sheet>
-      </div>
-      {/* Mobile active filter chips */}
-      {activeFilterCount > 0 && (
-        <div className="flex items-center gap-2 flex-wrap md:hidden">
-          {search && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setSearch(""); setPage(1); }}>Search: {search} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
-          {villageFilter && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setVillageFilter(""); setPage(1); }}>Village: {villageFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
-          {wardFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setWardFilter("all"); setPage(1); }}>Ward: {wardFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
-          {holdingFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setHoldingFilter("all"); setPage(1); }}>Holding: {holdingFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
-        </div>
+            <Sheet open={filterOpen} onOpenChange={setFilterOpen}>
+              <SheetTrigger asChild>
+                <Button variant="outline" size="icon" className="shrink-0 relative">
+                  <SlidersHorizontal className="h-4 w-4" />
+                  {activeFilterCount > 0 && (
+                    <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+                      {activeFilterCount}
+                    </span>
+                  )}
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="bottom" className="rounded-t-2xl">
+                <SheetHeader>
+                  <SheetTitle>Filters</SheetTitle>
+                </SheetHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="space-y-1.5">
+                    <Label className="text-xs text-muted-foreground">Village</Label>
+                    <div className="relative">
+                      <MapPin className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                      <Input placeholder="Filter village..." className="pl-9" value={villageFilter} onChange={(e) => { setVillageFilter(e.target.value); setPage(1); }} />
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-1.5">
+                      <Label className="text-xs text-muted-foreground">Ward</Label>
+                      <Select value={wardFilter} onValueChange={(v) => { setWardFilter(v); setPage(1); }}>
+                        <SelectTrigger><SelectValue placeholder="Ward" /></SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All Wards</SelectItem>
+                          {Array.from({ length: 9 }, (_, i) => String(i + 1)).map((w) => <SelectItem key={w} value={w}>{w}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-1.5">
+                      <Label className="text-xs text-muted-foreground">Holding</Label>
+                      <Select value={holdingFilter} onValueChange={(v) => { setHoldingFilter(v); setPage(1); }}>
+                        <SelectTrigger><SelectValue placeholder="Holding" /></SelectTrigger>
+                        <SelectContent className="max-h-60">
+                          <SelectItem value="all">All Holdings</SelectItem>
+                          {Array.from({ length: 200 }, (_, i) => String(i + 1)).map((h) => <SelectItem key={h} value={h}>{h}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
+                  <div className="flex gap-2 pt-2">
+                    <Button variant="outline" className="flex-1" onClick={clearFilters}>Clear all</Button>
+                    <Button className="flex-1" onClick={() => setFilterOpen(false)}>Apply</Button>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+          {activeFilterCount > 0 && (
+            <div className="mt-2 flex items-center gap-2 flex-wrap">
+              {search && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setSearch(""); setPage(1); }}>Search: {search} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              {villageFilter && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setVillageFilter(""); setPage(1); }}>Village: {villageFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              {wardFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setWardFilter("all"); setPage(1); }}>Ward: {wardFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              {holdingFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setHoldingFilter("all"); setPage(1); }}>Holding: {holdingFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+            </div>
+          )}
+        </CardContent>
+      </Card>
       )}
 
       {/* Content */}
