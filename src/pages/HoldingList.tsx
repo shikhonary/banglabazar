@@ -22,8 +22,9 @@ import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
 import {
   Plus, Loader2, FileUp, Search, MoreHorizontal, Eye, Pencil, Trash2,
-  LayoutDashboard, MapPin, Banknote, Users, ChevronLeft, ChevronRight,
+  LayoutDashboard, MapPin, Banknote, Users, ChevronLeft, ChevronRight, SlidersHorizontal,
 } from "lucide-react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import type { Tables } from "@/integrations/supabase/types";
 
 type HoldingCard = Tables<"holding_cards">;
