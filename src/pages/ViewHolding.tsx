@@ -35,7 +35,7 @@ const ViewHolding = () => {
         .eq("id", id)
         .single();
       if (error || !data) {
-        toast({ title: "Error", description: "Holding card not found.", variant: "destructive" });
+        toast({ title: "ত্রুটি", description: "হোল্ডিং কার্ড পাওয়া যায়নি।", variant: "destructive" });
         navigate("/holdings");
         return;
       }
@@ -50,11 +50,11 @@ const ViewHolding = () => {
     setDeleting(true);
     const { error } = await supabase.from("holding_cards").delete().eq("id", id);
     if (error) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "ত্রুটি", description: error.message, variant: "destructive" });
       setDeleting(false);
       return;
     }
-    toast({ title: "Deleted", description: "Holding card removed." });
+    toast({ title: "মুছে ফেলা হয়েছে", description: "হোল্ডিং কার্ড সরানো হয়েছে।" });
     navigate("/holdings");
   };
 
@@ -68,44 +68,42 @@ const ViewHolding = () => {
 
   if (!holding) return null;
 
-  const createdDate = new Date(holding.created_at).toLocaleDateString("en-US", {
+  const createdDate = new Date(holding.created_at).toLocaleDateString("bn-BD", {
     year: "numeric", month: "long", day: "numeric",
   });
-  const updatedDate = new Date(holding.updated_at).toLocaleDateString("en-US", {
+  const updatedDate = new Date(holding.updated_at).toLocaleDateString("bn-BD", {
     year: "numeric", month: "long", day: "numeric",
   });
 
   const details = [
-    { icon: User, label: "Holder Name", value: holding.name },
-    { icon: Shield, label: "Guardian Name", value: holding.guardian_name },
-    { icon: Hash, label: "Holding No", value: holding.holding_no, badge: true },
-    { icon: Home, label: "Ward No", value: holding.ward_no, badge: true },
-    { icon: MapPin, label: "Village", value: holding.village },
-    { icon: Banknote, label: "Tax Amount", value: `৳${Number(holding.tax).toLocaleString()}`, highlight: true },
+    { icon: User, label: "কার্ডধারীর নাম", value: holding.name },
+    { icon: Shield, label: "অভিভাবকের নাম", value: holding.guardian_name },
+    { icon: Hash, label: "হোল্ডিং নং", value: holding.holding_no, badge: true },
+    { icon: Home, label: "ওয়ার্ড নং", value: holding.ward_no, badge: true },
+    { icon: MapPin, label: "গ্রাম/মহল্লা", value: holding.village },
+    { icon: Banknote, label: "করের পরিমাণ", value: `৳${Number(holding.tax).toLocaleString()}`, highlight: true },
   ];
 
   return (
     <div className="max-w-3xl mx-auto">
-      {/* Header */}
       <div className="flex flex-col gap-3 mb-6 sm:flex-row sm:items-center sm:justify-between">
         <Button variant="ghost" size="sm" asChild className="self-start">
           <Link to="/holdings">
-            <ArrowLeft className="mr-2 h-4 w-4" /> Back to Holdings
+            <ArrowLeft className="mr-2 h-4 w-4" /> হোল্ডিং তালিকায় ফিরুন
           </Link>
         </Button>
         <div className="flex gap-2">
           <Button variant="outline" size="sm" className="flex-1 sm:flex-none" asChild>
             <Link to={`/holdings/edit/${holding.id}`}>
-              <Pencil className="mr-2 h-4 w-4" /> Edit
+              <Pencil className="mr-2 h-4 w-4" /> সম্পাদনা
             </Link>
           </Button>
           <Button variant="destructive" size="sm" className="flex-1 sm:flex-none" onClick={() => setDeleteOpen(true)}>
-            <Trash2 className="mr-2 h-4 w-4" /> Delete
+            <Trash2 className="mr-2 h-4 w-4" /> মুছুন
           </Button>
         </div>
       </div>
 
-      {/* Hero Card */}
       <Card className="overflow-hidden">
         <div className="bg-gradient-to-br from-primary/10 via-accent/30 to-primary/5 px-4 py-6 sm:px-8 sm:py-10">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
@@ -115,14 +113,14 @@ const ViewHolding = () => {
             <div className="space-y-1 min-w-0">
               <h1 className="text-xl sm:text-2xl font-bold text-foreground truncate">{holding.name}</h1>
               <p className="text-sm sm:text-base text-muted-foreground">
-                s/o <span className="font-medium text-foreground/80">{holding.guardian_name}</span>
+                পিতা: <span className="font-medium text-foreground/80">{holding.guardian_name}</span>
               </p>
               <div className="flex flex-wrap items-center gap-2 pt-1">
                 <Badge variant="secondary" className="font-mono text-xs">
-                  Holding #{holding.holding_no}
+                  হোল্ডিং #{holding.holding_no}
                 </Badge>
                 <Badge variant="outline" className="font-mono text-xs">
-                  Ward {holding.ward_no}
+                  ওয়ার্ড {holding.ward_no}
                 </Badge>
               </div>
             </div>
@@ -130,7 +128,6 @@ const ViewHolding = () => {
         </div>
 
         <CardContent className="p-0">
-          {/* Details Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2">
             {details.map((item, i) => (
               <div
@@ -162,39 +159,36 @@ const ViewHolding = () => {
 
           <Separator />
 
-          {/* Timestamps */}
           <div className="flex flex-col gap-2 px-4 py-3 sm:px-6 sm:py-4 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
               <CalendarDays className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-              <span>Created: <span className="font-medium text-foreground/80">{createdDate}</span></span>
+              <span>তৈরি: <span className="font-medium text-foreground/80">{createdDate}</span></span>
             </div>
             <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground">
               <CalendarDays className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-              <span>Updated: <span className="font-medium text-foreground/80">{updatedDate}</span></span>
+              <span>আপডেট: <span className="font-medium text-foreground/80">{updatedDate}</span></span>
             </div>
           </div>
         </CardContent>
       </Card>
 
-      {/* Delete Confirmation */}
       <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader className="text-center sm:text-center">
             <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10">
               <Trash2 className="h-6 w-6 text-destructive" />
             </div>
-            <DialogTitle>Delete Holding Card</DialogTitle>
+            <DialogTitle>হোল্ডিং কার্ড মুছুন</DialogTitle>
             <DialogDescription className="pt-1">
-              Are you sure you want to delete the holding card for{" "}
-              <span className="font-semibold text-foreground">{holding.name}</span>
-              {" "}(Holding #{holding.holding_no})? This action cannot be undone.
+              আপনি কি নিশ্চিত যে <span className="font-semibold text-foreground">{holding.name}</span>
+              {" "}(হোল্ডিং #{holding.holding_no}) এর হোল্ডিং কার্ড মুছতে চান? এই কাজটি পূর্বাবস্থায় ফেরানো যাবে না।
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="gap-2 sm:gap-0">
-            <Button variant="outline" onClick={() => setDeleteOpen(false)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setDeleteOpen(false)}>বাতিল</Button>
             <Button variant="destructive" onClick={handleDelete} disabled={deleting}>
               {deleting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Delete
+              মুছুন
             </Button>
           </DialogFooter>
         </DialogContent>

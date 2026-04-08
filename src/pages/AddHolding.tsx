@@ -42,30 +42,30 @@ const AddHolding = () => {
         tax: Number(form.tax) || 0,
       });
       if (error) throw error;
-      toast({ title: "Success", description: "Holding card added successfully." });
+      toast({ title: "সফল!", description: "হোল্ডিং কার্ড সফলভাবে যোগ হয়েছে।" });
       navigate("/holdings");
     } catch (error: any) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
+      toast({ title: "ত্রুটি", description: error.message, variant: "destructive" });
     } finally {
       setSubmitting(false);
     }
   };
 
   const fields = [
-    { name: "name", label: "Name", type: "text", placeholder: "Card holder name" },
-    { name: "guardian_name", label: "Guardian Name", type: "text", placeholder: "Father/Guardian name" },
-    { name: "ward_no", label: "Ward No", type: "text", placeholder: "Ward number" },
-    { name: "holding_no", label: "Holding No", type: "text", placeholder: "Holding number" },
-    { name: "village", label: "Village", type: "text", placeholder: "Village name" },
-    { name: "tax", label: "Tax (৳)", type: "number", placeholder: "Tax amount" },
+    { name: "name", label: "নাম", type: "text", placeholder: "কার্ডধারীর নাম" },
+    { name: "guardian_name", label: "অভিভাবকের নাম", type: "text", placeholder: "পিতা/অভিভাবকের নাম" },
+    { name: "ward_no", label: "ওয়ার্ড নং", type: "text", placeholder: "ওয়ার্ড নম্বর" },
+    { name: "holding_no", label: "হোল্ডিং নং", type: "text", placeholder: "হোল্ডিং নম্বর" },
+    { name: "village", label: "গ্রাম/মহল্লা", type: "text", placeholder: "গ্রামের নাম" },
+    { name: "tax", label: "কর (৳)", type: "number", placeholder: "করের পরিমাণ" },
   ];
 
   return (
     <div className="max-w-2xl mx-auto">
       <Card>
         <CardHeader>
-          <CardTitle>Add Holding Card</CardTitle>
-          <CardDescription>Fill in the details to create a new holding card.</CardDescription>
+          <CardTitle>নতুন হোল্ডিং কার্ড</CardTitle>
+          <CardDescription>নতুন হোল্ডিং কার্ড তৈরি করতে তথ্য পূরণ করুন।</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="grid gap-4 sm:grid-cols-2">
@@ -86,7 +86,7 @@ const AddHolding = () => {
             <div className="sm:col-span-2 pt-2">
               <Button type="submit" disabled={submitting} className="w-full sm:w-auto">
                 {submitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Add Holding Card
+                হোল্ডিং কার্ড যোগ করুন
               </Button>
             </div>
           </form>

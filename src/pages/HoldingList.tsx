@@ -93,10 +93,10 @@ const HoldingList = () => {
 
 
   const stats = [
-    { label: "Total Holdings", value: filtered.length, icon: LayoutDashboard, color: "text-primary" },
-    { label: "Wards", value: uniqueWards, icon: MapPin, color: "text-blue-600" },
-    { label: "Villages", value: uniqueVillages, icon: Users, color: "text-emerald-600" },
-    { label: "Total Tax", value: `৳${totalTax.toLocaleString()}`, icon: Banknote, color: "text-amber-600" },
+    { label: "মোট হোল্ডিং", value: filtered.length, icon: LayoutDashboard, color: "text-primary" },
+    { label: "ওয়ার্ড", value: uniqueWards, icon: MapPin, color: "text-blue-600" },
+    { label: "গ্রাম", value: uniqueVillages, icon: Users, color: "text-emerald-600" },
+    { label: "মোট কর", value: `৳${totalTax.toLocaleString()}`, icon: Banknote, color: "text-amber-600" },
   ];
 
   return (
@@ -104,15 +104,15 @@ const HoldingList = () => {
       {/* Header */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-foreground">Holding Cards</h2>
-          <p className="text-muted-foreground">Manage all holding card records.</p>
+          <h2 className="text-2xl font-bold text-foreground">হোল্ডিং তালিকা</h2>
+          <p className="text-muted-foreground">সকল হোল্ডিং কার্ড পরিচালনা করুন।</p>
         </div>
         <div className="flex gap-2">
           <Button variant="outline" asChild>
-            <Link to="/holdings/import"><FileUp className="mr-2 h-4 w-4" /> Import</Link>
+            <Link to="/holdings/import"><FileUp className="mr-2 h-4 w-4" /> ইম্পোর্ট</Link>
           </Button>
           <Button asChild>
-            <Link to="/holdings/add"><Plus className="mr-2 h-4 w-4" /> Add New</Link>
+            <Link to="/holdings/add"><Plus className="mr-2 h-4 w-4" /> নতুন যোগ</Link>
           </Button>
         </div>
       </div>
@@ -138,35 +138,35 @@ const HoldingList = () => {
           <div className="grid gap-3 grid-cols-2 lg:grid-cols-4">
             <div className="relative">
               <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search name, guardian..." className="pl-9 bg-background" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} />
+              <Input placeholder="নাম, অভিভাবক খুঁজুন..." className="pl-9 bg-background" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} />
             </div>
             <div className="relative">
               <MapPin className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Filter village..." className="pl-9 bg-background" value={villageFilter} onChange={(e) => { setVillageFilter(e.target.value); setPage(1); }} />
+              <Input placeholder="গ্রাম খুঁজুন..." className="pl-9 bg-background" value={villageFilter} onChange={(e) => { setVillageFilter(e.target.value); setPage(1); }} />
             </div>
-            <Select value={wardFilter} onValueChange={(v) => { setWardFilter(v); setPage(1); }}>
-              <SelectTrigger className="bg-background"><SelectValue placeholder="Ward" /></SelectTrigger>
+             <Select value={wardFilter} onValueChange={(v) => { setWardFilter(v); setPage(1); }}>
+              <SelectTrigger className="bg-background"><SelectValue placeholder="ওয়ার্ড" /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Wards</SelectItem>
+                <SelectItem value="all">সকল ওয়ার্ড</SelectItem>
                 {Array.from({ length: 9 }, (_, i) => String(i + 1)).map((w) => <SelectItem key={w} value={w}>{w}</SelectItem>)}
               </SelectContent>
             </Select>
             <Select value={holdingFilter} onValueChange={(v) => { setHoldingFilter(v); setPage(1); }}>
-              <SelectTrigger className="bg-background"><SelectValue placeholder="Holding" /></SelectTrigger>
+              <SelectTrigger className="bg-background"><SelectValue placeholder="হোল্ডিং" /></SelectTrigger>
               <SelectContent className="max-h-60">
-                <SelectItem value="all">All Holdings</SelectItem>
+                <SelectItem value="all">সকল হোল্ডিং</SelectItem>
                 {Array.from({ length: 200 }, (_, i) => String(i + 1)).map((h) => <SelectItem key={h} value={h}>{h}</SelectItem>)}
               </SelectContent>
             </Select>
           </div>
           {activeFilterCount > 0 && (
             <div className="mt-3 flex items-center gap-2 flex-wrap">
-              <span className="text-xs text-muted-foreground">Active:</span>
-              {search && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setSearch(""); setPage(1); }}>Search: {search} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
-              {villageFilter && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setVillageFilter(""); setPage(1); }}>Village: {villageFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
-              {wardFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setWardFilter("all"); setPage(1); }}>Ward: {wardFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
-              {holdingFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setHoldingFilter("all"); setPage(1); }}>Holding: {holdingFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
-              <Button variant="ghost" size="sm" className="h-6 text-xs text-muted-foreground" onClick={clearFilters}>Clear all</Button>
+              <span className="text-xs text-muted-foreground">সক্রিয়:</span>
+              {search && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setSearch(""); setPage(1); }}>অনুসন্ধান: {search} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              {villageFilter && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setVillageFilter(""); setPage(1); }}>গ্রাম: {villageFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              {wardFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setWardFilter("all"); setPage(1); }}>ওয়ার্ড: {wardFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              {holdingFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setHoldingFilter("all"); setPage(1); }}>হোল্ডিং: {holdingFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              <Button variant="ghost" size="sm" className="h-6 text-xs text-muted-foreground" onClick={clearFilters}>সব মুছুন</Button>
             </div>
           )}
         </CardContent>
@@ -179,7 +179,7 @@ const HoldingList = () => {
           <div className="flex gap-2">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search..." className="pl-9 bg-background" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} />
+              <Input placeholder="খুঁজুন..." className="pl-9 bg-background" value={search} onChange={(e) => { setSearch(e.target.value); setPage(1); }} />
             </div>
             <Sheet open={filterOpen} onOpenChange={setFilterOpen}>
               <SheetTrigger asChild>
@@ -194,41 +194,41 @@ const HoldingList = () => {
               </SheetTrigger>
               <SheetContent side="bottom" className="rounded-t-2xl">
                 <SheetHeader>
-                  <SheetTitle>Filters</SheetTitle>
+                  <SheetTitle>ফিল্টার</SheetTitle>
                 </SheetHeader>
                 <div className="grid gap-4 py-4">
                   <div className="space-y-1.5">
-                    <Label className="text-xs text-muted-foreground">Village</Label>
+                     <Label className="text-xs text-muted-foreground">গ্রাম</Label>
                     <div className="relative">
                       <MapPin className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
-                      <Input placeholder="Filter village..." className="pl-9" value={villageFilter} onChange={(e) => { setVillageFilter(e.target.value); setPage(1); }} />
+                      <Input placeholder="গ্রাম খুঁজুন..." className="pl-9" value={villageFilter} onChange={(e) => { setVillageFilter(e.target.value); setPage(1); }} />
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1.5">
-                      <Label className="text-xs text-muted-foreground">Ward</Label>
+                      <Label className="text-xs text-muted-foreground">ওয়ার্ড</Label>
                       <Select value={wardFilter} onValueChange={(v) => { setWardFilter(v); setPage(1); }}>
-                        <SelectTrigger><SelectValue placeholder="Ward" /></SelectTrigger>
+                        <SelectTrigger><SelectValue placeholder="ওয়ার্ড" /></SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="all">All Wards</SelectItem>
+                          <SelectItem value="all">সকল ওয়ার্ড</SelectItem>
                           {Array.from({ length: 9 }, (_, i) => String(i + 1)).map((w) => <SelectItem key={w} value={w}>{w}</SelectItem>)}
                         </SelectContent>
                       </Select>
                     </div>
                     <div className="space-y-1.5">
-                      <Label className="text-xs text-muted-foreground">Holding</Label>
+                      <Label className="text-xs text-muted-foreground">হোল্ডিং</Label>
                       <Select value={holdingFilter} onValueChange={(v) => { setHoldingFilter(v); setPage(1); }}>
-                        <SelectTrigger><SelectValue placeholder="Holding" /></SelectTrigger>
+                        <SelectTrigger><SelectValue placeholder="হোল্ডিং" /></SelectTrigger>
                         <SelectContent className="max-h-60">
-                          <SelectItem value="all">All Holdings</SelectItem>
+                          <SelectItem value="all">সকল হোল্ডিং</SelectItem>
                           {Array.from({ length: 200 }, (_, i) => String(i + 1)).map((h) => <SelectItem key={h} value={h}>{h}</SelectItem>)}
                         </SelectContent>
                       </Select>
                     </div>
                   </div>
                   <div className="flex gap-2 pt-2">
-                    <Button variant="outline" className="flex-1" onClick={clearFilters}>Clear all</Button>
-                    <Button className="flex-1" onClick={() => setFilterOpen(false)}>Apply</Button>
+                    <Button variant="outline" className="flex-1" onClick={clearFilters}>সব মুছুন</Button>
+                    <Button className="flex-1" onClick={() => setFilterOpen(false)}>প্রয়োগ করুন</Button>
                   </div>
                 </div>
               </SheetContent>
@@ -236,10 +236,10 @@ const HoldingList = () => {
           </div>
           {activeFilterCount > 0 && (
             <div className="mt-2 flex items-center gap-2 flex-wrap">
-              {search && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setSearch(""); setPage(1); }}>Search: {search} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
-              {villageFilter && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setVillageFilter(""); setPage(1); }}>Village: {villageFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
-              {wardFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setWardFilter("all"); setPage(1); }}>Ward: {wardFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
-              {holdingFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setHoldingFilter("all"); setPage(1); }}>Holding: {holdingFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              {search && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setSearch(""); setPage(1); }}>অনুসন্ধান: {search} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              {villageFilter && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setVillageFilter(""); setPage(1); }}>গ্রাম: {villageFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              {wardFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setWardFilter("all"); setPage(1); }}>ওয়ার্ড: {wardFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
+              {holdingFilter !== "all" && <Badge variant="secondary" className="gap-1 text-xs cursor-pointer" onClick={() => { setHoldingFilter("all"); setPage(1); }}>হোল্ডিং: {holdingFilter} <span className="ml-0.5 opacity-60">&times;</span></Badge>}
             </div>
           )}
         </CardContent>
@@ -252,7 +252,7 @@ const HoldingList = () => {
         </div>
       ) : !filtered.length ? (
         <div className="py-16 text-center text-muted-foreground">
-          {holdings?.length ? "No results match your filters." : "No holding cards yet. Add your first one!"}
+         {holdings?.length ? "ফিল্টারের সাথে কোনো ফলাফল মেলেনি।" : "এখনো কোনো হোল্ডিং কার্ড নেই। প্রথমটি যোগ করুন!"}
         </div>
       ) : (
         <>
@@ -267,7 +267,7 @@ const HoldingList = () => {
                     </div>
                     <div>
                       <p className="font-semibold text-foreground leading-tight">{h.name}</p>
-                      <p className="text-xs text-muted-foreground">s/o {h.guardian_name}</p>
+                      <p className="text-xs text-muted-foreground">পিতা: {h.guardian_name}</p>
                     </div>
                   </div>
                   <DropdownMenu>
@@ -277,32 +277,32 @@ const HoldingList = () => {
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => navigate(`/holdings/${h.id}`)}>
-                        <Eye className="mr-2 h-4 w-4" /> View
+                       <DropdownMenuItem onClick={() => navigate(`/holdings/${h.id}`)}>
+                        <Eye className="mr-2 h-4 w-4" /> দেখুন
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => navigate(`/holdings/card/${h.id}`)}>
-                        <CreditCard className="mr-2 h-4 w-4" /> View Card
+                        <CreditCard className="mr-2 h-4 w-4" /> কার্ড দেখুন
                       </DropdownMenuItem>
                       <DropdownMenuItem onClick={() => navigate(`/holdings/edit/${h.id}`)}>
-                        <Pencil className="mr-2 h-4 w-4" /> Edit
+                        <Pencil className="mr-2 h-4 w-4" /> সম্পাদনা
                       </DropdownMenuItem>
                       <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => setDeleteItem(h)}>
-                        <Trash2 className="mr-2 h-4 w-4" /> Delete
+                        <Trash2 className="mr-2 h-4 w-4" /> মুছুন
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </div>
                 <div className="grid grid-cols-3 gap-2 px-4 pb-3">
-                  <div className="rounded-md bg-muted/50 px-2.5 py-1.5 text-center">
-                    <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Holding</p>
+                   <div className="rounded-md bg-muted/50 px-2.5 py-1.5 text-center">
+                    <p className="text-[10px] uppercase tracking-wider text-muted-foreground">হোল্ডিং</p>
                     <p className="text-sm font-semibold text-foreground">{h.holding_no}</p>
                   </div>
                   <div className="rounded-md bg-muted/50 px-2.5 py-1.5 text-center">
-                    <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Ward</p>
+                    <p className="text-[10px] uppercase tracking-wider text-muted-foreground">ওয়ার্ড</p>
                     <p className="text-sm font-semibold text-foreground">{h.ward_no}</p>
                   </div>
                   <div className="rounded-md bg-muted/50 px-2.5 py-1.5 text-center">
-                    <p className="text-[10px] uppercase tracking-wider text-muted-foreground">Tax</p>
+                    <p className="text-[10px] uppercase tracking-wider text-muted-foreground">কর</p>
                     <p className="text-sm font-semibold text-primary">৳{Number(h.tax).toLocaleString()}</p>
                   </div>
                 </div>
@@ -322,13 +322,13 @@ const HoldingList = () => {
                   <TableHeader>
                     <TableRow className="bg-muted/40">
                       <TableHead className="w-10 text-center">#</TableHead>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Guardian</TableHead>
-                      <TableHead>Holding</TableHead>
-                      <TableHead>Ward</TableHead>
-                      <TableHead>Village</TableHead>
-                      <TableHead className="text-right">Tax (৳)</TableHead>
-                      <TableHead className="w-12 text-center">Actions</TableHead>
+                      <TableHead>নাম</TableHead>
+                      <TableHead>অভিভাবক</TableHead>
+                      <TableHead>হোল্ডিং</TableHead>
+                      <TableHead>ওয়ার্ড</TableHead>
+                      <TableHead>গ্রাম</TableHead>
+                      <TableHead className="text-right">কর (৳)</TableHead>
+                      <TableHead className="w-12 text-center">অ্যাকশন</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -350,16 +350,16 @@ const HoldingList = () => {
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                               <DropdownMenuItem onClick={() => navigate(`/holdings/${h.id}`)}>
-                                <Eye className="mr-2 h-4 w-4" /> View
+                                <Eye className="mr-2 h-4 w-4" /> দেখুন
                               </DropdownMenuItem>
                               <DropdownMenuItem onClick={() => navigate(`/holdings/card/${h.id}`)}>
-                                <CreditCard className="mr-2 h-4 w-4" /> View Card
+                                <CreditCard className="mr-2 h-4 w-4" /> কার্ড দেখুন
                               </DropdownMenuItem>
                               <DropdownMenuItem onClick={() => navigate(`/holdings/edit/${h.id}`)}>
-                                <Pencil className="mr-2 h-4 w-4" /> Edit
+                                <Pencil className="mr-2 h-4 w-4" /> সম্পাদনা
                               </DropdownMenuItem>
                               <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => setDeleteItem(h)}>
-                                <Trash2 className="mr-2 h-4 w-4" /> Delete
+                                <Trash2 className="mr-2 h-4 w-4" /> মুছুন
                               </DropdownMenuItem>
                             </DropdownMenuContent>
                           </DropdownMenu>
@@ -376,7 +376,7 @@ const HoldingList = () => {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-2">
               <p className="text-sm text-muted-foreground">
-                Showing {(safeePage - 1) * perPage + 1}–{Math.min(safeePage * perPage, filtered.length)} of {filtered.length}
+                দেখাচ্ছে {(safeePage - 1) * perPage + 1}–{Math.min(safeePage * perPage, filtered.length)} / {filtered.length}
               </p>
               <Select value={String(perPage)} onValueChange={(v) => { setPerPage(Number(v)); setPage(1); }}>
                 <SelectTrigger className="h-8 w-[70px]">
@@ -388,7 +388,7 @@ const HoldingList = () => {
                   ))}
                 </SelectContent>
               </Select>
-              <span className="text-sm text-muted-foreground">per page</span>
+              <span className="text-sm text-muted-foreground">প্রতি পৃষ্ঠায়</span>
             </div>
             <div className="flex items-center gap-1">
               <Button variant="outline" size="icon" className="h-8 w-8" disabled={safeePage <= 1} onClick={() => setPage(safeePage - 1)}>
@@ -425,19 +425,17 @@ const HoldingList = () => {
             <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10">
               <Trash2 className="h-6 w-6 text-destructive" />
             </div>
-            <DialogTitle className="text-lg">Delete Holding Card</DialogTitle>
+            <DialogTitle className="text-lg">হোল্ডিং কার্ড মুছুন</DialogTitle>
             <DialogDescription className="pt-1">
-              Are you sure you want to delete the holding card for{" "}
-              <span className="font-semibold text-foreground">{deleteItem?.name}</span>
+              আপনি কি নিশ্চিত যে <span className="font-semibold text-foreground">{deleteItem?.name}</span>
               {deleteItem?.holding_no && (
-                <> (Holding #{deleteItem.holding_no})</>
-              )}
-              ? This action cannot be undone.
+                <> (হোল্ডিং #{deleteItem.holding_no})</>
+              )} এর হোল্ডিং কার্ড মুছতে চান? এই কাজটি পূর্বাবস্থায় ফেরানো যাবে না।
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="gap-2 sm:gap-0">
             <Button variant="outline" onClick={() => setDeleteItem(null)}>
-              Cancel
+              বাতিল
             </Button>
             <Button
               variant="destructive"
@@ -445,7 +443,7 @@ const HoldingList = () => {
               disabled={deleteMutation.isPending}
             >
               {deleteMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              Delete
+              মুছুন
             </Button>
           </DialogFooter>
         </DialogContent>
