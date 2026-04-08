@@ -181,8 +181,9 @@ const HoldingCardView = () => {
         </div>
       </div>
 
-      <div className="mx-auto w-full max-w-[640px]" style={{ perspective: "1200px", fontFamily: "'SolaimanLipi', sans-serif" }}>
+      <div ref={wrapperRef} className="mx-auto w-full max-w-[640px]" style={{ perspective: "1200px", fontFamily: "'SolaimanLipi', sans-serif" }}>
         <div
+          ref={flipContainerRef}
           className="relative transition-transform duration-700 ease-in-out"
           style={{
             transformStyle: "preserve-3d",
@@ -190,13 +191,17 @@ const HoldingCardView = () => {
           }}
         >
           <div className="relative" style={{ backfaceVisibility: "hidden" }}>
-            <CardFront holding={holding} />
+            <div ref={frontRef}>
+              <CardFront holding={holding} />
+            </div>
           </div>
           <div
             className="absolute inset-0"
             style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
           >
-            <CardBack />
+            <div ref={backRef}>
+              <CardBack />
+            </div>
           </div>
         </div>
       </div>
