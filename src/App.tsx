@@ -13,6 +13,7 @@ import ImportHoldings from "./pages/ImportHoldings";
 import EditHolding from "./pages/EditHolding";
 import ViewHolding from "./pages/ViewHolding";
 import HoldingCardView from "./pages/HoldingCardView";
+import PublicInvoice from "./pages/PublicInvoice";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
         <AuthProvider>
           <Routes>
             <Route path="/auth" element={<Auth />} />
+            <Route path="/invoice/:id" element={<PublicInvoice />} />
             <Route element={<DashboardLayout />}>
               <Route path="/" element={<Index />} />
               <Route path="/holdings" element={<HoldingList />} />
