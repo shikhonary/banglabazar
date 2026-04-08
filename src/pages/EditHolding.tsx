@@ -98,7 +98,7 @@ const EditHolding = () => {
   }
 
   return (
-    <div className="max-w-2xl">
+    <div className="max-w-2xl mx-auto">
       <Button variant="ghost" size="sm" asChild className="mb-4">
         <Link to="/holdings"><ArrowLeft className="mr-2 h-4 w-4" /> Back to Holdings</Link>
       </Button>
