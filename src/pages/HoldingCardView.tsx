@@ -10,6 +10,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import bdGovtSeal from "@/assets/bd-govt-seal.png";
 import bdNationalEmblem from "@/assets/bd-national-emblem.png";
+import unionParishadLogo from "@/assets/union-parishad-logo.png";
 import solaimanLipiEmbeddedCss from "@/styles/solaimanLipiEmbedded.css?raw";
 
 type HoldingCardType = Tables<"holding_cards">;
