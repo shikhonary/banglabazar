@@ -426,3 +426,4 @@ const HoldingList = () => {
 };
 
 export default HoldingList;
+
