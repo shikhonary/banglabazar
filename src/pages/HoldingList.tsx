@@ -42,6 +42,7 @@ const HoldingList = () => {
   const [perPage, setPerPage] = useState(10);
   const [filterOpen, setFilterOpen] = useState(false);
   const [deleteItem, setDeleteItem] = useState<HoldingCard | null>(null);
+  const { downloadAll, downloading: downloadingAll, progress: downloadProgress } = useDownloadAllCards();
 
   const { data: holdings, isLoading } = useQuery({
     queryKey: ["holdings"],
