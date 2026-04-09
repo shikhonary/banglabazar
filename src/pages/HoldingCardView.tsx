@@ -359,10 +359,10 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
           className="absolute inset-0 flex items-center justify-center pointer-events-none"
           style={{ zIndex: 0, opacity: 0.5 }}
         >
-          <img src={bdMap} alt="" className="h-[90%] object-contain" />
+          <img src={bdMap} alt="" className="h-[110%] object-contain" />
         </div>
         {/* Left: Details */}
-        <div className="space-y-1 pr-[74px] pb-[6px] relative" style={{ zIndex: 1 }}>
+        <div className="space-y-2 pr-[74px] pb-[6px] relative" style={{ zIndex: 1 }}>
           <FrontDetailRow label="মালিকের নাম" value={holding.name} color="#000000" />
           <FrontDetailRow label="হোল্ডিং নং" value={holding.holding_no} color="#000000" />
           <FrontDetailRow label="ওয়ার্ড নং" value={holding.ward_no} color="#de5038" />
