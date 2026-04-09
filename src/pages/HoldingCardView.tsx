@@ -302,7 +302,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
             গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)
           </p>
           <h1 style={{ fontSize: "18px", fontWeight: 700, color: "#ef1e23", ...BENGALI_TEXT_STYLE }}>
-            ৪নং ফুলসুতী ইউনিয়ন পরিষদ
+            মুছাপুর ইউনিয়ন পরিষদ
           </h1>
           <p style={{ fontSize: "7px", color: "#333", ...BENGALI_TEXT_STYLE }}>উপজেলা ঃ নগরকান্দা, জেলা ঃ ফরিদপুর।</p>
         </div>
