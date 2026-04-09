@@ -305,7 +305,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
         </div>
 
         {/* Center text */}
-        <div className="text-center px-14" style={{ lineHeight: 1.3 }}>
+        <div className="text-center px-14" style={{ lineHeight: 1 }}>
           <p style={{ fontSize: "6.5px", color: "#333", marginBottom: "2px", ...BENGALI_TEXT_STYLE }}>
             গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)
           </p>
