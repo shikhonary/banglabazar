@@ -400,7 +400,7 @@ const FrontDetailRow = ({ label, value }: { label: string; value: string }) => (
         color: "#1a1a40",
         fontWeight: 600,
         height: "8px",
-        width: "60px", // Increased slightly to ensure Bengali text fits
+        width: "70px", // Increased slightly to ensure Bengali text fits
         marginRight: "8px",
         ...BENGALI_TEXT_STYLE,
       }}
@@ -412,9 +412,10 @@ const FrontDetailRow = ({ label, value }: { label: string; value: string }) => (
     {/* Value container */}
     <span
       style={{
-        fontSize: "10px",
+        fontSize: "12px",
         fontWeight: 700,
         color: "#B22222",
+        height: "8px",
         flex: 1, // Allows value to take up remaining space
         ...BENGALI_TEXT_STYLE,
       }}
