@@ -294,7 +294,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
     <div className="flex flex-col h-full w-full p-2 relative" style={{ zIndex: 1, ...BENGALI_TEXT_STYLE }}>
       {/* Top header row: govt seal + text + union logo */}
       <div className="flex items-center gap-1">
-        <div className="w-9 h-9 shrink-0 flex items-center justify-center">
+        <div className="w-12 h-12 shrink-0 flex items-center justify-center">
           <img src={gobLogo} alt="সরকার" className="w-12 h-12 object-contain" />
         </div>
         <div className="flex-1 text-center" style={{ lineHeight: 1.1 }}>
