@@ -297,14 +297,14 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
         <div className="w-12 h-12 shrink-0 flex items-center justify-center">
           <img src={gobLogo} alt="সরকার" className="w-12 h-12 object-contain" />
         </div>
-        <div className="flex-1 text-center" style={{ lineHeight: 1.1 }}>
-          <p style={{ fontSize: "6.5px", color: "#333", ...BENGALI_TEXT_STYLE }}>
+        <div className="flex-1 text-center flex flex-col items-center gap-[2px]">
+          <p style={{ fontSize: "6.5px", color: "#333", fontFamily: BENGALI_FONT_FAMILY }}>
             গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)
           </p>
-          <h1 style={{ fontSize: "22px", fontWeight: 700, color: "#ef1e23", ...BENGALI_TEXT_STYLE }}>
+          <h1 style={{ fontSize: "22px", fontWeight: 700, color: "#ef1e23", fontFamily: BENGALI_FONT_FAMILY }}>
             মুছাপুর ইউনিয়ন পরিষদ
           </h1>
-          <p style={{ fontSize: "7px", color: "#333", ...BENGALI_TEXT_STYLE }}>উপজেলা ঃ নগরকান্দা, জেলা ঃ ফরিদপুর।</p>
+          <p style={{ fontSize: "7px", color: "#333", fontFamily: BENGALI_FONT_FAMILY }}>উপজেলা ঃ নগরকান্দা, জেলা ঃ ফরিদপুর।</p>
         </div>
         <div className="w-12 h-12 shrink-0 flex items-center justify-center">
           <img src={unionLogo} alt="ইউনিয়ন পরিষদ" className="w-12 h-12 object-contain" />
