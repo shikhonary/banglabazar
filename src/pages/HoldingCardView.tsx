@@ -240,9 +240,10 @@ const HoldingCardView = () => {
 
       <div
         ref={wrapperRef}
-        className="bengali-text mx-auto w-full max-w-[600px]"
+        className="bengali-text mx-auto"
         style={{
           perspective: "1200px",
+          width: "3.3in",
           ...BENGALI_TEXT_STYLE,
         }}
       >
