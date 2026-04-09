@@ -115,6 +115,7 @@ export const useDownloadAllCards = () => {
 
     try {
       await ensureFont();
+      await preloadImages();
 
       const zip = new JSZip();
 
