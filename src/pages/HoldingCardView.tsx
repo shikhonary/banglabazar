@@ -526,6 +526,7 @@ const CardBack = ({ isMobile }: { isMobile: boolean }) => (
           https://musapurup.narsingdi.gov.bd/
         </p>
       </div>
+      </div>
     </div>
   </div>
 );
