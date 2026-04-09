@@ -271,7 +271,7 @@ const HoldingCardView = () => {
             }}
           >
             <div ref={backRef}>
-              <CardBack isMobile={isMobile} />
+              <CardBack />
             </div>
           </div>
         </div>
