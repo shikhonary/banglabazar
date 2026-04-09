@@ -351,10 +351,10 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
       <div className="relative flex-1" style={BENGALI_TEXT_STYLE}>
         {/* Left: Details */}
         <div className="space-y-4 pr-[74px] pb-[6px]">
-          <FrontDetailRow label="মালিকের নাম" value={holding.name} />
-          <FrontDetailRow label="হোল্ডিং নং" value={holding.holding_no} />
-          <FrontDetailRow label="ওয়ার্ড নং" value={holding.ward_no} color="#1a1a40" />
-          <FrontDetailRow label="গ্রাম/মহল্লা" value={holding.village} />
+          <FrontDetailRow label="মালিকের নাম" value={holding.name} color="#000000" />
+          <FrontDetailRow label="হোল্ডিং নং" value={holding.holding_no} color="#000000" />
+          <FrontDetailRow label="ওয়ার্ড নং" value={holding.ward_no} color="#de5038" />
+          <FrontDetailRow label="গ্রাম/মহল্লা" value={holding.village} color="#000000" />
         </div>
         <div className="absolute bottom-[2px] right-[2px]" style={{ zIndex: 2 }}>
           <QRCodeSVG
