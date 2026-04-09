@@ -306,12 +306,10 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
 
         {/* Center text */}
         <div className="text-center px-14">
-          <p style={{ fontSize: "10px", color: "#1a4299", marginBottom: "2px", ...BENGALI_TEXT_STYLE }}>
+          <p style={{ fontSize: "10px", color: "#173c97", marginBottom: "2px", ...BENGALI_TEXT_STYLE }}>
             গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)
           </p>
-          <h1
-            style={{ fontSize: "20px", fontWeight: 700, color: "#ef1e23", marginBottom: "2px", ...BENGALI_TEXT_STYLE }}
-          >
+          <h1 style={{ fontSize: "20px", fontWeight: 700, color: "#ef1e23", ...BENGALI_TEXT_STYLE }}>
             মুছাপুর ইউনিয়ন পরিষদ
           </h1>
           <p style={{ fontSize: "7px", color: "#333", ...BENGALI_TEXT_STYLE }}>উপজেলা ঃ নগরকান্দা, জেলা ঃ ফরিদপুর।</p>
