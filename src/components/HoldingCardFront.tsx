@@ -44,15 +44,14 @@ const FrontDetailRow = ({ label, value, color = "#000000" }: { label: string; va
   </div>
 );
 
-export const CardFront = ({ holding }: { holding: HoldingCardType }) => (
+export const CardFront = ({ holding, forExport = false }: { holding: HoldingCardType; forExport?: boolean }) => (
   <div
-    className="bengali-text rounded-sm overflow-hidden relative flex flex-col"
+    className={`bengali-text overflow-hidden relative flex flex-col ${forExport ? "" : "rounded-sm"}`}
     style={{
       width: "3.3in",
       height: "2.05in",
       background: "#FDFDFD",
-      boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
-      border: "1px solid #ccc",
+      ...(forExport ? {} : { boxShadow: "0 1px 4px rgba(0,0,0,0.08)", border: "1px solid #ccc" }),
       ...BENGALI_TEXT_STYLE,
     }}
   >
