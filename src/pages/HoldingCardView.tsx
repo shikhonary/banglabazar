@@ -347,24 +347,27 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
         </div>
       </div>
 
-      {/* Details section */}
-      <div className="flex-1" style={BENGALI_TEXT_STYLE}>
-        <FrontDetailRow label="মালিকের নাম" value={holding.name} />
-        <FrontDetailRow label="হোল্ডিং নং" value={holding.holding_no} />
-        <FrontDetailRow label="ওয়ার্ড নং" value={holding.ward_no} />
-        <FrontDetailRow label="গ্রাম/মহল্লা" value={holding.village} />
-      </div>
+      {/* Details + QR section */}
+      <div className="flex-1 relative" style={BENGALI_TEXT_STYLE}>
+        {/* Left: Details */}
+        <div className="flex-1 space-y-4">
+          <FrontDetailRow label="মালিকের নাম" value={holding.name} />
+          <FrontDetailRow label="হোল্ডিং নং" value={holding.holding_no} />
+          <FrontDetailRow label="ওয়ার্ড নং" value={holding.ward_no} />
+          <FrontDetailRow label="গ্রাম/মহল্লা" value={holding.village} />
+        </div>
 
-      {/* QR Code - fixed bottom right */}
-      <div className="absolute bottom-2 right-2" style={{ zIndex: 2 }}>
-        <div className="bg-white p-0.5 border border-gray-300">
-          <QRCodeSVG
-            value={`${window.location.origin}/invoice/${holding.id}`}
-            size={75}
-            level="M"
-            fgColor="#000000"
-            bgColor="#ffffff"
-          />
+        {/* Right: QR Code */}
+        <div className="shrink-0 flex items-start justify-center pt-1">
+          <div className="bg-white p-0.5 border border-gray-300">
+            <QRCodeSVG
+              value={`${window.location.origin}/invoice/${holding.id}`}
+              size={60}
+              level="M"
+              fgColor="#000000"
+              bgColor="#ffffff"
+            />
+          </div>
         </div>
       </div>
     </div>
