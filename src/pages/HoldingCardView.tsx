@@ -348,7 +348,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
       </div>
 
       {/* Details + QR section */}
-      <div className="flex-1 relative" style={BENGALI_TEXT_STYLE}>
+      <div className="flex-1" style={BENGALI_TEXT_STYLE}>
         {/* Left: Details */}
         <div className="flex-1 space-y-4">
           <FrontDetailRow label="মালিকের নাম" value={holding.name} />
@@ -359,7 +359,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
 
         {/* Right: QR Code */}
         <div className="shrink-0 flex items-start justify-center pt-1">
-          <div className="bg-white p-0.5 border border-gray-300">
+          <div className="bg-white p-0.5 border border-gray-300 relative">
             <QRCodeSVG
               value={`${window.location.origin}/invoice/${holding.id}`}
               size={60}
