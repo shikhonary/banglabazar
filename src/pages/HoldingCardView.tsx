@@ -433,7 +433,7 @@ const CardBack = ({ isMobile }: { isMobile: boolean }) => (
         <p style={{ color: "#ad2c30", fontSize: "15px", fontWeight: 700, ...BENGALI_TEXT_STYLE }}>
           ৪৫ দিনের মধ্যে জন্ম ও মৃত্যু নিবন্ধন করুন।
         </p>
-        <p style={{ color: "#763247", fontSize: "15px", fontWeight: 700, textAlign: "left", ...BENGALI_TEXT_STYLE }}>
+        <p style={{ color: "#763247", fontSize: "15px", fontWeight: 700, textAlign: "right", ...BENGALI_TEXT_STYLE }}>
           সময়মত ইউপি কর পরিশোধ করুন।
         </p>
       </div>
