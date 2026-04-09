@@ -60,7 +60,7 @@ const renderCardToJpegBlob = async (holding: HoldingCard): Promise<Blob> => {
   const root = createRoot(container);
   root.render(<CardFront holding={holding} forExport />);
 
-  await new Promise((r) => setTimeout(r, 300));
+  await new Promise((r) => setTimeout(r, 500));
 
   const cardEl = container.firstElementChild as HTMLElement;
   if (!cardEl) {
