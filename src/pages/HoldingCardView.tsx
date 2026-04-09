@@ -375,74 +375,90 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
 
 const CardBack = ({ isMobile }: { isMobile: boolean }) => (
   <div
-    className="bengali-text rounded-xl border-2 border-emerald-600 overflow-hidden shadow-xl relative flex flex-col"
+    className="bengali-text rounded-sm overflow-hidden relative flex flex-col"
     style={{
-      background: "linear-gradient(to bottom, #f0fdf4, rgba(254,252,232,0.3), #f0fdf4)",
-      ...(isMobile ? {} : { aspectRatio: `${CARD_ASPECT} / 1` }),
+      width: "3.3in",
+      height: "2.05in",
+      background: "#FDFDFD",
+      boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
       ...BENGALI_TEXT_STYLE,
     }}
   >
-    <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-      <img src={bdGovtSeal} alt="" className="w-36 h-36 opacity-10" />
+    {/* Bangladesh flag watermark */}
+    <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ zIndex: 0, opacity: 0.15 }}>
+      <div style={{ width: "80%", height: "60%", background: "#006a4e", position: "relative", borderRadius: "2px" }}>
+        <div style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: "40%",
+          aspectRatio: "1",
+          borderRadius: "50%",
+          background: "#f42a41",
+        }} />
+      </div>
     </div>
 
-    {/* Top bar */}
-    <div
-      className="text-white text-center py-1.5 px-4 relative z-10"
-      style={{
-        background: "linear-gradient(to right, #047857, #059669, #047857)",
-        ...BENGALI_TEXT_STYLE,
-      }}
-    >
-      <p className="text-xs font-bold">জরুরী প্রয়োজনে কল করুন</p>
-    </div>
-
-    {/* Main content - two columns */}
-    <div className="px-4 py-2 flex-1 flex gap-3 relative z-10" style={BENGALI_TEXT_STYLE}>
-      {/* Left: Emergency numbers */}
-      <div className="flex-1 bg-red-50/35 border border-red-200 rounded-lg p-2 space-y-1">
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-red-800 font-medium">জাতীয় জরুরী সেবা</span>
-          <span className="text-sm font-bold text-red-700">৯৯৯</span>
-        </div>
-        <div className="h-px bg-red-200" />
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-red-800 font-medium">ফায়ার সার্ভিস</span>
-          <span className="text-sm font-bold text-red-700">১০২</span>
-        </div>
-        <div className="h-px bg-red-200" />
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-red-800 font-medium">পুলিশ সেবা</span>
-          <span className="text-sm font-bold text-red-700">১০০</span>
-        </div>
+    {/* Main content */}
+    <div className="flex flex-col h-full w-full p-2 relative" style={{ zIndex: 1, ...BENGALI_TEXT_STYLE }}>
+      {/* 1. Top Header */}
+      <div className="flex justify-between items-start">
+        <p style={{ color: "#8B0000", fontSize: "7px", fontWeight: 700, ...BENGALI_TEXT_STYLE }}>
+          ৪৫ দিনের মধ্যে জন্ম ও মৃত্যু নিবন্ধন করুন।
+        </p>
+        <p style={{ color: "#8B0000", fontSize: "7px", fontWeight: 700, textAlign: "right", ...BENGALI_TEXT_STYLE }}>
+          সময়মত ইউপি কর পরিশোধ করুন।
+        </p>
       </div>
 
-      {/* Right: Poem + disclaimer */}
-      <div className="flex-1 flex flex-col justify-between">
-        <div className="bg-emerald-50/35 border border-emerald-200 rounded-lg p-2 text-center space-y-0.5" style={BENGALI_TEXT_STYLE}>
-          <p className="text-xs text-emerald-800 font-semibold leading-relaxed">হোল্ডিং না আমার কুঁড়ে ঘর,</p>
-          <p className="text-xs text-emerald-800 leading-relaxed">আখিরে দিব অল্প কর ।</p>
-          <p className="text-xs text-emerald-800 leading-relaxed">হোল্ডিং সেবা পেতে হলে,</p>
-          <p className="text-xs text-emerald-800 leading-relaxed">কার্ডটি সনে রাখুন ।</p>
+      {/* 2. Middle Section */}
+      <div className="flex mt-1.5 flex-1 gap-1.5" style={BENGALI_TEXT_STYLE}>
+        {/* Left: Emergency Table (~55%) */}
+        <div style={{ width: "55%", border: "1px solid #000", ...BENGALI_TEXT_STYLE }}>
+          <div style={{ borderBottom: "1px solid #000", textAlign: "center", padding: "1px 4px" }}>
+            <span style={{ color: "#E32636", fontWeight: 600, fontSize: "8px", ...BENGALI_TEXT_STYLE }}>জরুরী প্রয়োজনে কল করুন</span>
+          </div>
+          <div style={{ borderBottom: "1px solid #000", padding: "1px 4px" }}>
+            <span style={{ color: "#1A1A40", fontSize: "7px", ...BENGALI_TEXT_STYLE }}>পল্লী বিদ্যুৎ ঃ ০১৭৬৯-৪০০২২৪</span>
+          </div>
+          <div style={{ borderBottom: "1px solid #000", padding: "1px 4px" }}>
+            <span style={{ color: "#1A1A40", fontSize: "7px", ...BENGALI_TEXT_STYLE }}>ফায়ার সার্ভিস ঃ ০১৯০১-০২০৯১৮</span>
+          </div>
+          <div style={{ borderBottom: "1px solid #000", padding: "1px 4px" }}>
+            <span style={{ color: "#1A1A40", fontSize: "7px", ...BENGALI_TEXT_STYLE }}>উপজেলা স্বাস্থ্য কমপ্লেক্স ঃ ০১৭৩০-৩২৪৫৩৭</span>
+          </div>
+          <div style={{ textAlign: "center", padding: "1px 4px" }}>
+            <span style={{ color: "#0000CD", fontWeight: 700, fontSize: "9px", ...BENGALI_TEXT_STYLE }}>জরুরী সেবা ঃ ৯৯৯</span>
+          </div>
         </div>
 
-        <div className="text-center mt-1" style={BENGALI_TEXT_STYLE}>
-          <p className="text-[8px] text-muted-foreground leading-relaxed">
-            এই কার্ডটি ফুলসুতী ইউনিয়ন পরিষদ কর্তৃক প্রদত্ত। কার্ডটি হস্তান্তরযোগ্য নয়।
+        {/* Right: Signature & Info (~45%) */}
+        <div style={{ width: "45%", ...BENGALI_TEXT_STYLE }} className="flex flex-col items-center justify-between">
+          <p style={{ color: "#228B22", fontSize: "7px", textAlign: "center", ...BENGALI_TEXT_STYLE }}>
+            ইউপি সেবা পেতে কার্ডটি সঙ্গে আনুন।
           </p>
+
+          {/* Signature placeholder */}
+          <div style={{ height: "24px", width: "60px" }} className="flex items-center justify-center">
+            <div style={{ borderBottom: "1px solid #333", width: "100%" }} />
+          </div>
+
+          <div style={{ textAlign: "center", lineHeight: 1.2, ...BENGALI_TEXT_STYLE }}>
+            <p style={{ color: "#000080", fontWeight: 700, fontSize: "8px" }}>মোহাম্মদ হোসেন ভূঁইয়া</p>
+            <p style={{ color: "#000", fontSize: "7px" }}>চেয়ারম্যান</p>
+            <p style={{ color: "#228B22", fontSize: "7px" }}>মুছাপুর ইউনিয়ন পরিষদ</p>
+            <p style={{ color: "#FF0000", fontSize: "7px" }}>রায়পুরা, নরসিংদী।</p>
+          </div>
         </div>
       </div>
-    </div>
 
-    {/* Bottom bar */}
-    <div
-      className="text-white text-center py-1 px-4"
-      style={{
-        background: "linear-gradient(to right, #047857, #059669, #047857)",
-        ...BENGALI_TEXT_STYLE,
-      }}
-    >
-      <p className="text-[9px] tracking-wide opacity-90">https://fulsutiup.faridpur.gov.bd</p>
+      {/* 3. Bottom Footer */}
+      <div className="mt-1 text-center">
+        <p style={{ color: "#8B0000", fontWeight: 700, fontSize: "9px", fontFamily: "sans-serif", letterSpacing: "0.5px" }}>
+          https://musapurup.narsingdi.gov.bd/
+        </p>
+      </div>
     </div>
   </div>
 );
