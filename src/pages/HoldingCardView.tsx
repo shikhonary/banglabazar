@@ -464,29 +464,29 @@ const CardBack = ({ isMobile }: { isMobile: boolean }) => (
       {/* 2. Middle Section */}
       <div className="flex mt-1.5 flex-1 gap-1.5" style={BENGALI_TEXT_STYLE}>
         {/* Left: Emergency Table (~55%) */}
-        <div style={{ width: "55%", border: "1px solid #000", ...BENGALI_TEXT_STYLE }}>
-          <div style={{ borderBottom: "1px solid #000", textAlign: "center", padding: "1px 4px" }}>
-            <span style={{ color: "#E32636", fontWeight: 600, fontSize: "8px", ...BENGALI_TEXT_STYLE }}>
+        <div style={{ width: "55%", border: "1.5px solid #000", ...BENGALI_TEXT_STYLE }}>
+          <div style={{ borderBottom: "1.5px solid #000", textAlign: "center", padding: "1px 4px" }}>
+            <span style={{ color: "#E32636", fontWeight: 600, fontSize: "10px", ...BENGALI_TEXT_STYLE }}>
               জরুরী প্রয়োজনে কল করুন
             </span>
           </div>
-          <div style={{ borderBottom: "1px solid #000", padding: "1px 4px" }}>
-            <span style={{ color: "#1A1A40", fontSize: "7px", ...BENGALI_TEXT_STYLE }}>
+          <div style={{ borderBottom: "1.5px solid #000", padding: "1px 4px" }}>
+            <span style={{ color: "#1A1A40", fontSize: "9px", ...BENGALI_TEXT_STYLE }}>
               পল্লী বিদ্যুৎ ঃ ০১৭৬৯-৪০০২২৪
             </span>
           </div>
-          <div style={{ borderBottom: "1px solid #000", padding: "1px 4px" }}>
-            <span style={{ color: "#1A1A40", fontSize: "7px", ...BENGALI_TEXT_STYLE }}>
+          <div style={{ borderBottom: "1.5px solid #000", padding: "1px 4px" }}>
+            <span style={{ color: "#1A1A40", fontSize: "9px", ...BENGALI_TEXT_STYLE }}>
               ফায়ার সার্ভিস ঃ ০১৯০১-০২০৯১৮
             </span>
           </div>
-          <div style={{ borderBottom: "1px solid #000", padding: "1px 4px" }}>
-            <span style={{ color: "#1A1A40", fontSize: "7px", ...BENGALI_TEXT_STYLE }}>
+          <div style={{ borderBottom: "1.5px solid #000", padding: "1px 4px" }}>
+            <span style={{ color: "#1A1A40", fontSize: "9px", ...BENGALI_TEXT_STYLE }}>
               উপজেলা স্বাস্থ্য কমপ্লেক্স ঃ ০১৭৩০-৩২৪৫৩৭
             </span>
           </div>
           <div style={{ textAlign: "center", padding: "1px 4px" }}>
-            <span style={{ color: "#0000CD", fontWeight: 700, fontSize: "9px", ...BENGALI_TEXT_STYLE }}>
+            <span style={{ color: "#0000CD", fontWeight: 700, fontSize: "11px", ...BENGALI_TEXT_STYLE }}>
               জরুরী সেবা ঃ ৯৯৯
             </span>
           </div>
