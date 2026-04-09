@@ -77,9 +77,17 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
       </div>
 
       <div className="relative flex-1" style={{ marginTop: "-6px", ...BENGALI_TEXT_STYLE }}>
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ zIndex: 0, opacity: 0.75 }}>
-          <img src={bdMap} alt="" className="h-[110%] object-contain" />
-        </div>
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            zIndex: 0,
+            opacity: 0.75,
+            backgroundImage: `url(${bdMap})`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center center",
+            backgroundSize: "auto 110%",
+          }}
+        />
         <div className="space-y-2.5 pr-[74px] pb-[6px] relative" style={{ zIndex: 1 }}>
           <FrontDetailRow label="মালিকের নাম" value={holding.name} color="#000000" />
           <FrontDetailRow label="হোল্ডিং নং" value={holding.holding_no} color="#000000" />
