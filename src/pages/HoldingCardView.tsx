@@ -305,7 +305,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
         </div>
 
         {/* Center text */}
-        <div className="text-center px-14">
+        <div className="text-center px-8">
           <p
             style={{
               margin: 0,
