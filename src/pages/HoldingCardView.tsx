@@ -259,7 +259,7 @@ const HoldingCardView = () => {
         >
           <div className="relative" style={{ backfaceVisibility: "hidden" }}>
             <div ref={frontRef}>
-              <CardFront holding={holding} isMobile={isMobile} />
+              <CardFront holding={holding} />
             </div>
           </div>
 
@@ -282,7 +282,7 @@ const HoldingCardView = () => {
 
 // CardFront is now imported from @/components/HoldingCardFront
 
-const CardBack = ({ isMobile }: { isMobile: boolean }) => (
+const CardBack = () => (
   <div
     className="rounded-sm overflow-hidden"
     style={{
