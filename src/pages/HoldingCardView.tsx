@@ -306,8 +306,8 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
           </h1>
           <p style={{ fontSize: "7px", color: "#333", ...BENGALI_TEXT_STYLE }}>উপজেলা ঃ নগরকান্দা, জেলা ঃ ফরিদপুর।</p>
         </div>
-        <div className="w-7 h-7 shrink-0 flex items-center justify-center">
-          <img src={unionLogo} alt="ইউনিয়ন পরিষদ" className="w-6 h-6 object-contain" />
+        <div className="w-12 h-12 shrink-0 flex items-center justify-center">
+          <img src={unionLogo} alt="ইউনিয়ন পরিষদ" className="w-12 h-12 object-contain" />
         </div>
       </div>
 
