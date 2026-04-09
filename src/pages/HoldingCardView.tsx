@@ -451,10 +451,10 @@ const CardBack = ({ isMobile }: { isMobile: boolean }) => (
     <div className="flex flex-col h-full w-full p-2 relative" style={{ zIndex: 1, ...BENGALI_TEXT_STYLE }}>
       {/* 1. Top Header */}
       <div className="flex justify-between items-start">
-        <p style={{ color: "#8B0000", fontSize: "18px", fontWeight: 700, ...BENGALI_TEXT_STYLE }}>
+        <p style={{ color: "#ad2c30", fontSize: "18px", fontWeight: 700, ...BENGALI_TEXT_STYLE }}>
           ৪৫ দিনের মধ্যে জন্ম ও মৃত্যু নিবন্ধন করুন।
         </p>
-        <p style={{ color: "#8B0000", fontSize: "18px", fontWeight: 700, textAlign: "right", ...BENGALI_TEXT_STYLE }}>
+        <p style={{ color: "#763247", fontSize: "18px", fontWeight: 700, textAlign: "right", ...BENGALI_TEXT_STYLE }}>
           সময়মত ইউপি কর পরিশোধ করুন।
         </p>
       </div>
