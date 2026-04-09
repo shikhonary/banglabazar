@@ -63,7 +63,7 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
         <div className="absolute right-0 top-0 w-12 h-12 flex items-center justify-center" style={{ zIndex: 2 }}>
           <img src={unionLogo} alt="ইউনিয়ন পরিষদ" className="w-12 h-12 object-contain" />
         </div>
-        <div className="text-center px-8">
+        <div className="text-center px-8" style={{ position: "relative", zIndex: 2 }}>
           <p style={{ margin: 0, lineHeight: 1, fontSize: "10px", color: "#173c97", fontWeight: "bold", ...BENGALI_TEXT_STYLE }}>
             গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)
           </p>
