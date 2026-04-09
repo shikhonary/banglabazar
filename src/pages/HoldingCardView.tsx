@@ -356,13 +356,17 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
           <FrontDetailRow label="ওয়ার্ড নং" value={holding.ward_no} />
           <FrontDetailRow label="গ্রাম/মহল্লা" value={holding.village} />
         </div>
-        <QRCodeSVG
-          value={`${window.location.origin}/invoice/${holding.id}`}
-          size={60}
-          level="M"
-          fgColor="#000000"
-          bgColor="#ffffff"
-        />
+        <div className="absolute bottom-0 right-0" style={{ zIndex: 2 }}>
+          <div className="bg-white p-0.5 border border-gray-300">
+            <QRCodeSVG
+              value={`${window.location.origin}/invoice/${holding.id}`}
+              size={65}
+              level="M"
+              fgColor="#000000"
+              bgColor="#ffffff"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
