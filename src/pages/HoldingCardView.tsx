@@ -359,7 +359,15 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
         </div>
         <div className="absolute bottom-[2px] right-[2px]" style={{ zIndex: 2 }}>
           <QRCodeSVG
-            value={`${window.location.origin}/invoice/${holding.id}`}
+            value={[
+              "মুছাপুর ইউনিয়ন পরিষদ",
+              `অভিভাবকের নাম: ${holding.guardian_name}`,
+              `মালিকের নাম: ${holding.name}`,
+              `হোল্ডিং নং: ${holding.holding_no}`,
+              `ওয়ার্ড নং: ${holding.ward_no}`,
+              `গ্রাম/মহল্লা: ${holding.village}`,
+              `কর: ${holding.tax} টাকা`,
+            ].join("\n")}
             size={80}
             level="M"
             fgColor="#000000"
