@@ -353,26 +353,22 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
         <div className="flex-1 space-y-4">
           <FrontDetailRow label="মালিকের নাম" value={holding.name} />
           <FrontDetailRow label="হোল্ডিং নং" value={holding.holding_no} />
-          <FrontDetailRow label="ওয়ার্ড নং" value={holding.ward_no} />
+          <FrontDetailRow label="ওয়ার্ড নং" value={holding.ward_no} color="#1a1a40" />
           <FrontDetailRow label="গ্রাম/মহল্লা" value={holding.village} />
         </div>
-        <div className="absolute bottom-0 right-0" style={{ zIndex: 2 }}>
-          <div className="bg-white p-0.5 border border-gray-300">
-            <QRCodeSVG
-              value={`${window.location.origin}/invoice/${holding.id}`}
-              size={65}
-              level="M"
-              fgColor="#000000"
-              bgColor="#ffffff"
-            />
-          </div>
-        </div>
+        <QRCodeSVG
+          value={`${window.location.origin}/invoice/${holding.id}`}
+          size={60}
+          level="M"
+          fgColor="#000000"
+          bgColor="#ffffff"
+        />
       </div>
     </div>
   </div>
 );
 
-const FrontDetailRow = ({ label, value }: { label: string; value: string }) => (
+const FrontDetailRow = ({ label, value }: { label: string; value: string; color?: string }) => (
   <div className="flex items-baseline" style={BENGALI_TEXT_STYLE}>
     {/* Label container with fixed width and flex alignment */}
     <span
@@ -380,7 +376,6 @@ const FrontDetailRow = ({ label, value }: { label: string; value: string }) => (
         display: "flex",
         justifyContent: "space-between",
         fontSize: "14px",
-        color: "#1a1a40",
         fontWeight: 600,
         height: "8px",
         width: "75px", // Increased slightly to ensure Bengali text fits
