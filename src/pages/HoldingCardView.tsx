@@ -361,8 +361,8 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
           <QRCodeSVG
             value={[
               "মুছাপুর ইউনিয়ন পরিষদ",
-              `অভিভাবকের নাম: ${holding.guardian_name}`,
               `মালিকের নাম: ${holding.name}`,
+              `অভিভাবকের নাম: ${holding.guardian_name}`,
               `হোল্ডিং নং: ${holding.holding_no}`,
               `ওয়ার্ড নং: ${holding.ward_no}`,
               `গ্রাম/মহল্লা: ${holding.village}`,
