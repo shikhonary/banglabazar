@@ -354,7 +354,6 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
           <FrontDetailRow label="মালিকের নাম" value={holding.name} />
           <FrontDetailRow label="হোল্ডিং নং" value={holding.holding_no} />
           <FrontDetailRow label="ওয়ার্ড নং" value={holding.ward_no} />
-          <FrontDetailRow label="রাক" value="—" />
           <FrontDetailRow label="গ্রাম/মহল্লা" value={holding.village} />
         </div>
 
@@ -400,7 +399,7 @@ const FrontDetailRow = ({ label, value }: { label: string; value: string }) => (
         fontSize: "9px",
         color: "#1a1a40",
         fontWeight: 600,
-        marginTop: "-5px",
+        margintTop: "-5px",
         width: "60px", // Increased slightly to ensure Bengali text fits
         marginRight: "8px",
         ...BENGALI_TEXT_STYLE,
