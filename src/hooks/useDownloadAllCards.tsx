@@ -4,10 +4,28 @@ import { toPng } from "html-to-image";
 import JSZip from "jszip";
 import { CardFront } from "@/components/HoldingCardFront";
 import type { Tables } from "@/integrations/supabase/types";
+import gobLogo from "@/assets/gob-logo.jpg";
+import unionLogo from "@/assets/union-logo.jpg";
+import bdMap from "@/assets/bd-map-watermark.png";
 
 type HoldingCard = Tables<"holding_cards">;
 
 const BENGALI_FONT_FAMILY = "'SolaimanLipi', sans-serif";
+
+const preloadImages = async () => {
+  const srcs = [gobLogo, unionLogo, bdMap];
+  await Promise.all(
+    srcs.map(
+      (src) =>
+        new Promise<void>((resolve) => {
+          const img = new Image();
+          img.onload = () => resolve();
+          img.onerror = () => resolve();
+          img.src = src;
+        })
+    )
+  );
+};
 
 let solaimanCssPromise: Promise<string> | null = null;
 const getSolaimanCss = () => {
@@ -42,7 +60,7 @@ const renderCardToJpegBlob = async (holding: HoldingCard): Promise<Blob> => {
   const root = createRoot(container);
   root.render(<CardFront holding={holding} forExport />);
 
-  await new Promise((r) => setTimeout(r, 300));
+  await new Promise((r) => setTimeout(r, 500));
 
   const cardEl = container.firstElementChild as HTMLElement;
   if (!cardEl) {
@@ -97,6 +115,7 @@ export const useDownloadAllCards = () => {
 
     try {
       await ensureFont();
+      await preloadImages();
 
       const zip = new JSZip();
 
