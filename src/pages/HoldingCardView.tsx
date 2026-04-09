@@ -396,10 +396,10 @@ const FrontDetailRow = ({ label, value }: { label: string; value: string }) => (
       style={{
         display: "flex",
         justifyContent: "space-between",
-        fontSize: "9px",
+        fontSize: "12px",
         color: "#1a1a40",
         fontWeight: 600,
-        height: "10px",
+        height: "8px",
         width: "60px", // Increased slightly to ensure Bengali text fits
         marginRight: "8px",
         ...BENGALI_TEXT_STYLE,
