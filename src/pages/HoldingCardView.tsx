@@ -8,9 +8,9 @@ import type { Tables } from "@/integrations/supabase/types";
 import { toPng } from "html-to-image";
 import { QRCodeSVG } from "qrcode.react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import bdGovtSeal from "@/assets/bd-govt-seal.png";
-
-import unionParishadLogo from "@/assets/union-parishad-logo.png";
+import gobLogo from "@/assets/gob-logo.jpg";
+import unionLogo from "@/assets/union-logo.jpg";
+import bdMap from "@/assets/bd-map.png";
 import solaimanLipiEmbeddedCss from "@/styles/solaimanLipiEmbedded.css?raw";
 
 type HoldingCardType = Tables<"holding_cards">;
@@ -289,10 +289,8 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
     }}
   >
     {/* Bangladesh map watermark */}
-    <div className="absolute pointer-events-none" style={{ zIndex: 0, opacity: 0.12, right: "15%", top: "25%", width: "40%", height: "70%" }}>
-      <svg viewBox="0 0 200 280" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
-        <path d="M100 10 C85 15, 70 25, 60 40 C50 55, 45 70, 50 90 C52 100, 48 110, 45 120 C40 135, 35 150, 40 165 C42 172, 38 180, 35 190 C30 205, 35 220, 45 235 C55 248, 65 255, 80 260 C90 263, 100 268, 110 265 C120 262, 130 255, 140 245 C148 237, 155 225, 158 210 C160 200, 165 188, 160 175 C155 162, 150 150, 148 138 C146 125, 150 112, 152 100 C155 85, 150 70, 142 58 C135 46, 125 35, 115 25 C110 18, 105 12, 100 10Z" fill="#D4393B" />
-      </svg>
+    <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ zIndex: 0, opacity: 0.12 }}>
+      <img src={bdMap} alt="" className="h-[75%] object-contain" />
     </div>
 
     {/* Main content */}
@@ -300,7 +298,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
       {/* Top header row: govt seal + text + union logo */}
       <div className="flex items-center gap-1">
         <div className="w-7 h-7 shrink-0 flex items-center justify-center">
-          <img src={bdGovtSeal} alt="সরকার" className="w-6 h-6 object-contain" />
+          <img src={gobLogo} alt="সরকার" className="w-6 h-6 object-contain" />
         </div>
         <div className="flex-1 text-center" style={{ lineHeight: 1.1 }}>
           <p style={{ fontSize: "6.5px", color: "#333", ...BENGALI_TEXT_STYLE }}>গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
@@ -308,7 +306,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
           <p style={{ fontSize: "7px", color: "#333", ...BENGALI_TEXT_STYLE }}>উপজেলা ঃ নগরকান্দা, জেলা ঃ ফরিদপুর।</p>
         </div>
         <div className="w-7 h-7 shrink-0 flex items-center justify-center">
-          <img src={unionParishadLogo} alt="ইউনিয়ন পরিষদ" className="w-6 h-6 object-contain" />
+          <img src={unionLogo} alt="ইউনিয়ন পরিষদ" className="w-6 h-6 object-contain" />
         </div>
       </div>
 
