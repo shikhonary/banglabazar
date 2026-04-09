@@ -282,14 +282,6 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
       ...BENGALI_TEXT_STYLE,
     }}
   >
-    {/* Bangladesh map watermark */}
-    <div
-      className="absolute inset-0 flex items-center justify-center pointer-events-none"
-      style={{ zIndex: 0, opacity: 0.5 }}
-    >
-      <img src={bdMap} alt="" className="h-[75%] object-contain" />
-    </div>
-
     {/* Main content */}
     <div className="flex flex-col h-full w-full p-2 relative" style={{ zIndex: 1, ...BENGALI_TEXT_STYLE }}>
       {/* Top header row: govt seal + text + union logo */}
@@ -349,6 +341,13 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
 
       {/* Details + QR section */}
       <div className="relative flex-1" style={BENGALI_TEXT_STYLE}>
+        {/* Bangladesh map watermark - centered in details section */}
+        <div
+          className="absolute inset-0 flex items-center justify-center pointer-events-none"
+          style={{ zIndex: 0, opacity: 0.5 }}
+        >
+          <img src={bdMap} alt="" className="h-[90%] object-contain" />
+        </div>
         {/* Left: Details */}
         <div className="space-y-4 pr-[74px] pb-[6px]">
           <FrontDetailRow label="মালিকের নাম" value={holding.name} color="#000000" />
