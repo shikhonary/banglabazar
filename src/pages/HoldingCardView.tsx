@@ -391,7 +391,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
 );
 
 const FrontDetailRow = ({ label, value }: { label: string; value: string }) => (
-  <div className="flex items-baseline mb-1" style={BENGALI_TEXT_STYLE}>
+  <div className="flex items-baseline" style={BENGALI_TEXT_STYLE}>
     {/* Label container with fixed width and flex alignment */}
     <span
       style={{
@@ -400,7 +400,7 @@ const FrontDetailRow = ({ label, value }: { label: string; value: string }) => (
         fontSize: "9px",
         color: "#1a1a40",
         fontWeight: 600,
-        width: "80px", // Increased slightly to ensure Bengali text fits
+        width: "60px", // Increased slightly to ensure Bengali text fits
         marginRight: "8px",
         ...BENGALI_TEXT_STYLE,
       }}
