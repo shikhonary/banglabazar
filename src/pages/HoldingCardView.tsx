@@ -10,7 +10,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import gobLogo from "@/assets/gob-logo.jpg";
 import unionLogo from "@/assets/union-logo.jpg";
-import bdMap from "@/assets/bd-map.png";
+import bdMap from "@/assets/bd-map-watermark.png";
 import solaimanLipiEmbeddedCss from "@/styles/solaimanLipiEmbedded.css?raw";
 
 type HoldingCardType = Tables<"holding_cards">;
@@ -285,7 +285,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
     {/* Bangladesh map watermark */}
     <div
       className="absolute inset-0 flex items-center justify-center pointer-events-none"
-      style={{ zIndex: 0, opacity: 0.12 }}
+      style={{ zIndex: 0, opacity: 0.5 }}
     >
       <img src={bdMap} alt="" className="h-[75%] object-contain" />
     </div>
