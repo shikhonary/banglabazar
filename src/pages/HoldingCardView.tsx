@@ -6,13 +6,10 @@ import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Loader2, Download, RefreshCw } from "lucide-react";
 import type { Tables } from "@/integrations/supabase/types";
 import { toPng } from "html-to-image";
-import { QRCodeSVG } from "qrcode.react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import gobLogo from "@/assets/gob-logo.jpg";
-import unionLogo from "@/assets/union-logo.jpg";
-import bdMap from "@/assets/bd-map-watermark.png";
 import solaimanLipiEmbeddedCss from "@/styles/solaimanLipiEmbedded.css?raw";
 import cardBackImg from "@/assets/card-back.jpg";
+import { CardFront } from "@/components/HoldingCardFront";
 
 type HoldingCardType = Tables<"holding_cards">;
 
@@ -262,7 +259,7 @@ const HoldingCardView = () => {
         >
           <div className="relative" style={{ backfaceVisibility: "hidden" }}>
             <div ref={frontRef}>
-              <CardFront holding={holding} isMobile={isMobile} />
+              <CardFront holding={holding} />
             </div>
           </div>
 
@@ -274,7 +271,7 @@ const HoldingCardView = () => {
             }}
           >
             <div ref={backRef}>
-              <CardBack isMobile={isMobile} />
+              <CardBack />
             </div>
           </div>
         </div>
@@ -283,149 +280,9 @@ const HoldingCardView = () => {
   );
 };
 
-const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: boolean }) => (
-  <div
-    className="bengali-text rounded-sm overflow-hidden relative flex flex-col"
-    style={{
-      width: "3.3in",
-      height: "2.05in",
-      background: "#FDFDFD",
-      boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
-      border: "1px solid #ccc",
-      ...BENGALI_TEXT_STYLE,
-    }}
-  >
-    {/* Main content */}
-    <div className="flex flex-col h-full w-full p-2 relative" style={{ zIndex: 1, ...BENGALI_TEXT_STYLE }}>
-      {/* Top header row: govt seal + text + union logo */}
-      <div className="relative">
-        {/* GOB logo - absolute left */}
-        <div className="absolute left-0 top-0 w-12 h-12 flex items-center justify-center" style={{ zIndex: 2 }}>
-          <img src={gobLogo} alt="সরকার" className="w-12 h-12 object-contain" />
-        </div>
+// CardFront is now imported from @/components/HoldingCardFront
 
-        {/* Union logo - absolute right */}
-        <div className="absolute right-0 top-0 w-12 h-12 flex items-center justify-center" style={{ zIndex: 2 }}>
-          <img src={unionLogo} alt="ইউনিয়ন পরিষদ" className="w-12 h-12 object-contain" />
-        </div>
-
-        {/* Center text */}
-        <div className="text-center px-8">
-          <p
-            style={{
-              margin: 0,
-              lineHeight: 1,
-              fontSize: "8px",
-              color: "#173c97",
-              fontWeight: "bold",
-              ...BENGALI_TEXT_STYLE,
-            }}
-          >
-            গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)
-          </p>
-          <h1
-            style={{
-              margin: 0,
-              lineHeight: 1,
-              fontSize: "20px",
-              fontWeight: "bold",
-              marginTop: "-10px",
-              color: "#ef1e23",
-              ...BENGALI_TEXT_STYLE,
-            }}
-          >
-            মুছাপুর ইউনিয়ন পরিষদ
-          </h1>
-          <p
-            style={{
-              margin: 0,
-              lineHeight: 1,
-              fontSize: "10px",
-              color: "#de5038",
-              marginTop: "-10px",
-              fontWeight: "bold",
-              ...BENGALI_TEXT_STYLE,
-            }}
-          >
-            উপজেলা ঃ রায়পুর, জেলা ঃ নরসিংদী।
-          </p>
-        </div>
-      </div>
-
-      {/* Details + QR section */}
-      <div className="relative flex-1" style={BENGALI_TEXT_STYLE}>
-        {/* Bangladesh map watermark - centered in details section */}
-        <div
-          className="absolute inset-0 flex items-center justify-center pointer-events-none"
-          style={{ zIndex: 0, opacity: 0.5 }}
-        >
-          <img src={bdMap} alt="" className="h-[110%] object-contain" />
-        </div>
-        {/* Left: Details */}
-        <div className="space-y-2.5 pr-[74px] pb-[6px] relative" style={{ zIndex: 1 }}>
-          <FrontDetailRow label="মালিকের নাম" value={holding.name} color="#000000" />
-          <FrontDetailRow label="হোল্ডিং নং" value={holding.holding_no} color="#000000" />
-          <FrontDetailRow label="ওয়ার্ড নং" value={holding.ward_no} color="#de5038" />
-          <FrontDetailRow label="গ্রাম/মহল্লা" value={holding.village} color="#000000" />
-        </div>
-        <div className="absolute bottom-[2px] right-[2px]" style={{ zIndex: 2 }}>
-          <QRCodeSVG
-            value={[
-              "মুছাপুর ইউনিয়ন পরিষদ",
-              `মালিকের নাম: ${holding.name}`,
-              `অভিভাবকের নাম: ${holding.guardian_name}`,
-              `হোল্ডিং নং: ${holding.holding_no}`,
-              `ওয়ার্ড নং: ${holding.ward_no}`,
-              `গ্রাম/মহল্লা: ${holding.village}`,
-              `কর: ${holding.tax} টাকা`,
-            ].join("\n")}
-            size={90}
-            level="L"
-            fgColor="#000000"
-            bgColor="#ffffff"
-          />
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
-const FrontDetailRow = ({ label, value, color = "#000000" }: { label: string; value: string; color?: string }) => (
-  <div className="flex items-baseline" style={{ ...BENGALI_TEXT_STYLE, color }}>
-    {/* Label container with fixed width and flex alignment */}
-    <span
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        fontSize: "14px",
-        fontWeight: 600,
-        height: "8px",
-        width: "75px", // Increased slightly to ensure Bengali text fits
-        marginRight: "8px",
-        ...BENGALI_TEXT_STYLE,
-      }}
-    >
-      <span>{label}</span>
-      <span>ঃ</span>
-    </span>
-
-    {/* Value container */}
-    <span
-      style={{
-        fontSize: "14px",
-        fontWeight: 700,
-        color: color,
-        height: "8px",
-        flex: 1, // Allows value to take up remaining space
-        ...BENGALI_TEXT_STYLE,
-      }}
-    >
-      {value}
-    </span>
-  </div>
-);
-
-const CardBack = ({ isMobile }: { isMobile: boolean }) => (
+const CardBack = () => (
   <div
     className="rounded-sm overflow-hidden"
     style={{
