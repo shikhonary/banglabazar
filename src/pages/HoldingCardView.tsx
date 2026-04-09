@@ -293,26 +293,21 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
     {/* Main content */}
     <div className="flex flex-col h-full w-full p-2 relative" style={{ zIndex: 1, ...BENGALI_TEXT_STYLE }}>
       {/* Top header row: govt seal + text + union logo */}
-      <div className="relative">
-        {/* GOB logo - absolute left */}
-        <div className="absolute left-0 top-0 w-12 h-12 flex items-center justify-center" style={{ zIndex: 2 }}>
+      <div className="flex items-center gap-1">
+        <div className="w-12 h-12 shrink-0 flex items-center justify-center">
           <img src={gobLogo} alt="সরকার" className="w-12 h-12 object-contain" />
         </div>
-
-        {/* Union logo - absolute right */}
-        <div className="absolute right-0 top-0 w-12 h-12 flex items-center justify-center" style={{ zIndex: 2 }}>
-          <img src={unionLogo} alt="ইউনিয়ন পরিষদ" className="w-12 h-12 object-contain" />
-        </div>
-
-        {/* Center text */}
-        <div className="text-center px-14" style={{ lineHeight: 1.3 }}>
-          <p style={{ fontSize: "6.5px", color: "#333", marginBottom: "2px", ...BENGALI_TEXT_STYLE }}>
+        <div className="flex-1 text-center" style={{ lineHeight: 1.1 }}>
+          <p style={{ fontSize: "6.5px", color: "#333", ...BENGALI_TEXT_STYLE }}>
             গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)
           </p>
-          <h1 style={{ fontSize: "22px", fontWeight: 700, color: "#ef1e23", marginBottom: "2px", ...BENGALI_TEXT_STYLE }}>
+          <h1 style={{ fontSize: "22px", fontWeight: 700, color: "#ef1e23", ...BENGALI_TEXT_STYLE }}>
             মুছাপুর ইউনিয়ন পরিষদ
           </h1>
           <p style={{ fontSize: "7px", color: "#333", ...BENGALI_TEXT_STYLE }}>উপজেলা ঃ নগরকান্দা, জেলা ঃ ফরিদপুর।</p>
+        </div>
+        <div className="w-12 h-12 shrink-0 flex items-center justify-center">
+          <img src={unionLogo} alt="ইউনিয়ন পরিষদ" className="w-12 h-12 object-contain" />
         </div>
       </div>
 
