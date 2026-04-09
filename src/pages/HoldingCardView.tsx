@@ -390,7 +390,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
 );
 
 const FrontDetailRow = ({ label, value }: { label: string; value: string }) => (
-  <div className="flex items-baseline" style={{ marginTop: "1px", ...BENGALI_TEXT_STYLE }}>
+  <div className="flex items-baseline" style={{ marginTop: "0px", ...BENGALI_TEXT_STYLE }}>
     <span
       style={{
         display: "flex",
