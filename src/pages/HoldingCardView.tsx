@@ -316,7 +316,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
             style={{
               margin: 0,
               lineHeight: 1,
-              fontSize: "20px",
+              fontSize: "16px",
               fontWeight: "bold",
               marginTop: "-10px",
               color: "#ef1e23",
