@@ -76,7 +76,7 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
         </div>
       </div>
 
-      <div className="relative flex-1" style={BENGALI_TEXT_STYLE}>
+      <div className="relative flex-1" style={{ marginTop: "-6px", ...BENGALI_TEXT_STYLE }}>
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ zIndex: 0, opacity: 0.75 }}>
           <img src={bdMap} alt="" className="h-[110%] object-contain" />
         </div>
