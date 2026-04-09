@@ -53,7 +53,6 @@ const HoldingCardView = () => {
     void document.fonts.load("700 1em SolaimanLipi");
   }, []);
 
-
   const downloadCard = async () => {
     if (!holding) return;
     setDownloading(true);
@@ -122,7 +121,9 @@ const HoldingCardView = () => {
       const loadImg = (src: string) => {
         const img = new Image();
         img.src = src;
-        return new Promise<HTMLImageElement>((res) => { img.onload = () => res(img); });
+        return new Promise<HTMLImageElement>((res) => {
+          img.onload = () => res(img);
+        });
       };
 
       const [frontImg, backImg] = await Promise.all([loadImg(frontPng), loadImg(backPng)]);
@@ -176,11 +177,7 @@ const HoldingCardView = () => {
   useEffect(() => {
     const fetchData = async () => {
       if (!id) return;
-      const { data, error } = await supabase
-        .from("holding_cards")
-        .select("*")
-        .eq("id", id)
-        .single();
+      const { data, error } = await supabase.from("holding_cards").select("*").eq("id", id).single();
 
       if (error || !data) {
         toast({
@@ -263,10 +260,7 @@ const HoldingCardView = () => {
             </div>
           </div>
 
-          <div
-            className="absolute inset-0"
-            style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
-          >
+          <div className="absolute inset-0" style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
             <div ref={backRef}>
               <CardBack isMobile={isMobile} />
             </div>
@@ -289,7 +283,10 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
     }}
   >
     {/* Bangladesh map watermark */}
-    <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ zIndex: 0, opacity: 0.12 }}>
+    <div
+      className="absolute inset-0 flex items-center justify-center pointer-events-none"
+      style={{ zIndex: 0, opacity: 0.12 }}
+    >
       <img src={bdMap} alt="" className="h-[75%] object-contain" />
     </div>
 
@@ -301,8 +298,12 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
           <img src={gobLogo} alt="সরকার" className="w-8 h-8 object-contain" />
         </div>
         <div className="flex-1 text-center" style={{ lineHeight: 1.1 }}>
-          <p style={{ fontSize: "6.5px", color: "#333", ...BENGALI_TEXT_STYLE }}>গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
-          <h1 style={{ fontSize: "14px", fontWeight: 700, color: "#1a1a40", ...BENGALI_TEXT_STYLE }}>৪নং ফুলসুতী ইউনিয়ন পরিষদ</h1>
+          <p style={{ fontSize: "6.5px", color: "#333", ...BENGALI_TEXT_STYLE }}>
+            গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)
+          </p>
+          <h1 style={{ fontSize: "20px", fontWeight: 700, color: "#1a1a40", ...BENGALI_TEXT_STYLE }}>
+            ৪নং ফুলসুতী ইউনিয়ন পরিষদ
+          </h1>
           <p style={{ fontSize: "7px", color: "#333", ...BENGALI_TEXT_STYLE }}>উপজেলা ঃ নগরকান্দা, জেলা ঃ ফরিদপুর।</p>
         </div>
         <div className="w-7 h-7 shrink-0 flex items-center justify-center">
@@ -337,7 +338,15 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
 
       {/* Bottom footer */}
       <div className="text-center mt-auto pt-0.5">
-        <p style={{ fontSize: "8px", fontWeight: 700, color: "#8B0000", fontFamily: "sans-serif", letterSpacing: "0.3px" }}>
+        <p
+          style={{
+            fontSize: "8px",
+            fontWeight: 700,
+            color: "#8B0000",
+            fontFamily: "sans-serif",
+            letterSpacing: "0.3px",
+          }}
+        >
           https://fulsutiup.faridpur.gov.bd
         </p>
       </div>
@@ -347,8 +356,12 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
 
 const FrontDetailRow = ({ label, value }: { label: string; value: string }) => (
   <div className="flex items-baseline" style={BENGALI_TEXT_STYLE}>
-    <span style={{ fontSize: "9px", color: "#1a1a40", fontWeight: 600, minWidth: "65px", ...BENGALI_TEXT_STYLE }}>{label} ঃ</span>
-    <span style={{ fontSize: "10px", fontWeight: 700, color: "#B22222", marginLeft: "4px", ...BENGALI_TEXT_STYLE }}>{value}</span>
+    <span style={{ fontSize: "9px", color: "#1a1a40", fontWeight: 600, minWidth: "65px", ...BENGALI_TEXT_STYLE }}>
+      {label} ঃ
+    </span>
+    <span style={{ fontSize: "10px", fontWeight: 700, color: "#B22222", marginLeft: "4px", ...BENGALI_TEXT_STYLE }}>
+      {value}
+    </span>
   </div>
 );
 
@@ -364,18 +377,23 @@ const CardBack = ({ isMobile }: { isMobile: boolean }) => (
     }}
   >
     {/* Bangladesh flag watermark */}
-    <div className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ zIndex: 0, opacity: 0.15 }}>
+    <div
+      className="absolute inset-0 flex items-center justify-center pointer-events-none"
+      style={{ zIndex: 0, opacity: 0.15 }}
+    >
       <div style={{ width: "80%", height: "60%", background: "#006a4e", position: "relative", borderRadius: "2px" }}>
-        <div style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          width: "40%",
-          aspectRatio: "1",
-          borderRadius: "50%",
-          background: "#f42a41",
-        }} />
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "40%",
+            aspectRatio: "1",
+            borderRadius: "50%",
+            background: "#f42a41",
+          }}
+        />
       </div>
     </div>
 
@@ -396,19 +414,29 @@ const CardBack = ({ isMobile }: { isMobile: boolean }) => (
         {/* Left: Emergency Table (~55%) */}
         <div style={{ width: "55%", border: "1px solid #000", ...BENGALI_TEXT_STYLE }}>
           <div style={{ borderBottom: "1px solid #000", textAlign: "center", padding: "1px 4px" }}>
-            <span style={{ color: "#E32636", fontWeight: 600, fontSize: "8px", ...BENGALI_TEXT_STYLE }}>জরুরী প্রয়োজনে কল করুন</span>
+            <span style={{ color: "#E32636", fontWeight: 600, fontSize: "8px", ...BENGALI_TEXT_STYLE }}>
+              জরুরী প্রয়োজনে কল করুন
+            </span>
           </div>
           <div style={{ borderBottom: "1px solid #000", padding: "1px 4px" }}>
-            <span style={{ color: "#1A1A40", fontSize: "7px", ...BENGALI_TEXT_STYLE }}>পল্লী বিদ্যুৎ ঃ ০১৭৬৯-৪০০২২৪</span>
+            <span style={{ color: "#1A1A40", fontSize: "7px", ...BENGALI_TEXT_STYLE }}>
+              পল্লী বিদ্যুৎ ঃ ০১৭৬৯-৪০০২২৪
+            </span>
           </div>
           <div style={{ borderBottom: "1px solid #000", padding: "1px 4px" }}>
-            <span style={{ color: "#1A1A40", fontSize: "7px", ...BENGALI_TEXT_STYLE }}>ফায়ার সার্ভিস ঃ ০১৯০১-০২০৯১৮</span>
+            <span style={{ color: "#1A1A40", fontSize: "7px", ...BENGALI_TEXT_STYLE }}>
+              ফায়ার সার্ভিস ঃ ০১৯০১-০২০৯১৮
+            </span>
           </div>
           <div style={{ borderBottom: "1px solid #000", padding: "1px 4px" }}>
-            <span style={{ color: "#1A1A40", fontSize: "7px", ...BENGALI_TEXT_STYLE }}>উপজেলা স্বাস্থ্য কমপ্লেক্স ঃ ০১৭৩০-৩২৪৫৩৭</span>
+            <span style={{ color: "#1A1A40", fontSize: "7px", ...BENGALI_TEXT_STYLE }}>
+              উপজেলা স্বাস্থ্য কমপ্লেক্স ঃ ০১৭৩০-৩২৪৫৩৭
+            </span>
           </div>
           <div style={{ textAlign: "center", padding: "1px 4px" }}>
-            <span style={{ color: "#0000CD", fontWeight: 700, fontSize: "9px", ...BENGALI_TEXT_STYLE }}>জরুরী সেবা ঃ ৯৯৯</span>
+            <span style={{ color: "#0000CD", fontWeight: 700, fontSize: "9px", ...BENGALI_TEXT_STYLE }}>
+              জরুরী সেবা ঃ ৯৯৯
+            </span>
           </div>
         </div>
 
@@ -434,13 +462,20 @@ const CardBack = ({ isMobile }: { isMobile: boolean }) => (
 
       {/* 3. Bottom Footer */}
       <div className="mt-1 text-center">
-        <p style={{ color: "#8B0000", fontWeight: 700, fontSize: "9px", fontFamily: "sans-serif", letterSpacing: "0.5px" }}>
+        <p
+          style={{
+            color: "#8B0000",
+            fontWeight: 700,
+            fontSize: "9px",
+            fontFamily: "sans-serif",
+            letterSpacing: "0.5px",
+          }}
+        >
           https://musapurup.narsingdi.gov.bd/
         </p>
       </div>
     </div>
   </div>
 );
-
 
 export default HoldingCardView;
