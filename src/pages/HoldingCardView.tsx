@@ -350,7 +350,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
       {/* Details + QR section */}
       <div className="flex mt-1.5 flex-1 gap-2" style={BENGALI_TEXT_STYLE}>
         {/* Left: Details */}
-        <div className="flex-1 space-y-0.5">
+        <div className="flex-1">
           <FrontDetailRow label="মালিকের নাম" value={holding.name} />
           <FrontDetailRow label="হোল্ডিং নং" value={holding.holding_no} />
           <FrontDetailRow label="ওয়ার্ড নং" value={holding.ward_no} />
