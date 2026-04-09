@@ -9,7 +9,7 @@ import { toPng } from "html-to-image";
 import { QRCodeSVG } from "qrcode.react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import bdGovtSeal from "@/assets/bd-govt-seal.png";
-import bdNationalEmblem from "@/assets/bd-national-emblem.png";
+
 import unionParishadLogo from "@/assets/union-parishad-logo.png";
 import solaimanLipiEmbeddedCss from "@/styles/solaimanLipiEmbedded.css?raw";
 
@@ -277,99 +277,80 @@ const HoldingCardView = () => {
   );
 };
 
-const CARD_ASPECT = 1.586; // ISO ID-1 standard (w:h)
-
 const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: boolean }) => (
   <div
-    className="bengali-text rounded-xl border-2 border-emerald-600 overflow-hidden shadow-xl relative flex flex-col"
+    className="bengali-text rounded-sm overflow-hidden relative flex flex-col"
     style={{
-      background: "linear-gradient(to bottom, #f0fdf4, rgba(254,252,232,0.3), #f0fdf4)",
-      ...(isMobile ? {} : { aspectRatio: `${CARD_ASPECT} / 1` }),
+      width: "3.3in",
+      height: "2.05in",
+      background: "#FDFDFD",
+      boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
       ...BENGALI_TEXT_STYLE,
     }}
   >
-    <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-      <img src={bdNationalEmblem} alt="" className="w-36 h-36 opacity-10" />
+    {/* Bangladesh map watermark */}
+    <div className="absolute pointer-events-none" style={{ zIndex: 0, opacity: 0.12, right: "15%", top: "25%", width: "40%", height: "70%" }}>
+      <svg viewBox="0 0 200 280" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: "100%", height: "100%" }}>
+        <path d="M100 10 C85 15, 70 25, 60 40 C50 55, 45 70, 50 90 C52 100, 48 110, 45 120 C40 135, 35 150, 40 165 C42 172, 38 180, 35 190 C30 205, 35 220, 45 235 C55 248, 65 255, 80 260 C90 263, 100 268, 110 265 C120 262, 130 255, 140 245 C148 237, 155 225, 158 210 C160 200, 165 188, 160 175 C155 162, 150 150, 148 138 C146 125, 150 112, 152 100 C155 85, 150 70, 142 58 C135 46, 125 35, 115 25 C110 18, 105 12, 100 10Z" fill="#D4393B" />
+      </svg>
     </div>
 
-    {/* Top bar */}
-    <div
-      className="text-white text-center py-1.5 px-3 relative z-10"
-      style={{
-        background: "linear-gradient(to right, #047857, #059669, #047857)",
-        ...BENGALI_TEXT_STYLE,
-      }}
-    >
-      <p className="text-[8px] sm:text-[9px] tracking-wide opacity-90">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
-    </div>
-
-    {/* Header with emblems */}
-    <div className="text-center py-1 px-3 border-b border-emerald-200" style={BENGALI_TEXT_STYLE}>
-      <div className="flex items-center justify-center gap-2">
-        <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-emerald-400 flex items-center justify-center bg-white shrink-0">
-          <img src={bdGovtSeal} alt="বাংলাদেশ সরকার" className="w-5 h-5 sm:w-7 sm:h-7 object-contain" />
+    {/* Main content */}
+    <div className="flex flex-col h-full w-full p-2 relative" style={{ zIndex: 1, ...BENGALI_TEXT_STYLE }}>
+      {/* Top header row: govt seal + text + union logo */}
+      <div className="flex items-center gap-1">
+        <div className="w-7 h-7 shrink-0 flex items-center justify-center">
+          <img src={bdGovtSeal} alt="সরকার" className="w-6 h-6 object-contain" />
         </div>
-        <div>
-          <h1 className="text-sm sm:text-base font-bold text-emerald-800 leading-tight">৪নং ফুলসুতী ইউনিয়ন পরিষদ</h1>
-          <p className="text-[8px] sm:text-[9px] text-emerald-600">উপজেলা : নগরকান্দা, জেলা : ফরিদপুর</p>
+        <div className="flex-1 text-center" style={{ lineHeight: 1.1 }}>
+          <p style={{ fontSize: "6.5px", color: "#333", ...BENGALI_TEXT_STYLE }}>গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
+          <h1 style={{ fontSize: "14px", fontWeight: 700, color: "#1a1a40", ...BENGALI_TEXT_STYLE }}>৪নং ফুলসুতী ইউনিয়ন পরিষদ</h1>
+          <p style={{ fontSize: "7px", color: "#333", ...BENGALI_TEXT_STYLE }}>উপজেলা ঃ নগরকান্দা, জেলা ঃ ফরিদপুর।</p>
         </div>
-        <div className="w-7 h-7 sm:w-9 sm:h-9 rounded-full overflow-hidden border border-emerald-400 flex items-center justify-center bg-white shrink-0">
-          <img src={unionParishadLogo} alt="ইউনিয়ন পরিষদ" className="w-5 h-5 sm:w-7 sm:h-7 object-contain" />
-        </div>
-      </div>
-    </div>
-
-    {/* Badge */}
-    <div className="flex justify-center -mt-2.5 relative z-10" style={BENGALI_TEXT_STYLE}>
-      <div className="bg-red-600 text-white px-3 sm:px-5 py-0.5 rounded-full text-[10px] sm:text-xs font-bold shadow-md border-2 border-red-700">
-        হোল্ডিং স্মার্ট কার্ড
-      </div>
-    </div>
-
-    {/* Main content - horizontal layout */}
-    <div className="px-3 sm:px-4 pt-1.5 pb-1 flex-1 flex flex-col justify-between relative z-10" style={BENGALI_TEXT_STYLE}>
-      <div className="flex gap-3 items-start">
-        {/* QR Code */}
-        <div className="w-14 h-14 sm:w-16 sm:h-16 shrink-0 rounded-lg border-2 border-emerald-300 bg-white p-0.5 flex items-center justify-center">
-          <QRCodeSVG
-            value={`${window.location.origin}/invoice/${holding.id}`}
-            size={52}
-            level="M"
-            fgColor="#065f46"
-            bgColor="#ffffff"
-          />
-        </div>
-
-        {/* Details */}
-        <div className="flex-1 space-y-1">
-          <DetailRow label="নাম" value={holding.name} />
-          <DetailRow label="হোল্ডিং নং" value={holding.holding_no} />
-          <DetailRow label="ওয়ার্ড নং" value={holding.ward_no} />
-          <DetailRow label="গ্রাম/মহল্লা" value={holding.village} />
-        </div>
-
-        {/* Tax box */}
-        <div className="shrink-0 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-1.5 text-center" style={BENGALI_TEXT_STYLE}>
-          <p className="text-[9px] text-emerald-600 mb-0.5">বার্ষিক কর</p>
-          <p className="text-base sm:text-lg font-bold text-emerald-800">৳{Number(holding.tax).toLocaleString()}</p>
+        <div className="w-7 h-7 shrink-0 flex items-center justify-center">
+          <img src={unionParishadLogo} alt="ইউনিয়ন পরিষদ" className="w-6 h-6 object-contain" />
         </div>
       </div>
 
-      <div className="text-center" style={BENGALI_TEXT_STYLE}>
-        <p className="text-[9px] text-emerald-600 leading-relaxed">★ নিয়মিত ইউপি কর (ট্যাক্স) পরিশোধ করুন ★</p>
+      {/* Details + QR section */}
+      <div className="flex mt-1.5 flex-1 gap-2" style={BENGALI_TEXT_STYLE}>
+        {/* Left: Details */}
+        <div className="flex-1 space-y-0.5">
+          <FrontDetailRow label="মালিকের নাম" value={holding.name} />
+          <FrontDetailRow label="হোল্ডিং নং" value={holding.holding_no} />
+          <FrontDetailRow label="ওয়ার্ড নং" value={holding.ward_no} />
+          <FrontDetailRow label="রাক" value="—" />
+          <FrontDetailRow label="গ্রাম/মহল্লা" value={holding.village} />
+        </div>
+
+        {/* Right: QR Code */}
+        <div className="shrink-0 flex items-start justify-center pt-1">
+          <div className="bg-white p-0.5 border border-gray-300">
+            <QRCodeSVG
+              value={`${window.location.origin}/invoice/${holding.id}`}
+              size={60}
+              level="M"
+              fgColor="#000000"
+              bgColor="#ffffff"
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom footer */}
+      <div className="text-center mt-auto pt-0.5">
+        <p style={{ fontSize: "8px", fontWeight: 700, color: "#8B0000", fontFamily: "sans-serif", letterSpacing: "0.3px" }}>
+          https://fulsutiup.faridpur.gov.bd
+        </p>
       </div>
     </div>
+  </div>
+);
 
-    {/* Bottom bar */}
-    <div
-      className="text-white text-center py-1 px-4"
-      style={{
-        background: "linear-gradient(to right, #047857, #059669, #047857)",
-        ...BENGALI_TEXT_STYLE,
-      }}
-    >
-      <p className="text-[9px] tracking-wide opacity-90">https://fulsutiup.faridpur.gov.bd</p>
-    </div>
+const FrontDetailRow = ({ label, value }: { label: string; value: string }) => (
+  <div className="flex items-baseline" style={BENGALI_TEXT_STYLE}>
+    <span style={{ fontSize: "9px", color: "#1a1a40", fontWeight: 600, minWidth: "65px", ...BENGALI_TEXT_STYLE }}>{label} ঃ</span>
+    <span style={{ fontSize: "10px", fontWeight: 700, color: "#B22222", marginLeft: "4px", ...BENGALI_TEXT_STYLE }}>{value}</span>
   </div>
 );
 
@@ -463,13 +444,5 @@ const CardBack = ({ isMobile }: { isMobile: boolean }) => (
   </div>
 );
 
-const DetailRow = ({ label, value }: { label: string; value: string }) => (
-  <div className="flex items-baseline gap-2" style={BENGALI_TEXT_STYLE}>
-    <span className="text-xs text-emerald-700 font-medium whitespace-nowrap min-w-[70px]">{label} :</span>
-    <span className="text-sm font-bold text-foreground border-b border-dashed border-emerald-300 flex-1 pb-0.5">
-      {value}
-    </span>
-  </div>
-);
 
 export default HoldingCardView;
