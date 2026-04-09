@@ -342,29 +342,27 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
               ...BENGALI_TEXT_STYLE,
             }}
           >
-            উপজেলা ঃ নগরকান্দা, জেলা ঃ ফরিদপুর।
+            উপজেলা ঃ রায়পুর, জেলা ঃ নরসিংদী।
           </p>
         </div>
       </div>
 
       {/* Details + QR section */}
-      <div className="relative flex-1" style={BENGALI_TEXT_STYLE}>
-        <div className="space-y-4 pr-[84px]">
+      <div className="flex-1 relative" style={BENGALI_TEXT_STYLE}>
+        {/* Left: Details */}
+        <div className="flex-1 space-y-4">
           <FrontDetailRow label="মালিকের নাম" value={holding.name} />
           <FrontDetailRow label="হোল্ডিং নং" value={holding.holding_no} />
           <FrontDetailRow label="ওয়ার্ড নং" value={holding.ward_no} color="#1a1a40" />
           <FrontDetailRow label="গ্রাম/মহল্লা" value={holding.village} />
         </div>
-
-        <div className="absolute bottom-0 right-0" style={{ zIndex: 2 }}>
-          <QRCodeSVG
-            value={`${window.location.origin}/invoice/${holding.id}`}
-            size={72}
-            level="M"
-            fgColor="#000000"
-            bgColor="#ffffff"
-          />
-        </div>
+        <QRCodeSVG
+          value={`${window.location.origin}/invoice/${holding.id}`}
+          size={60}
+          level="M"
+          fgColor="#000000"
+          bgColor="#ffffff"
+        />
       </div>
     </div>
   </div>
