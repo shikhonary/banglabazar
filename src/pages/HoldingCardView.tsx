@@ -362,7 +362,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
           <img src={bdMap} alt="" className="h-[110%] object-contain" />
         </div>
         {/* Left: Details */}
-        <div className="space-y-2 pr-[74px] pb-[6px] relative" style={{ zIndex: 1 }}>
+        <div className="space-y-2.5 pr-[74px] pb-[6px] relative" style={{ zIndex: 1 }}>
           <FrontDetailRow label="মালিকের নাম" value={holding.name} color="#000000" />
           <FrontDetailRow label="হোল্ডিং নং" value={holding.holding_no} color="#000000" />
           <FrontDetailRow label="ওয়ার্ড নং" value={holding.ward_no} color="#de5038" />
@@ -379,7 +379,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
               `গ্রাম/মহল্লা: ${holding.village}`,
               `কর: ${holding.tax} টাকা`,
             ].join("\n")}
-            size={80}
+            size={90}
             level="L"
             fgColor="#000000"
             bgColor="#ffffff"
