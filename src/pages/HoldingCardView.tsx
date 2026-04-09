@@ -324,7 +324,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
               lineHeight: 1,
               fontSize: "20px",
               fontWeight: "bold",
-              marginTop: "-8px",
+              marginTop: "-10px",
               color: "#ef1e23",
               ...BENGALI_TEXT_STYLE,
             }}
@@ -337,6 +337,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
               lineHeight: 1,
               fontSize: "10px",
               color: "#de5038",
+              marginTop: "-10px",
               fontWeight: "bold",
               ...BENGALI_TEXT_STYLE,
             }}
