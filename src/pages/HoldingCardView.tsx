@@ -468,7 +468,7 @@ const CardBack = ({ isMobile }: { isMobile: boolean }) => (
           ...BENGALI_TEXT_STYLE,
         }}
       >
-        সময় মত ইউপি কর <br /> পরিশোধ করুন।
+        সময়মত ইউপি কর <br /> পরিশোধ করুন।
       </h1>
     </div>
 
@@ -583,7 +583,7 @@ const CardBack = ({ isMobile }: { isMobile: boolean }) => (
       >
         <h4
           style={{
-            fontSize: "15px",
+            fontSize: "16px",
             fontWeight: 700,
             color: "#177247",
             marginTop: "12px",
