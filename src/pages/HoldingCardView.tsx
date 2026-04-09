@@ -431,7 +431,7 @@ const CardBack = ({ isMobile }: { isMobile: boolean }) => (
       className="absolute inset-0 flex items-center justify-center pointer-events-none"
       style={{ zIndex: 0, opacity: 0.15 }}
     >
-      <div style={{ width: "80%", height: "60%", background: "#006a4e", position: "relative", borderRadius: "2px" }}>
+      <div style={{ width: "50%", height: "50%", background: "#006a4e", position: "relative", borderRadius: "2px" }}>
         <div
           style={{
             position: "absolute",
