@@ -418,6 +418,7 @@ const CardBack = ({ isMobile }: { isMobile: boolean }) => (
     }}
   >
     {/* Bangladesh flag watermark */}
+      border: "1px solid #ccc",
     <div
       className="absolute inset-0 flex items-center justify-center pointer-events-none"
       style={{ zIndex: 0, opacity: 0.15 }}
