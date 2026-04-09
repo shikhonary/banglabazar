@@ -369,7 +369,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
               `কর: ${holding.tax} টাকা`,
             ].join("\n")}
             size={80}
-            level="M"
+            level="L"
             fgColor="#000000"
             bgColor="#ffffff"
           />
