@@ -9,7 +9,7 @@ import { toPng } from "html-to-image";
 import { QRCodeSVG } from "qrcode.react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import bdGovtSeal from "@/assets/bd-govt-seal.png";
-import bdNationalEmblem from "@/assets/bd-national-emblem.png";
+
 import unionParishadLogo from "@/assets/union-parishad-logo.png";
 import solaimanLipiEmbeddedCss from "@/styles/solaimanLipiEmbedded.css?raw";
 
@@ -444,13 +444,5 @@ const CardBack = ({ isMobile }: { isMobile: boolean }) => (
   </div>
 );
 
-const DetailRow = ({ label, value }: { label: string; value: string }) => (
-  <div className="flex items-baseline gap-2" style={BENGALI_TEXT_STYLE}>
-    <span className="text-xs text-emerald-700 font-medium whitespace-nowrap min-w-[70px]">{label} :</span>
-    <span className="text-sm font-bold text-foreground border-b border-dashed border-emerald-300 flex-1 pb-0.5">
-      {value}
-    </span>
-  </div>
-);
 
 export default HoldingCardView;
