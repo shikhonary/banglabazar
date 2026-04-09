@@ -590,6 +590,7 @@ const CardBack = ({ isMobile }: { isMobile: boolean }) => (
             lineHeight: 1,
             ...BENGALI_TEXT_STYLE,
           }}
+          className="leading-none"
         >
           ইউপি সেবা পেতে <br /> কার্ডটি সঙ্গে আনুন।
         </h4>
