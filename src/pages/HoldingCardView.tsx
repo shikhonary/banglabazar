@@ -280,6 +280,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
       height: "2.05in",
       background: "#FDFDFD",
       boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
+      border: "1px solid #ccc",
       ...BENGALI_TEXT_STYLE,
     }}
   >
@@ -413,6 +414,7 @@ const CardBack = ({ isMobile }: { isMobile: boolean }) => (
       height: "2.05in",
       background: "#FDFDFD",
       boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
+      border: "1px solid #ccc",
       ...BENGALI_TEXT_STYLE,
     }}
   >
