@@ -426,38 +426,40 @@ const CardBack = ({ isMobile }: { isMobile: boolean }) => (
       ...BENGALI_TEXT_STYLE,
     }}
   >
-    {/* Bangladesh flag watermark */}
-    <div
-      className="absolute inset-0 flex items-center justify-center pointer-events-none"
-      style={{ zIndex: 0, opacity: 0.15 }}
-    >
-      <div style={{ width: "50%", height: "50%", background: "#006a4e", position: "relative", borderRadius: "2px" }}>
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "40%",
-            aspectRatio: "1",
-            borderRadius: "50%",
-            background: "#f42a41",
-          }}
-        />
-      </div>
-    </div>
-
     {/* Main content */}
-    <div className="flex flex-col h-full w-full p-2 relative" style={{ zIndex: 1, ...BENGALI_TEXT_STYLE }}>
+    <div className="flex flex-col h-full w-full relative" style={{ zIndex: 1, ...BENGALI_TEXT_STYLE }}>
       {/* 1. Top Header */}
-      <div className="flex justify-between items-start">
+      <div className="flex justify-between items-start px-2 pt-2">
         <p style={{ color: "#ad2c30", fontSize: "15px", fontWeight: 700, ...BENGALI_TEXT_STYLE }}>
           ৪৫ দিনের মধ্যে জন্ম ও মৃত্যু নিবন্ধন করুন।
         </p>
-        <p style={{ color: "#763247", fontSize: "15px", fontWeight: 700, textAlign: "right", ...BENGALI_TEXT_STYLE }}>
+        <p style={{ color: "#763247", fontSize: "15px", fontWeight: 700, textAlign: "left", ...BENGALI_TEXT_STYLE }}>
           সময়মত ইউপি কর পরিশোধ করুন।
         </p>
       </div>
+
+      {/* Remaining area with centered watermark */}
+      <div className="flex-1 relative px-2 pb-2">
+        {/* Bangladesh flag watermark - centered in remaining space */}
+        <div
+          className="absolute inset-0 flex items-center justify-center pointer-events-none"
+          style={{ zIndex: 0, opacity: 0.15 }}
+        >
+          <div style={{ width: "50%", height: "50%", background: "#006a4e", position: "relative", borderRadius: "2px" }}>
+            <div
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                width: "40%",
+                aspectRatio: "1",
+                borderRadius: "50%",
+                background: "#f42a41",
+              }}
+            />
+          </div>
+        </div>
 
       {/* 2. Middle Section */}
       <div className="flex mt-1.5 flex-1 gap-1.5" style={BENGALI_TEXT_STYLE}>
