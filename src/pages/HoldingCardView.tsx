@@ -583,7 +583,7 @@ const CardBack = ({ isMobile }: { isMobile: boolean }) => (
       >
         <h4
           style={{
-            fontSize: "16px",
+            fontSize: "15px",
             fontWeight: 700,
             color: "#177247",
             marginTop: "12px",
