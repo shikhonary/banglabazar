@@ -297,8 +297,8 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
     <div className="flex flex-col h-full w-full p-2 relative" style={{ zIndex: 1, ...BENGALI_TEXT_STYLE }}>
       {/* Top header row: govt seal + text + union logo */}
       <div className="flex items-center gap-1">
-        <div className="w-7 h-7 shrink-0 flex items-center justify-center">
-          <img src={gobLogo} alt="সরকার" className="w-6 h-6 object-contain" />
+        <div className="w-9 h-9 shrink-0 flex items-center justify-center">
+          <img src={gobLogo} alt="সরকার" className="w-8 h-8 object-contain" />
         </div>
         <div className="flex-1 text-center" style={{ lineHeight: 1.1 }}>
           <p style={{ fontSize: "6.5px", color: "#333", ...BENGALI_TEXT_STYLE }}>গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)</p>
