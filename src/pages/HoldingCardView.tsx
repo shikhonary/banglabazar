@@ -400,7 +400,7 @@ const FrontDetailRow = ({ label, value }: { label: string; value: string }) => (
         color: "#1a1a40",
         fontWeight: 600,
         height: "8px",
-        width: "70px", // Increased slightly to ensure Bengali text fits
+        width: "75px", // Increased slightly to ensure Bengali text fits
         marginRight: "8px",
         ...BENGALI_TEXT_STYLE,
       }}
