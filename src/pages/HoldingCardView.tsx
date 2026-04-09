@@ -370,21 +370,6 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
           </div>
         </div>
       </div>
-
-      {/* Bottom footer */}
-      <div className="text-center mt-auto pt-0.5">
-        <p
-          style={{
-            fontSize: "8px",
-            fontWeight: 700,
-            color: "#8B0000",
-            fontFamily: "sans-serif",
-            letterSpacing: "0.3px",
-          }}
-        >
-          https://fulsutiup.faridpur.gov.bd
-        </p>
-      </div>
     </div>
   </div>
 );
