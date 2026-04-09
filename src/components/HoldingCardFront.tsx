@@ -67,7 +67,7 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
           <p style={{ margin: 0, lineHeight: 1, fontSize: "8px", color: "#173c97", fontWeight: "bold", ...BENGALI_TEXT_STYLE }}>
             গণপ্রজাতন্ত্রী বাংলাদেশ সরকার (স্থানীয় সরকার বিভাগ)
           </p>
-           <h1 style={{ margin: 0, lineHeight: 1, fontSize: "18px", fontWeight: "bold", marginTop: "-10px", color: "#ef1e23", ...BENGALI_TEXT_STYLE }}>
+           <h1 style={{ margin: 0, lineHeight: 1, fontSize: "20px", fontWeight: "bold", marginTop: "-10px", color: "#ef1e23", ...BENGALI_TEXT_STYLE }}>
              মুছাপুর ইউনিয়ন পরিষদ
            </h1>
            <p style={{ margin: 0, lineHeight: 1, fontSize: "12px", color: "#de5038", marginTop: "-10px", fontWeight: "bold", ...BENGALI_TEXT_STYLE }}>
