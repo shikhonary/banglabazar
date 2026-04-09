@@ -153,7 +153,11 @@ const HoldingCardView = () => {
 
       toast({ title: "সফল!", description: "কার্ড ডাউনলোড হয়েছে।" });
     } catch {
-      toast({ title: "ত্রুটি", description: "ডাউনলোড করতে সমস্যা হয়েছে।", variant: "destructive" });
+      toast({
+        title: "ত্রুটি",
+        description: "ডাউনলোড করতে সমস্যা হয়েছে।",
+        variant: "destructive",
+      });
     } finally {
       flipContainer.style.transform = origTransform;
       flipContainer.style.transition = origTransition;
@@ -261,7 +265,13 @@ const HoldingCardView = () => {
             </div>
           </div>
 
-          <div className="absolute inset-0" style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}>
+          <div
+            className="absolute inset-0"
+            style={{
+              backfaceVisibility: "hidden",
+              transform: "rotateY(180deg)",
+            }}
+          >
             <div ref={backRef}>
               <CardBack isMobile={isMobile} />
             </div>
@@ -316,7 +326,7 @@ const CardFront = ({ holding, isMobile }: { holding: HoldingCardType; isMobile: 
             style={{
               margin: 0,
               lineHeight: 1,
-              fontSize: "16px",
+              fontSize: "20px",
               fontWeight: "bold",
               marginTop: "-10px",
               color: "#ef1e23",
@@ -416,7 +426,7 @@ const FrontDetailRow = ({ label, value, color = "#000000" }: { label: string; va
 
 const CardBack = ({ isMobile }: { isMobile: boolean }) => (
   <div
-    className="bengali-text rounded-sm overflow-hidden relative flex flex-col"
+    className="bengali-text rounded-sm overflow-hidden relative"
     style={{
       width: "3.3in",
       height: "2.05in",
@@ -428,43 +438,134 @@ const CardBack = ({ isMobile }: { isMobile: boolean }) => (
     }}
   >
     {/* 1. Top Header - grid 6:4 */}
-    <div style={{ display: "grid", gridTemplateColumns: "6fr 4fr", gap: "8px", ...BENGALI_TEXT_STYLE }}>
-      <h1 style={{ fontSize: "16px", fontWeight: 700, color: "#a22d33", margin: 0, lineHeight: 1.3, ...BENGALI_TEXT_STYLE }}>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "6fr 4fr",
+        gap: "8px",
+        ...BENGALI_TEXT_STYLE,
+      }}
+    >
+      <h1
+        style={{
+          fontSize: "16px",
+          fontWeight: 700,
+          color: "#a22d33",
+          margin: 0,
+          lineHeight: 1.3,
+          ...BENGALI_TEXT_STYLE,
+        }}
+      >
         ৪৫ দিনের মধ্যে জন্ম ও মৃত্যু <br /> নিবন্ধন করুন।
       </h1>
-      <h1 style={{ fontSize: "16px", fontWeight: 700, color: "#7a325a", margin: 0, lineHeight: 1.3, ...BENGALI_TEXT_STYLE }}>
+      <h1
+        style={{
+          fontSize: "16px",
+          fontWeight: 700,
+          color: "#7a325a",
+          margin: 0,
+          lineHeight: 1.3,
+          ...BENGALI_TEXT_STYLE,
+        }}
+      >
         সময় মত ইউপি কর <br /> পরিশোধ করুন।
       </h1>
     </div>
 
     {/* 2. Middle Section - grid 6:4 */}
-    <div style={{ display: "grid", gridTemplateColumns: "6fr 4fr", gap: "8px", flex: 1, ...BENGALI_TEXT_STYLE }}>
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "6fr 4fr",
+        gap: "8px",
+        ...BENGALI_TEXT_STYLE,
+      }}
+    >
       {/* Left: Emergency Table */}
       <div>
-        <table style={{ width: "100%", borderCollapse: "collapse", ...BENGALI_TEXT_STYLE }}>
+        <table
+          style={{
+            width: "100%",
+            borderCollapse: "collapse",
+            ...BENGALI_TEXT_STYLE,
+          }}
+        >
           <tbody>
             <tr>
-              <td style={{ border: "2px solid #000", fontSize: "16px", fontWeight: 700, textAlign: "center", color: "#e6211b", lineHeight: "22px", ...BENGALI_TEXT_STYLE }}>
+              <td
+                style={{
+                  border: "2px solid #000",
+                  fontSize: "16px",
+                  fontWeight: 700,
+                  textAlign: "center",
+                  color: "#e6211b",
+                  lineHeight: "22px",
+                  ...BENGALI_TEXT_STYLE,
+                }}
+              >
                 জরুরি প্রয়োজনে কল করুন
               </td>
             </tr>
             <tr>
-              <td style={{ border: "2px solid #000", fontSize: "14px", fontWeight: 700, textAlign: "center", color: "#333282", lineHeight: "22px", ...BENGALI_TEXT_STYLE }}>
+              <td
+                style={{
+                  border: "2px solid #000",
+                  fontSize: "14px",
+                  fontWeight: 700,
+                  textAlign: "center",
+                  color: "#333282",
+                  lineHeight: "22px",
+                  ...BENGALI_TEXT_STYLE,
+                }}
+              >
                 পল্লী বিদ্যুৎঃ ০১৭৬৯-৪০০২২৪
               </td>
             </tr>
             <tr>
-              <td style={{ border: "2px solid #000", fontSize: "13px", fontWeight: 700, textAlign: "center", color: "#333282", lineHeight: "22px", ...BENGALI_TEXT_STYLE }}>
+              <td
+                style={{
+                  border: "2px solid #000",
+                  fontSize: "13px",
+                  fontWeight: 700,
+                  textAlign: "center",
+                  color: "#333282",
+                  lineHeight: "22px",
+                  ...BENGALI_TEXT_STYLE,
+                }}
+              >
                 ফায়ার সার্ভিসঃ ০১৯০১-০২০৯১৮
               </td>
             </tr>
             <tr>
-              <td style={{ border: "2px solid #000", fontSize: "12px", fontWeight: 700, textAlign: "center", color: "#333282", letterSpacing: "-1.1px", lineHeight: "22px", ...BENGALI_TEXT_STYLE }}>
+              <td
+                style={{
+                  border: "2px solid #000",
+                  fontSize: "12px",
+                  fontWeight: 700,
+                  textAlign: "center",
+                  color: "#333282",
+                  letterSpacing: "-1.1px",
+                  lineHeight: "22px",
+                  ...BENGALI_TEXT_STYLE,
+                }}
+              >
                 উপজেলা স্বাস্থ্য কমপ্লেক্সঃ ০১৭৩০-৩২৪৫৩৭
               </td>
             </tr>
             <tr>
-              <td style={{ border: "2px solid #000", fontSize: "16px", fontWeight: 700, color: "#333282", letterSpacing: "2px", textAlign: "left", paddingLeft: "8px", lineHeight: "22px", ...BENGALI_TEXT_STYLE }}>
+              <td
+                style={{
+                  border: "2px solid #000",
+                  fontSize: "16px",
+                  fontWeight: 700,
+                  color: "#333282",
+                  letterSpacing: "2px",
+                  textAlign: "left",
+                  paddingLeft: "8px",
+                  lineHeight: "22px",
+                  ...BENGALI_TEXT_STYLE,
+                }}
+              >
                 জরুরী সেবাঃ ৯৯৯
               </td>
             </tr>
@@ -473,21 +574,82 @@ const CardBack = ({ isMobile }: { isMobile: boolean }) => (
       </div>
 
       {/* Right: Info */}
-      <div style={{ display: "flex", flexDirection: "column", ...BENGALI_TEXT_STYLE }}>
-        <h4 style={{ fontSize: "16px", fontWeight: 700, color: "#177247", marginTop: "12px", lineHeight: 1.2, margin: 0, paddingTop: "12px", ...BENGALI_TEXT_STYLE }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          ...BENGALI_TEXT_STYLE,
+        }}
+      >
+        <h4
+          style={{
+            fontSize: "16px",
+            fontWeight: 700,
+            color: "#177247",
+            marginTop: "12px",
+            lineHeight: 1,
+            ...BENGALI_TEXT_STYLE,
+          }}
+        >
           ইউপি সেবা পেতে <br /> কার্ডটি সঙ্গে আনুন।
         </h4>
-        <div style={{ display: "flex", flexDirection: "column", ...BENGALI_TEXT_STYLE }}>
-          <p style={{ fontSize: "14px", fontWeight: 700, color: "#333282", letterSpacing: "-0.5px", lineHeight: 1.2, margin: 0, ...BENGALI_TEXT_STYLE }}>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            ...BENGALI_TEXT_STYLE,
+          }}
+        >
+          <p
+            style={{
+              fontSize: "14px",
+              fontWeight: 700,
+              color: "#333282",
+              letterSpacing: "-0.5px",
+              lineHeight: 1,
+              margin: 0,
+              ...BENGALI_TEXT_STYLE,
+            }}
+          >
             মোহাম্মদ হোসেন ভূঁইয়া
           </p>
-          <p style={{ fontSize: "12px", fontWeight: 700, color: "#333282", textAlign: "center", lineHeight: 1.2, margin: 0, ...BENGALI_TEXT_STYLE }}>
+          <p
+            style={{
+              fontSize: "12px",
+              fontWeight: 700,
+              color: "#333282",
+              textAlign: "center",
+              lineHeight: 1,
+              margin: 0,
+              ...BENGALI_TEXT_STYLE,
+            }}
+          >
             চেয়ারম্যান
           </p>
-          <p style={{ fontSize: "12px", fontWeight: 700, color: "#333282", textAlign: "center", lineHeight: 1.2, margin: 0, ...BENGALI_TEXT_STYLE }}>
+          <p
+            style={{
+              fontSize: "12px",
+              fontWeight: 700,
+              color: "#333282",
+              textAlign: "center",
+              lineHeight: 1,
+              margin: 0,
+              ...BENGALI_TEXT_STYLE,
+            }}
+          >
             মুছাপুর ইউনিয়ন পরিষদ
           </p>
-          <p style={{ fontSize: "12px", fontWeight: 700, color: "#333282", textAlign: "center", lineHeight: 1.2, margin: 0, ...BENGALI_TEXT_STYLE }}>
+          <p
+            style={{
+              fontSize: "12px",
+              fontWeight: 700,
+              color: "#333282",
+              textAlign: "center",
+              lineHeight: 1,
+              margin: 0,
+              ...BENGALI_TEXT_STYLE,
+            }}
+          >
             রায়পুর, নরসিংদী।
           </p>
         </div>
@@ -496,7 +658,14 @@ const CardBack = ({ isMobile }: { isMobile: boolean }) => (
 
     {/* 3. Bottom Footer */}
     <div style={{ textAlign: "center", marginTop: "8px" }}>
-      <h1 style={{ fontSize: "14px", fontWeight: 700, color: "#8b335b", margin: 0 }}>
+      <h1
+        style={{
+          fontSize: "14px",
+          fontWeight: 700,
+          color: "#8b335b",
+          margin: 0,
+        }}
+      >
         https://musapurup.narsingdi.gov.bd/
       </h1>
     </div>
