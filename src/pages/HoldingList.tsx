@@ -113,7 +113,7 @@ const HoldingList = () => {
           <Button
             variant="outline"
             size="sm"
-            onClick={() => downloadAll(filtered)}
+            onClick={() => downloadAll(paginated)}
             disabled={downloadingAll || !filtered.length}
           >
             {downloadingAll ? (
