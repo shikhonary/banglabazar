@@ -6,13 +6,10 @@ import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Loader2, Download, RefreshCw } from "lucide-react";
 import type { Tables } from "@/integrations/supabase/types";
 import { toPng } from "html-to-image";
-import { QRCodeSVG } from "qrcode.react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import gobLogo from "@/assets/gob-logo.jpg";
-import unionLogo from "@/assets/union-logo.jpg";
-import bdMap from "@/assets/bd-map-watermark.png";
 import solaimanLipiEmbeddedCss from "@/styles/solaimanLipiEmbedded.css?raw";
 import cardBackImg from "@/assets/card-back.jpg";
+import { CardFront } from "@/components/HoldingCardFront";
 
 type HoldingCardType = Tables<"holding_cards">;
 
