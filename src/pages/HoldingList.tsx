@@ -109,7 +109,24 @@ const HoldingList = () => {
           <h2 className="text-2xl font-bold text-foreground">হোল্ডিং তালিকা</h2>
           <p className="text-muted-foreground">সকল হোল্ডিং কার্ড পরিচালনা করুন।</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => downloadAll(filtered)}
+            disabled={downloadingAll || !filtered.length}
+          >
+            {downloadingAll ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                {downloadProgress.current}/{downloadProgress.total}
+              </>
+            ) : (
+              <>
+                <Download className="mr-2 h-4 w-4" /> সব ডাউনলোড
+              </>
+            )}
+          </Button>
           <Button variant="outline" asChild>
             <Link to="/holdings/import"><FileUp className="mr-2 h-4 w-4" /> ইম্পোর্ট</Link>
           </Button>
