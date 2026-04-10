@@ -186,25 +186,46 @@ const ImportHoldings = () => {
 
       {/* Upload area */}
       {preview.length === 0 && (
-        <Card>
-          <CardContent className="p-0">
-            <button
-              type="button"
-              onClick={() => fileRef.current?.click()}
-              className="flex w-full flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed border-border p-12 text-center transition-colors hover:border-primary hover:bg-accent/30"
-            >
-              <div className="rounded-full bg-accent p-4">
-                <FileUp className="h-8 w-8 text-primary" />
-              </div>
-              <div>
-               <p className="text-lg font-medium text-foreground">এক্সেল বা CSV ফাইল আপলোড করতে ক্লিক করুন</p>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  .xlsx, .xls এবং .csv ফরম্যাট সাপোর্ট করে
-                </p>
-              </div>
-            </button>
-          </CardContent>
-        </Card>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Card>
+            <CardContent className="p-0">
+              <button
+                type="button"
+                onClick={() => fileRef.current?.click()}
+                className="flex w-full flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed border-border p-10 text-center transition-colors hover:border-primary hover:bg-accent/30"
+              >
+                <div className="rounded-full bg-accent p-4">
+                  <FileUp className="h-8 w-8 text-primary" />
+                </div>
+                <div>
+                  <p className="text-lg font-medium text-foreground">এক্সেল / CSV</p>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    .xlsx, .xls, .csv
+                  </p>
+                </div>
+              </button>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-0">
+              <button
+                type="button"
+                onClick={() => jsonFileRef.current?.click()}
+                className="flex w-full flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed border-border p-10 text-center transition-colors hover:border-primary hover:bg-accent/30"
+              >
+                <div className="rounded-full bg-accent p-4">
+                  <FileJson className="h-8 w-8 text-primary" />
+                </div>
+                <div>
+                  <p className="text-lg font-medium text-foreground">JSON</p>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    .json ফরম্যাট
+                  </p>
+                </div>
+              </button>
+            </CardContent>
+          </Card>
+        </div>
       )}
 
       <input
@@ -215,6 +236,16 @@ const ImportHoldings = () => {
         onChange={(e) => {
           const file = e.target.files?.[0];
           if (file) parseFile(file);
+        }}
+      />
+      <input
+        ref={jsonFileRef}
+        type="file"
+        accept=".json"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) parseJsonFile(file);
         }}
       />
 
