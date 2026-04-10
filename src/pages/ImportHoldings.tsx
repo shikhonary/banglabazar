@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { Upload, Loader2, FileSpreadsheet, CheckCircle2, X, FileUp } from "lucide-react";
+import { Upload, Loader2, FileSpreadsheet, CheckCircle2, X, FileUp, FileJson } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -66,6 +66,7 @@ const ImportHoldings = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const fileRef = useRef<HTMLInputElement>(null);
+  const jsonFileRef = useRef<HTMLInputElement>(null);
   const [importing, setImporting] = useState(false);
   const [fileName, setFileName] = useState("");
   const [preview, setPreview] = useState<HoldingRow[]>([]);
@@ -122,6 +123,34 @@ const ImportHoldings = () => {
     reader.readAsArrayBuffer(file);
   };
 
+  const parseJsonFile = (file: File) => {
+    setFileName(file.name);
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const jsonData = JSON.parse(e.target?.result as string);
+        const arr = Array.isArray(jsonData) ? jsonData : [jsonData];
+        const mapped: HoldingRow[] = arr.map((row: Record<string, unknown>) => ({
+          name: String(row.name ?? ""),
+          guardian_name: String(row.guardian_name ?? ""),
+          holding_no: String(row.holding_no ?? ""),
+          ward_no: String(row.ward_no ?? ""),
+          village: String(row.village ?? ""),
+          tax: Number(row.tax ?? 0),
+        }));
+        const valid = mapped.filter((r) => r.name && r.holding_no);
+        if (!valid.length) {
+          toast({ title: "ত্রুটি", description: "সঠিক ডেটা পাওয়া যায়নি। JSON ফরম্যাট চেক করুন।", variant: "destructive" });
+          return;
+        }
+        setPreview(valid);
+      } catch {
+        toast({ title: "ত্রুটি", description: "JSON ফাইল পার্স করতে সমস্যা হয়েছে।", variant: "destructive" });
+      }
+    };
+    reader.readAsText(file);
+  };
+
   const handleImport = async () => {
     if (!user || !preview.length) return;
     setImporting(true);
@@ -145,36 +174,58 @@ const ImportHoldings = () => {
     setPreview([]);
     setFileName("");
     if (fileRef.current) fileRef.current.value = "";
+    if (jsonFileRef.current) jsonFileRef.current.value = "";
   };
 
   return (
     <div className="max-w-5xl space-y-6">
       <div>
         <h2 className="text-2xl font-bold text-foreground">হোল্ডিং ইম্পোর্ট</h2>
-        <p className="text-muted-foreground">এক্সেল বা CSV ফাইল আপলোড করে বাল্ক ইম্পোর্ট করুন।</p>
+        <p className="text-muted-foreground">এক্সেল, CSV অথবা JSON ফাইল আপলোড করে বাল্ক ইম্পোর্ট করুন।</p>
       </div>
 
       {/* Upload area */}
       {preview.length === 0 && (
-        <Card>
-          <CardContent className="p-0">
-            <button
-              type="button"
-              onClick={() => fileRef.current?.click()}
-              className="flex w-full flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed border-border p-12 text-center transition-colors hover:border-primary hover:bg-accent/30"
-            >
-              <div className="rounded-full bg-accent p-4">
-                <FileUp className="h-8 w-8 text-primary" />
-              </div>
-              <div>
-               <p className="text-lg font-medium text-foreground">এক্সেল বা CSV ফাইল আপলোড করতে ক্লিক করুন</p>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  .xlsx, .xls এবং .csv ফরম্যাট সাপোর্ট করে
-                </p>
-              </div>
-            </button>
-          </CardContent>
-        </Card>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Card>
+            <CardContent className="p-0">
+              <button
+                type="button"
+                onClick={() => fileRef.current?.click()}
+                className="flex w-full flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed border-border p-10 text-center transition-colors hover:border-primary hover:bg-accent/30"
+              >
+                <div className="rounded-full bg-accent p-4">
+                  <FileUp className="h-8 w-8 text-primary" />
+                </div>
+                <div>
+                  <p className="text-lg font-medium text-foreground">এক্সেল / CSV</p>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    .xlsx, .xls, .csv
+                  </p>
+                </div>
+              </button>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardContent className="p-0">
+              <button
+                type="button"
+                onClick={() => jsonFileRef.current?.click()}
+                className="flex w-full flex-col items-center justify-center gap-4 rounded-lg border-2 border-dashed border-border p-10 text-center transition-colors hover:border-primary hover:bg-accent/30"
+              >
+                <div className="rounded-full bg-accent p-4">
+                  <FileJson className="h-8 w-8 text-primary" />
+                </div>
+                <div>
+                  <p className="text-lg font-medium text-foreground">JSON</p>
+                  <p className="mt-1 text-sm text-muted-foreground">
+                    .json ফরম্যাট
+                  </p>
+                </div>
+              </button>
+            </CardContent>
+          </Card>
+        </div>
       )}
 
       <input
@@ -185,6 +236,16 @@ const ImportHoldings = () => {
         onChange={(e) => {
           const file = e.target.files?.[0];
           if (file) parseFile(file);
+        }}
+      />
+      <input
+        ref={jsonFileRef}
+        type="file"
+        accept=".json"
+        className="hidden"
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) parseJsonFile(file);
         }}
       />
 
