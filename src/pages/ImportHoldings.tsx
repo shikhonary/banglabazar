@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { Upload, Loader2, FileSpreadsheet, CheckCircle2, X, FileUp } from "lucide-react";
+import { Upload, Loader2, FileSpreadsheet, CheckCircle2, X, FileUp, FileJson } from "lucide-react";
 import {
   Table,
   TableBody,
