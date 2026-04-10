@@ -66,6 +66,7 @@ const ImportHoldings = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const fileRef = useRef<HTMLInputElement>(null);
+  const jsonFileRef = useRef<HTMLInputElement>(null);
   const [importing, setImporting] = useState(false);
   const [fileName, setFileName] = useState("");
   const [preview, setPreview] = useState<HoldingRow[]>([]);
