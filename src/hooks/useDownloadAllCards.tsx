@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { createRoot } from "react-dom/client";
 import { toPng } from "html-to-image";
-import JSZip from "jszip";
+import jsPDF from "jspdf";
 import { CardFront } from "@/components/HoldingCardFront";
 import type { Tables } from "@/integrations/supabase/types";
 import gobLogo from "@/assets/gob-logo.jpg";
@@ -49,7 +49,7 @@ const ensureFont = async () => {
   await document.fonts.ready;
 };
 
-const renderCardToJpegBlob = async (holding: HoldingCard): Promise<Blob> => {
+const renderCardToDataUrl = async (holding: HoldingCard): Promise<string> => {
   const container = document.createElement("div");
   container.style.position = "fixed";
   container.style.left = "-9999px";
@@ -77,32 +77,16 @@ const renderCardToJpegBlob = async (holding: HoldingCard): Promise<Blob> => {
       fontEmbedCSS: css,
       style: { fontFamily: BENGALI_FONT_FAMILY, lineHeight: "1.6" },
     });
-
-    // Convert to JPEG blob via canvas
-    const img = new Image();
-    img.src = dataUrl;
-    await new Promise<void>((res) => { img.onload = () => res(); });
-
-    const canvas = document.createElement("canvas");
-    canvas.width = img.width;
-    canvas.height = img.height;
-    const ctx = canvas.getContext("2d")!;
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(img, 0, 0);
-
-    return new Promise<Blob>((resolve, reject) => {
-      canvas.toBlob(
-        (blob) => (blob ? resolve(blob) : reject(new Error("Failed to create blob"))),
-        "image/jpeg",
-        0.95
-      );
-    });
+    return dataUrl;
   } finally {
     root.unmount();
     container.remove();
   }
 };
+
+// Card dimensions in inches
+const CARD_W_IN = 3.3;
+const CARD_H_IN = 2.05;
 
 export const useDownloadAllCards = () => {
   const [downloading, setDownloading] = useState(false);
@@ -117,20 +101,41 @@ export const useDownloadAllCards = () => {
       await ensureFont();
       await preloadImages();
 
-      const zip = new JSZip();
+      // Card size in mm
+      const cardW = CARD_W_IN * 25.4; // ~83.82mm
+      const cardH = CARD_H_IN * 25.4; // ~52.07mm
+      const margin = 10; // mm
+      const gap = 8; // mm between cards
+
+      // A4 page dimensions in mm
+      const pageW = 210;
+      const pageH = 297;
+
+      // Calculate how many cards fit per page
+      const cols = Math.floor((pageW - margin * 2 + gap) / (cardW + gap));
+      const rows = Math.floor((pageH - margin * 2 + gap) / (cardH + gap));
+      const cardsPerPage = cols * rows;
+
+      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
 
       for (let i = 0; i < holdings.length; i++) {
         setProgress({ current: i + 1, total: holdings.length });
-        const blob = await renderCardToJpegBlob(holdings[i]);
-        zip.file(`${holdings[i].holding_no}-${holdings[i].name}.jpg`, blob);
+
+        const indexOnPage = i % cardsPerPage;
+        if (i > 0 && indexOnPage === 0) {
+          pdf.addPage();
+        }
+
+        const col = indexOnPage % cols;
+        const row = Math.floor(indexOnPage / cols);
+        const x = margin + col * (cardW + gap);
+        const y = margin + row * (cardH + gap);
+
+        const dataUrl = await renderCardToDataUrl(holdings[i]);
+        pdf.addImage(dataUrl, "PNG", x, y, cardW, cardH);
       }
 
-      const zipBlob = await zip.generateAsync({ type: "blob" });
-      const link = document.createElement("a");
-      link.download = "holding-cards.zip";
-      link.href = URL.createObjectURL(zipBlob);
-      link.click();
-      URL.revokeObjectURL(link.href);
+      pdf.save("holding-cards.pdf");
     } catch (err) {
       console.error("Download all failed:", err);
       throw err;
