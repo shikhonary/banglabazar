@@ -102,37 +102,19 @@ export const useDownloadAllCards = () => {
       await preloadImages();
 
       // Card size in mm
-      const cardW = CARD_W_IN * 25.4; // ~83.82mm
-      const cardH = CARD_H_IN * 25.4; // ~52.07mm
-      const margin = 10; // mm
-      const gap = 8; // mm between cards
+      const cardW = CARD_W_IN * 25.4;
+      const cardH = CARD_H_IN * 25.4;
 
-      // A4 page dimensions in mm
-      const pageW = 210;
-      const pageH = 297;
-
-      // Calculate how many cards fit per page
-      const cols = Math.floor((pageW - margin * 2 + gap) / (cardW + gap));
-      const rows = Math.floor((pageH - margin * 2 + gap) / (cardH + gap));
-      const cardsPerPage = cols * rows;
-
-      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+      // Each page is exactly card-sized
+      const pdf = new jsPDF({ orientation: "landscape", unit: "mm", format: [cardW, cardH] });
 
       for (let i = 0; i < holdings.length; i++) {
         setProgress({ current: i + 1, total: holdings.length });
 
-        const indexOnPage = i % cardsPerPage;
-        if (i > 0 && indexOnPage === 0) {
-          pdf.addPage();
-        }
-
-        const col = indexOnPage % cols;
-        const row = Math.floor(indexOnPage / cols);
-        const x = margin + col * (cardW + gap);
-        const y = margin + row * (cardH + gap);
+        if (i > 0) pdf.addPage([cardW, cardH], "landscape");
 
         const dataUrl = await renderCardToDataUrl(holdings[i]);
-        pdf.addImage(dataUrl, "PNG", x, y, cardW, cardH);
+        pdf.addImage(dataUrl, "PNG", 0, 0, cardW, cardH);
       }
 
       pdf.save("holding-cards.pdf");
