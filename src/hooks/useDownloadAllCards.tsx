@@ -1,7 +1,7 @@
 import { useState, useCallback } from "react";
 import { createRoot } from "react-dom/client";
 import { toPng } from "html-to-image";
-import jsPDF from "jspdf";
+import JSZip from "jszip";
 import { CardFront } from "@/components/HoldingCardFront";
 import type { Tables } from "@/integrations/supabase/types";
 import gobLogo from "@/assets/gob-logo.jpg";
@@ -84,10 +84,6 @@ const renderCardToDataUrl = async (holding: HoldingCard): Promise<string> => {
   }
 };
 
-// Card dimensions in inches
-const CARD_W_IN = 3.3;
-const CARD_H_IN = 2.05;
-
 export const useDownloadAllCards = () => {
   const [downloading, setDownloading] = useState(false);
   const [progress, setProgress] = useState({ current: 0, total: 0 });
@@ -101,41 +97,23 @@ export const useDownloadAllCards = () => {
       await ensureFont();
       await preloadImages();
 
-      // Card size in mm
-      const cardW = CARD_W_IN * 25.4; // ~83.82mm
-      const cardH = CARD_H_IN * 25.4; // ~52.07mm
-      const margin = 10; // mm
-      const gap = 8; // mm between cards
-
-      // A4 page dimensions in mm
-      const pageW = 210;
-      const pageH = 297;
-
-      // Calculate how many cards fit per page
-      const cols = Math.floor((pageW - margin * 2 + gap) / (cardW + gap));
-      const rows = Math.floor((pageH - margin * 2 + gap) / (cardH + gap));
-      const cardsPerPage = cols * rows;
-
-      const pdf = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+      const zip = new JSZip();
 
       for (let i = 0; i < holdings.length; i++) {
         setProgress({ current: i + 1, total: holdings.length });
-
-        const indexOnPage = i % cardsPerPage;
-        if (i > 0 && indexOnPage === 0) {
-          pdf.addPage();
-        }
-
-        const col = indexOnPage % cols;
-        const row = Math.floor(indexOnPage / cols);
-        const x = margin + col * (cardW + gap);
-        const y = margin + row * (cardH + gap);
-
         const dataUrl = await renderCardToDataUrl(holdings[i]);
-        pdf.addImage(dataUrl, "PNG", x, y, cardW, cardH);
+        const base64 = dataUrl.split(",")[1];
+        const fileName = `${holdings[i].holding_no}-${holdings[i].name}.png`;
+        zip.file(fileName, base64, { base64: true });
       }
 
-      pdf.save("holding-cards.pdf");
+      const blob = await zip.generateAsync({ type: "blob" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "holding-cards.zip";
+      a.click();
+      URL.revokeObjectURL(url);
     } catch (err) {
       console.error("Download all failed:", err);
       throw err;
