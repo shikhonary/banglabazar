@@ -81,7 +81,7 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
           className="absolute inset-0 pointer-events-none"
           style={{
             zIndex: 0,
-            opacity: 0.9,
+            opacity: 1,
             backgroundImage: `url(${bdMap})`,
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center center",
