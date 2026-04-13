@@ -70,7 +70,7 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
            <h1 style={{ margin: 0, lineHeight: 1, fontSize: "22px", fontWeight: "bold", marginTop: "-10px", color: "#ef1e23", ...BENGALI_TEXT_STYLE }}>
              মুছাপুর ইউনিয়ন পরিষদ
            </h1>
-           <p style={{ margin: 0, lineHeight: 1, fontSize: "12px", color: "#de5038", marginTop: "-10px", fontWeight: "bold", ...BENGALI_TEXT_STYLE }}>
+           <p style={{ margin: 0, lineHeight: 1, fontSize: "13px", color: "#b5200e", marginTop: "-10px", fontWeight: "bold", letterSpacing: "0.5px", textShadow: "0 0 1px rgba(181,32,14,0.3)", ...BENGALI_TEXT_STYLE }}>
              উপজেলা ঃ রায়পুর, জেলা ঃ নরসিংদী।
            </p>
         </div>
@@ -81,7 +81,7 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
           className="absolute inset-0 pointer-events-none"
           style={{
             zIndex: 0,
-            opacity: 0.75,
+            opacity: 0.9,
             backgroundImage: `url(${bdMap})`,
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center center",
@@ -99,7 +99,6 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
             value={[
               "মুছাপুর ইউনিয়ন পরিষদ",
               `মালিকের নাম: ${holding.name}`,
-              `অভিভাবকের নাম: ${holding.guardian_name}`,
               `হোল্ডিং নং: ${holding.holding_no}`,
               `ওয়ার্ড নং: ${holding.ward_no}`,
               `গ্রাম/মহল্লা: ${holding.village}`,
