@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { createRoot } from "react-dom/client";
 import { toPng } from "html-to-image";
 import JSZip from "jszip";
+import jsPDF from "jspdf";
 import { CardFront } from "@/components/HoldingCardFront";
 import type { Tables } from "@/integrations/supabase/types";
 import gobLogo from "@/assets/gob-logo.jpg";
@@ -98,13 +99,19 @@ export const useDownloadAllCards = () => {
       await preloadImages();
 
       const zip = new JSZip();
+      const cardW = 3.3 * 25.4; // mm
+      const cardH = 2.05 * 25.4; // mm
 
       for (let i = 0; i < holdings.length; i++) {
         setProgress({ current: i + 1, total: holdings.length });
         const dataUrl = await renderCardToDataUrl(holdings[i]);
-        const base64 = dataUrl.split(",")[1];
-        const fileName = `${holdings[i].holding_no}-${holdings[i].name}.png`;
-        zip.file(fileName, base64, { base64: true });
+
+        const pdf = new jsPDF({ orientation: "landscape", unit: "mm", format: [cardW, cardH] });
+        pdf.addImage(dataUrl, "PNG", 0, 0, cardW, cardH);
+
+        const pdfBlob = pdf.output("arraybuffer");
+        const fileName = `${holdings[i].holding_no}-${holdings[i].name}.pdf`;
+        zip.file(fileName, pdfBlob);
       }
 
       const blob = await zip.generateAsync({ type: "blob" });
