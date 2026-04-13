@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { createRoot } from "react-dom/client";
 import { toPng } from "html-to-image";
 import jsPDF from "jspdf";
+import JSZip from "jszip";
 import { CardFront } from "@/components/HoldingCardFront";
 import type { Tables } from "@/integrations/supabase/types";
 import gobLogo from "@/assets/gob-logo.jpg";
@@ -101,23 +102,28 @@ export const useDownloadAllCards = () => {
       await ensureFont();
       await preloadImages();
 
-      // Card size in mm
       const cardW = CARD_W_IN * 25.4;
       const cardH = CARD_H_IN * 25.4;
 
-      // Each page is exactly card-sized
-      const pdf = new jsPDF({ orientation: "landscape", unit: "mm", format: [cardW, cardH] });
+      const zip = new JSZip();
 
       for (let i = 0; i < holdings.length; i++) {
         setProgress({ current: i + 1, total: holdings.length });
 
-        if (i > 0) pdf.addPage([cardW, cardH], "landscape");
-
         const dataUrl = await renderCardToDataUrl(holdings[i]);
+        const pdf = new jsPDF({ orientation: "landscape", unit: "mm", format: [cardW, cardH] });
         pdf.addImage(dataUrl, "PNG", 0, 0, cardW, cardH);
+
+        const pdfBlob = pdf.output("blob");
+        zip.file(`${holdings[i].holding_no}-${holdings[i].name}.pdf`, pdfBlob);
       }
 
-      pdf.save("holding-cards.pdf");
+      const zipBlob = await zip.generateAsync({ type: "blob" });
+      const link = document.createElement("a");
+      link.download = "holding-cards.zip";
+      link.href = URL.createObjectURL(zipBlob);
+      link.click();
+      URL.revokeObjectURL(link.href);
     } catch (err) {
       console.error("Download all failed:", err);
       throw err;
