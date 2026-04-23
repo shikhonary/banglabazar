@@ -104,7 +104,7 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
           >
             উপজেলা ঃ নগরকান্দা, জেলা ঃ ফরিদপুর।
           </p>
-          <p style={{ margin: 0, marginTop: "-6px", ...BENGALI_TEXT_STYLE }}>
+          <p style={{ margin: 0, marginTop: "-9px", ...BENGALI_TEXT_STYLE }}>
             <span
               style={{
                 display: "inline-block",
@@ -124,7 +124,7 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
         </div>
       </div>
 
-      <div className="relative flex-1" style={{ marginTop: "-8px", ...BENGALI_TEXT_STYLE }}>
+      <div className="relative flex-1" style={{ marginTop: "-12px", ...BENGALI_TEXT_STYLE }}>
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
