@@ -12,24 +12,55 @@ const BENGALI_TEXT_STYLE = {
   lineHeight: 1.6,
 } as const;
 
-const FrontDetailRow = ({ label, value, color = "#000000" }: { label: string; value: string; color?: string }) => (
+const FrontDetailRow = ({ label, value, color = "#000000", labelColor = "#008449", flushColon = false }: { label: string; value: string; color?: string; labelColor?: string; flushColon?: boolean }) => (
   <div className="flex items-baseline" style={{ ...BENGALI_TEXT_STYLE, color }}>
-    <span
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        fontSize: "14px",
-        fontWeight: 600,
-        height: "8px",
-        width: "75px",
-        marginRight: "8px",
-        color: "#602c91",
-        ...BENGALI_TEXT_STYLE,
-      }}
-    >
-      <span>{label}</span>
-      <span>ঃ</span>
-    </span>
+    {flushColon ? (
+      <span
+        style={{
+          display: "inline-flex",
+          fontSize: "14px",
+          fontWeight: 600,
+          height: "8px",
+          color: labelColor,
+          whiteSpace: "nowrap",
+          marginRight: "6px",
+          ...BENGALI_TEXT_STYLE,
+        }}
+      >
+        <span>{label}</span>
+        <span style={{ marginLeft: "6px" }}>ঃ</span>
+      </span>
+    ) : (
+      <>
+        <span
+          style={{
+            display: "inline-block",
+            fontSize: "14px",
+            fontWeight: 600,
+            height: "8px",
+            width: "75px",
+            textAlign: "left",
+            color: labelColor,
+            whiteSpace: "nowrap",
+            ...BENGALI_TEXT_STYLE,
+          }}
+        >
+          {label}
+        </span>
+        <span
+          style={{
+            fontSize: "14px",
+            fontWeight: 600,
+            height: "8px",
+            color: labelColor,
+            marginRight: "6px",
+            ...BENGALI_TEXT_STYLE,
+          }}
+        >
+          ঃ
+        </span>
+      </>
+    )}
     <span
       style={{
         fontSize: "14px",
@@ -37,6 +68,7 @@ const FrontDetailRow = ({ label, value, color = "#000000" }: { label: string; va
         color: color,
         height: "8px",
         flex: 1,
+        whiteSpace: "nowrap",
         ...BENGALI_TEXT_STYLE,
       }}
     >
@@ -95,7 +127,7 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
               margin: 0,
               lineHeight: 0.6,
               fontSize: "12px",
-              color: "black",
+              color: "#2e327b",
               marginTop: "-14px",
               fontWeight: "bold",
               letterSpacing: "0.5px",
@@ -138,9 +170,9 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
           }}
         />
         <div className="space-y-2.5 pr-[74px] pb-[6px] relative" style={{ zIndex: 1 }}>
-          <FrontDetailRow label="মালিকের নাম" value={holding.name} color="#000000" />
+          <FrontDetailRow label="নাম" value={holding.name} color="#000000" labelColor="#602c91" flushColon />
           <FrontDetailRow label="হোল্ডিং নং" value={holding.holding_no} color="#000000" />
-          <FrontDetailRow label="ওয়ার্ড নং" value={holding.ward_no} color="#de5038" />
+          <FrontDetailRow label="ওয়ার্ড নং" value={holding.ward_no} color="#000000" />
           <FrontDetailRow label="গ্রাম/মহল্লা" value={holding.village} color="#000000" />
         </div>
         <div className="absolute bottom-[2px] right-[2px]" style={{ zIndex: 2 }}>
@@ -158,6 +190,26 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
             bgColor="#ffffff"
           />
         </div>
+      </div>
+      <div
+        style={{
+          marginLeft: "-8px",
+          marginRight: "-8px",
+          marginBottom: "-8px",
+          width: "calc(100% + 16px)",
+          textAlign: "center",
+          fontSize: "12px",
+          fontWeight: 700,
+          color: "#8b0000",
+          letterSpacing: "2.5px",
+          ...BENGALI_TEXT_STYLE,
+          lineHeight: 1.2,
+          marginTop: "2px",
+          paddingTop: "2px",
+          paddingBottom: "2px",
+        }}
+      >
+        * নিয়মিত ইউপি কর (ট্যাক্স) পরিশোধ করুন *
       </div>
     </div>
   </div>
