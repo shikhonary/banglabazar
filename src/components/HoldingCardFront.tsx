@@ -137,9 +137,9 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
           }}
         />
         <div className="space-y-2.5 pr-[74px] pb-[6px] relative" style={{ zIndex: 1 }}>
-          <FrontDetailRow label="মালিকের নাম" value={holding.name} color="#000000" />
+          <FrontDetailRow label="নাম" value={holding.name} color="#000000" labelColor="#602c91" />
           <FrontDetailRow label="হোল্ডিং নং" value={holding.holding_no} color="#000000" />
-          <FrontDetailRow label="ওয়ার্ড নং" value={holding.ward_no} color="#de5038" />
+          <FrontDetailRow label="ওয়ার্ড নং" value={holding.ward_no} color="#000000" />
           <FrontDetailRow label="গ্রাম/মহল্লা" value={holding.village} color="#000000" />
         </div>
         <div className="absolute bottom-[2px] right-[2px]" style={{ zIndex: 2 }}>
