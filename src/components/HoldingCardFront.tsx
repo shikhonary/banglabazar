@@ -12,18 +12,17 @@ const BENGALI_TEXT_STYLE = {
   lineHeight: 1.6,
 } as const;
 
-const FrontDetailRow = ({ label, value, color = "#000000" }: { label: string; value: string; color?: string }) => (
+const FrontDetailRow = ({ label, value, color = "#000000", labelColor = "#008449" }: { label: string; value: string; color?: string; labelColor?: string }) => (
   <div className="flex items-baseline" style={{ ...BENGALI_TEXT_STYLE, color }}>
     <span
       style={{
         display: "flex",
-        justifyContent: "space-between",
         fontSize: "14px",
         fontWeight: 600,
         height: "8px",
         width: "75px",
         marginRight: "8px",
-        color: "#602c91",
+        color: labelColor,
         ...BENGALI_TEXT_STYLE,
       }}
     >
