@@ -92,7 +92,7 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
           <p
             style={{
               margin: 0,
-              lineHeight: 1,
+              lineHeight: 0.8,
               fontSize: "12px",
               color: "#2e327b",
               marginTop: "-10px",
