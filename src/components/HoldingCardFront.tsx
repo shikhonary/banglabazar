@@ -1,6 +1,6 @@
 import { QRCodeSVG } from "qrcode.react";
 import gobLogo from "@/assets/gob-logo.jpg";
-import unionLogo from "@/assets/union-logo.jpg";
+import unionLogo from "@/assets/union-logo-new.jpg";
 import bdMap from "@/assets/bd-map-watermark.png";
 import type { Tables } from "@/integrations/supabase/types";
 
