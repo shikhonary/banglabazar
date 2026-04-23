@@ -23,6 +23,7 @@ const FrontDetailRow = ({ label, value, color = "#000000" }: { label: string; va
         height: "8px",
         width: "75px",
         marginRight: "8px",
+        color: "#602c91",
         ...BENGALI_TEXT_STYLE,
       }}
     >
