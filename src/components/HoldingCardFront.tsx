@@ -93,7 +93,7 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
             style={{
               margin: 0,
               lineHeight: 1,
-              fontSize: "11px",
+              fontSize: "12px",
               color: "#2e327b",
               marginTop: "-10px",
               fontWeight: "bold",
