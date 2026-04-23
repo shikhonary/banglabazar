@@ -16,34 +16,18 @@ const FrontDetailRow = ({ label, value, color = "#000000", labelColor = "#008449
   <div className="flex items-baseline" style={{ ...BENGALI_TEXT_STYLE, color }}>
     <span
       style={{
-        display: "inline-block",
+        display: "flex",
         fontSize: "14px",
         fontWeight: 600,
         height: "8px",
-        width: "85px",
-        textAlign: "right",
-        marginRight: "2px",
-        whiteSpace: "nowrap",
+        width: "75px",
+        marginRight: "8px",
         color: labelColor,
         ...BENGALI_TEXT_STYLE,
       }}
     >
-      {label}
-    </span>
-    <span
-      style={{
-        display: "inline-block",
-        fontSize: "14px",
-        fontWeight: 600,
-        height: "8px",
-        width: "10px",
-        textAlign: "left",
-        marginRight: "4px",
-        color: labelColor,
-        ...BENGALI_TEXT_STYLE,
-      }}
-    >
-      ঃ
+      <span>{label}</span>
+      <span>ঃ</span>
     </span>
     <span
       style={{
