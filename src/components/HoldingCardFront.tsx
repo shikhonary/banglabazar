@@ -193,7 +193,10 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
       </div>
       <div
         style={{
-          width: "100%",
+          marginLeft: "-8px",
+          marginRight: "-8px",
+          marginBottom: "-8px",
+          width: "calc(100% + 16px)",
           textAlign: "center",
           fontSize: "11px",
           fontWeight: 700,
