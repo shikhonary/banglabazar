@@ -12,22 +12,21 @@ const BENGALI_TEXT_STYLE = {
   lineHeight: 1.6,
 } as const;
 
-const FrontDetailRow = ({ label, value, color = "#000000", labelColor = "#008449", labelGap = "8px" }: { label: string; value: string; color?: string; labelColor?: string; labelGap?: string }) => (
+const FrontDetailRow = ({ label, value, color = "#000000", labelColor = "#008449" }: { label: string; value: string; color?: string; labelColor?: string }) => (
   <div className="flex items-baseline" style={{ ...BENGALI_TEXT_STYLE, color }}>
     <span
       style={{
-        display: "flex",
+        display: "inline-flex",
         fontSize: "14px",
         fontWeight: 600,
         height: "8px",
-        width: "75px",
-        marginRight: "8px",
         color: labelColor,
+        whiteSpace: "nowrap",
         ...BENGALI_TEXT_STYLE,
       }}
     >
-      <span style={{ marginRight: labelGap }}>{label}</span>
-      <span>ঃ</span>
+      <span>{label}</span>
+      <span style={{ marginLeft: "6px", marginRight: "6px" }}>ঃ</span>
     </span>
     <span
       style={{
@@ -36,6 +35,7 @@ const FrontDetailRow = ({ label, value, color = "#000000", labelColor = "#008449
         color: color,
         height: "8px",
         flex: 1,
+        whiteSpace: "nowrap",
         ...BENGALI_TEXT_STYLE,
       }}
     >
@@ -137,7 +137,7 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
           }}
         />
         <div className="space-y-2.5 pr-[74px] pb-[6px] relative" style={{ zIndex: 1 }}>
-          <FrontDetailRow label="নাম" value={holding.name} color="#000000" labelColor="#602c91" labelGap="0px" />
+          <FrontDetailRow label="নাম" value={holding.name} color="#000000" labelColor="#602c91" />
           <FrontDetailRow label="হোল্ডিং নং" value={holding.holding_no} color="#000000" />
           <FrontDetailRow label="ওয়ার্ড নং" value={holding.ward_no} color="#000000" />
           <FrontDetailRow label="গ্রাম/মহল্লা" value={holding.village} color="#000000" />
