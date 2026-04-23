@@ -110,11 +110,11 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
                 display: "inline-block",
                 fontSize: "12px",
                 fontWeight: "bold",
-                color: "#2e327b",
-                border: "1px solid #2e327b",
+                color: "#00894d",
+                border: "1px solid #db2b1e",
                 borderRadius: "4px",
                 padding: "0px 6px",
-                lineHeight: 0.6,
+                lineHeight: 0,
                 ...BENGALI_TEXT_STYLE,
               }}
             >
