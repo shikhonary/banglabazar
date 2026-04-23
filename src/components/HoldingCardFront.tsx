@@ -12,12 +12,11 @@ const BENGALI_TEXT_STYLE = {
   lineHeight: 1.6,
 } as const;
 
-const FrontDetailRow = ({ label, value, color = "#000000", labelColor = "#008449", flushColon = false }: { label: string; value: string; color?: string; labelColor?: string; flushColon?: boolean }) => (
+const FrontDetailRow = ({ label, value, color = "#000000", labelColor = "#008449", labelGap = "8px" }: { label: string; value: string; color?: string; labelColor?: string; labelGap?: string }) => (
   <div className="flex items-baseline" style={{ ...BENGALI_TEXT_STYLE, color }}>
     <span
       style={{
         display: "flex",
-        justifyContent: flushColon ? "flex-start" : "flex-end",
         fontSize: "14px",
         fontWeight: 600,
         height: "8px",
@@ -27,7 +26,7 @@ const FrontDetailRow = ({ label, value, color = "#000000", labelColor = "#008449
         ...BENGALI_TEXT_STYLE,
       }}
     >
-      <span>{label}</span>
+      <span style={{ marginRight: labelGap }}>{label}</span>
       <span>ঃ</span>
     </span>
     <span
