@@ -202,6 +202,7 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
           fontSize: "14px",
           fontWeight: 700,
           color: "#952f5f",
+          letterSpacing: "1px",
           ...BENGALI_TEXT_STYLE,
           lineHeight: 1.2,
           marginTop: "2px",
