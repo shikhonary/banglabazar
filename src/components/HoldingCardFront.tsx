@@ -18,7 +18,7 @@ const FrontDetailRow = ({ label, value, color = "#000000", labelColor = "#008449
       <span
         style={{
           display: "inline-flex",
-          fontSize: "14px",
+          fontSize: "16px",
           fontWeight: 600,
           height: "8px",
           color: labelColor,
