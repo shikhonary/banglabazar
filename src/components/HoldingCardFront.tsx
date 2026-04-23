@@ -104,11 +104,11 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
           >
             উপজেলা ঃ নগরকান্দা, জেলা ঃ ফরিদপুর।
           </p>
-          <p style={{ margin: 0, ...BENGALI_TEXT_STYLE }}>
+          <p style={{ margin: 0, marginTop: "-3px", ...BENGALI_TEXT_STYLE }}>
             <span
               style={{
                 display: "inline-block",
-                fontSize: "12px",
+                fontSize: "13px",
                 fontWeight: "bold",
                 color: "#00894d",
                 border: "1px solid #db2b1e",
