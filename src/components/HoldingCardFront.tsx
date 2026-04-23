@@ -95,7 +95,7 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
               lineHeight: 0.6,
               fontSize: "12px",
               color: "#2e327b",
-              marginTop: "-10px",
+              marginTop: "-14px",
               fontWeight: "bold",
               letterSpacing: "0.5px",
               textShadow: "0 0 1px rgba(181,32,14,0.3)",
