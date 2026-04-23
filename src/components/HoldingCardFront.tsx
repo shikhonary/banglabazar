@@ -198,16 +198,18 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
           marginBottom: "-8px",
           width: "calc(100% + 16px)",
           textAlign: "center",
-          fontSize: "11px",
+          fontSize: "12px",
           fontWeight: 700,
           fontStyle: "italic",
-          color: "#992d5e",
+          color: "#8b0000",
           ...BENGALI_TEXT_STYLE,
-          lineHeight: 1,
+          lineHeight: 1.2,
           marginTop: "2px",
+          paddingTop: "2px",
+          paddingBottom: "2px",
         }}
       >
-        নিয়মিত ইউপি কর (ট্যাক্স) পরিশোধ করুন
+        * নিয়মিত ইউপি কর (ট্যাক্স) পরিশোধ করুন *
       </div>
     </div>
   </div>
