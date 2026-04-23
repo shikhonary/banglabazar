@@ -179,8 +179,8 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
         <div className="absolute bottom-[2px] right-[2px]" style={{ zIndex: 2 }}>
           <QRCodeSVG
             value={[
-              "মুছাপুর ইউনিয়ন পরিষদ",
-              `মালিকের নাম: ${holding.name}`,
+              "৪নং ফুলসূতি ইউনিয়ন পরিষদ",
+              `নাম: ${holding.name}`,
               `হোল্ডিং নং: ${holding.holding_no}`,
               `ওয়ার্ড নং: ${holding.ward_no}`,
               `গ্রাম/মহল্লা: ${holding.village}`,
