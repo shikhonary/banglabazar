@@ -124,7 +124,7 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
         </div>
       </div>
 
-      <div className="relative flex-1" style={{ marginTop: "-4px", ...BENGALI_TEXT_STYLE }}>
+      <div className="relative flex-1" style={{ marginTop: "-8px", ...BENGALI_TEXT_STYLE }}>
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
