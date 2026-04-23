@@ -207,7 +207,21 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
           }}
         >
           নিয়মিত ইউপি কর (ট্যাক্স) পরিশোধ করুন
-        </div>
+      </div>
+      <div
+        style={{
+          width: "100%",
+          textAlign: "center",
+          fontSize: "11px",
+          fontWeight: 700,
+          fontStyle: "italic",
+          color: "#992d5e",
+          ...BENGALI_TEXT_STYLE,
+          lineHeight: 1,
+          marginTop: "2px",
+        }}
+      >
+        নিয়মিত ইউপি কর (ট্যাক্স) পরিশোধ করুন
       </div>
     </div>
   </div>
