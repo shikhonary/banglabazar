@@ -196,7 +196,7 @@ const HoldingCardView = () => {
     };
 
     fetchData();
-  }, [id]);
+  }, [id, navigate, toast]);
 
   if (loading) {
     return (

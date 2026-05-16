@@ -1,7 +1,6 @@
 import { QRCodeSVG } from "qrcode.react";
 import gobLogo from "@/assets/gob-logo.jpg";
-import unionLogo from "@/assets/union-logo-new.jpg";
-import bdMap from "@/assets/bd-map-watermark.png";
+import unionLogo from "@/assets/union-logo.jpg";
 import type { Tables } from "@/integrations/supabase/types";
 
 type HoldingCardType = Tables<"holding_cards">;
@@ -12,70 +11,7 @@ const BENGALI_TEXT_STYLE = {
   lineHeight: 1.6,
 } as const;
 
-const FrontDetailRow = ({ label, value, color = "#000000", labelColor = "#008449", flushColon = false }: { label: string; value: string; color?: string; labelColor?: string; flushColon?: boolean }) => (
-  <div className="flex items-baseline" style={{ ...BENGALI_TEXT_STYLE, color }}>
-    {flushColon ? (
-      <span
-        style={{
-          display: "inline-flex",
-          fontSize: "16px",
-          fontWeight: 600,
-          height: "8px",
-          color: labelColor,
-          whiteSpace: "nowrap",
-          marginRight: "6px",
-          ...BENGALI_TEXT_STYLE,
-        }}
-      >
-        <span>{label}</span>
-        <span style={{ marginLeft: "6px" }}>ঃ</span>
-      </span>
-    ) : (
-      <>
-        <span
-          style={{
-            display: "inline-block",
-            fontSize: "14px",
-            fontWeight: 600,
-            height: "8px",
-            width: "75px",
-            textAlign: "left",
-            color: labelColor,
-            whiteSpace: "nowrap",
-            ...BENGALI_TEXT_STYLE,
-          }}
-        >
-          {label}
-        </span>
-        <span
-          style={{
-            fontSize: "14px",
-            fontWeight: 600,
-            height: "8px",
-            color: labelColor,
-            marginRight: "6px",
-            ...BENGALI_TEXT_STYLE,
-          }}
-        >
-          ঃ
-        </span>
-      </>
-    )}
-    <span
-      style={{
-        fontSize: "14px",
-        fontWeight: 700,
-        color: color,
-        height: "8px",
-        flex: 1,
-        whiteSpace: "nowrap",
-        ...BENGALI_TEXT_STYLE,
-      }}
-    >
-      {value}
-    </span>
-  </div>
-);
+
 
 export const CardFront = ({ holding, forExport = false }: { holding: HoldingCardType; forExport?: boolean }) => (
   <div
@@ -83,28 +19,32 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
     style={{
       width: "3.3in",
       height: "2.05in",
-      background: "#FDFDFD",
-      ...(forExport ? {} : { boxShadow: "0 1px 4px rgba(0,0,0,0.08)", border: "1px solid #ccc" }),
+      background: "#FFFFFF",
+      ...(forExport ? {} : { boxShadow: "0 1px 4px rgba(0,0,0,0.08)", border: "1px solid #000000" }),
       ...BENGALI_TEXT_STYLE,
     }}
   >
-    <div className="flex flex-col h-full w-full p-2 relative" style={{ zIndex: 1, ...BENGALI_TEXT_STYLE }}>
+    <div className="flex flex-col h-full w-full px-2 relative" style={{ zIndex: 1, ...BENGALI_TEXT_STYLE }}>
+      {/* Header Section */}
       <div className="relative">
-        <div className="absolute left-0 top-0 w-12 h-12 flex items-center justify-center" style={{ zIndex: 2 }}>
-          <img src={gobLogo} alt="সরকার" className="w-12 h-12 object-contain" />
+        {/* Union Logo Left */}
+        <div className="absolute left-[-6px] top-[4px] w-14 h-14 flex items-center justify-center" style={{ zIndex: 2 }}>
+          <img src={unionLogo} alt="ইউনিয়ন পরিষদ" className="w-14 h-14 object-contain" />
         </div>
-        <div className="absolute right-0 top-0 w-12 h-12 flex items-center justify-center" style={{ zIndex: 2 }}>
-          <img src={unionLogo} alt="ইউনিয়ন পরিষদ" className="w-12 h-12 object-contain" />
+        {/* GOB Logo Right */}
+        <div className="absolute right-[-6px] top-[4px] w-14 h-14 flex items-center justify-center" style={{ zIndex: 2 }}>
+          <img src={gobLogo} alt="সরকার" className="w-14 h-14 object-contain" />
         </div>
-        <div className="text-center px-8" style={{ position: "relative", zIndex: 2 }}>
+
+        <div className="text-center" style={{ position: "relative", zIndex: 2 }}>
           <p
             style={{
               margin: 0,
               lineHeight: 1,
               fontSize: "10px",
+              // backgroundColor: "#000",
               color: "#000000",
               fontWeight: "bold",
-              marginBottom: "3px",
               ...BENGALI_TEXT_STYLE,
             }}
           >
@@ -112,105 +52,141 @@ export const CardFront = ({ holding, forExport = false }: { holding: HoldingCard
           </p>
           <h1
             style={{
-              margin: 0,
+              margin: "1px 0",
               lineHeight: 1,
-              fontSize: "18px",
+              fontSize: "19px",
               fontWeight: "bold",
-              marginTop: "-14px",
-              color: "#ef1e23",
+              color: "#e62224",
+              letterSpacing: "-0.5px",
+              marginTop: "-10px",
               ...BENGALI_TEXT_STYLE,
             }}
           >
-            ৪নং ফুলসূতি ইউনিয়ন পরিষদ
+            ২নং চৌয়ারা ইউনিয়ন পরিষদ
           </h1>
           <p
             style={{
               margin: 0,
-              lineHeight: 0.6,
-              fontSize: "12px",
-              color: "#2e327b",
-              marginTop: "-14px",
+              lineHeight: 1,
+              fontSize: "10px",
+              color: "#000000",
               fontWeight: "bold",
-              letterSpacing: "0.5px",
-              textShadow: "0 0 1px rgba(181,32,14,0.3)",
+              marginTop: "-15px",
               ...BENGALI_TEXT_STYLE,
             }}
           >
-            উপজেলা ঃ নগরকান্দা, জেলা ঃ ফরিদপুর।
+            উপজেলা ঃ কুমিল্লা সদর দক্ষিণ, জেলা ঃ কুমিল্লা।
           </p>
-          <p style={{ margin: 0, marginTop: "-9px", ...BENGALI_TEXT_STYLE }}>
+
+          {/* Title with arrows */}
+          <div className="flex items-center justify-center gap-2 relative -mt-1 rounded-full">
             <span
               style={{
                 display: "inline-block",
-                fontSize: "13px",
+                fontSize: "10px",
                 fontWeight: "bold",
-                color: "#00894d",
-                border: "1px solid #db2b1e",
-                borderRadius: "4px",
+                color: "#008857",
+                border: "2px solid #008857",
                 padding: "0px 6px",
-                lineHeight: 0,
+                paddingTop: "0px",
+                backgroundColor: "#FFFFFF",
+                borderRadius: "30px",
                 ...BENGALI_TEXT_STYLE,
               }}
             >
-              হোল্ডিং স্মার্ট কার্ড
+              Holding Tax Card / হোল্ডিং কর কার্ড
             </span>
-          </p>
+          </div>
         </div>
       </div>
 
-      <div className="relative flex-1" style={{ marginTop: "-12px", ...BENGALI_TEXT_STYLE }}>
+      {/* Content Section */}
+      <div className="relative flex-1 px-1" style={{ marginTop: "1px", ...BENGALI_TEXT_STYLE }}>
+        {/* Watermark Logo */}
         <div
-          className="absolute inset-0 pointer-events-none"
+          className="absolute inset-0 pointer-events-none flex items-center justify-center"
           style={{
             zIndex: 0,
-            opacity: 0.2,
-            backgroundImage: `url(${bdMap})`,
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center center",
-            backgroundSize: "auto 110%",
+            opacity: 0.12,
           }}
-        />
-        <div className="space-y-2.5 pr-[74px] pb-[6px] relative" style={{ zIndex: 1 }}>
-          <FrontDetailRow label="নাম" value={holding.name} color="#000000" labelColor="#602c91" flushColon />
-          <FrontDetailRow label="হোল্ডিং নং" value={holding.holding_no} color="#000000" />
-          <FrontDetailRow label="ওয়ার্ড নং" value={holding.ward_no} color="#000000" />
-          <FrontDetailRow label="গ্রাম/মহল্লা" value={holding.village} color="#000000" />
+        >
+          <img src={unionLogo} alt="" className="w-[98px] h-[98px] object-contain" />
         </div>
-        <div className="absolute bottom-[2px] right-[2px]" style={{ zIndex: 2 }}>
+
+        <div className="space-y-0 pr-[95px] relative" style={{ zIndex: 1 }}>
+          {/* মালিকের নাম */}
+          <div className="flex items-center" style={{ ...BENGALI_TEXT_STYLE, color: "#000000", marginBottom: "0px", marginTop: "-5px", lineHeight: 1.1 }}>
+            <span style={{ display: "inline-flex", fontSize: "12px", fontWeight: 700, color: "#000000", whiteSpace: "nowrap", width: "70px", ...BENGALI_TEXT_STYLE }}>
+              <span>মালিকের নাম</span>
+              <span style={{ marginLeft: "auto", marginRight: "4px" }}>ঃ</span>
+            </span>
+            <span style={{ fontSize: "14px", fontWeight: 700, color: "#000000", flex: 1, whiteSpace: "nowrap", letterSpacing: "-0.3px", ...BENGALI_TEXT_STYLE }}>
+              {holding.name}
+            </span>
+          </div>
+
+          {/* পিতা/স্বামী */}
+          <div className="flex items-center" style={{ ...BENGALI_TEXT_STYLE, color: "#000000", marginBottom: "0px", marginTop: "-13px", lineHeight: 1.1 }}>
+            <span style={{ display: "inline-flex", fontSize: "12px", fontWeight: 700, color: "#000000", whiteSpace: "nowrap", width: "70px", ...BENGALI_TEXT_STYLE }}>
+              <span>পিতার নাম</span>
+              <span style={{ marginLeft: "auto", marginRight: "4px" }}>ঃ</span>
+            </span>
+            <span style={{ fontSize: "14px", fontWeight: 700, color: "#000000", flex: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", letterSpacing: "-0.3px", ...BENGALI_TEXT_STYLE }}>
+              {holding.guardian_name}
+            </span>
+          </div>
+
+          {/* হোল্ডিং নং */}
+          <div className="flex items-center" style={{ ...BENGALI_TEXT_STYLE, color: "#000000", marginBottom: "0px", marginTop: "-13px", lineHeight: 1.1 }}>
+            <span style={{ display: "inline-flex", fontSize: "12px", fontWeight: 700, color: "#000000", whiteSpace: "nowrap", width: "70px", ...BENGALI_TEXT_STYLE }}>
+              <span>হোল্ডিং নং</span>
+              <span style={{ marginLeft: "auto", marginRight: "4px" }}>ঃ</span>
+            </span>
+            <span style={{ fontSize: "14px", fontWeight: 700, color: "#000000", flex: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", letterSpacing: "-0.3px", ...BENGALI_TEXT_STYLE }}>
+              {holding.holding_no}
+            </span>
+          </div>
+
+          {/* ওয়ার্ড নং */}
+          <div className="flex items-center" style={{ ...BENGALI_TEXT_STYLE, color: "#000000", marginBottom: "0px", marginTop: "-13px", lineHeight: 1.1 }}>
+            <span style={{ display: "inline-flex", fontSize: "12px", fontWeight: 700, color: "#000000", whiteSpace: "nowrap", width: "70px", ...BENGALI_TEXT_STYLE }}>
+              <span>ওয়ার্ড নং</span>
+              <span style={{ marginLeft: "auto", marginRight: "4px" }}>ঃ</span>
+            </span>
+            <span style={{ fontSize: "14px", fontWeight: 700, color: "#000000", flex: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", letterSpacing: "-0.3px", ...BENGALI_TEXT_STYLE }}>
+              {holding.ward_no}
+            </span>
+          </div>
+
+          {/* গ্রাম/পাড়া */}
+          <div className="flex items-center" style={{ ...BENGALI_TEXT_STYLE, color: "#000000", marginBottom: "0px", marginTop: "-13px", lineHeight: 1.1 }}>
+            <span style={{ display: "inline-flex", fontSize: "12px", fontWeight: 700, color: "#000000", whiteSpace: "nowrap", width: "70px", ...BENGALI_TEXT_STYLE }}>
+              <span>গ্রাম/মহল্লা</span>
+              <span style={{ marginLeft: "auto", marginRight: "4px" }}>ঃ</span>
+            </span>
+            <span style={{ fontSize: "14px", fontWeight: 700, color: "#000000", flex: 1, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", letterSpacing: "-0.3px", ...BENGALI_TEXT_STYLE }}>
+              {holding.village}
+            </span>
+          </div>
+        </div>
+
+        {/* QR Code */}
+        <div className="absolute bottom-[6px] right-[-4px]" style={{ zIndex: 2 }}>
           <QRCodeSVG
             value={[
-              "৪নং ফুলসূতি ইউনিয়ন পরিষদ",
-              `নাম: ${holding.name}`,
-              `হোল্ডিং নং: ${holding.holding_no}`,
-              `ওয়ার্ড নং: ${holding.ward_no}`,
-              `গ্রাম/মহল্লা: ${holding.village}`,
+              "২নং চৌয়ারা ইউনিয়ন পরিষদ",
+              `মালিকঃ ${holding.name}`,
+              `হোল্ডিং- ${holding.holding_no}`,
+              `ওয়ার্ড- ${holding.ward_no}`,
+              `এলাকাঃ ${holding.village}`,
+              `ধার্য্যকৃত ট্যাক্সঃ ${holding.tax}/-`,
             ].join("\n")}
             size={90}
-            level="L"
+            level="M"
             fgColor="#000000"
-            bgColor="#ffffff"
+            bgColor="transparent"
           />
         </div>
-      </div>
-      <div
-        style={{
-          marginLeft: "-8px",
-          marginRight: "-8px",
-          marginBottom: "-8px",
-          width: "calc(100% + 16px)",
-          textAlign: "center",
-          fontSize: "14px",
-          fontWeight: 700,
-          color: "#952f5f",
-          letterSpacing: "1px",
-          ...BENGALI_TEXT_STYLE,
-          lineHeight: 1.2,
-          marginTop: "2px",
-          paddingTop: "2px",
-          paddingBottom: "2px",
-        }}
-      >
-        * নিয়মিত ইউপি কর (ট্যাক্স) পরিশোধ করুন *
       </div>
     </div>
   </div>

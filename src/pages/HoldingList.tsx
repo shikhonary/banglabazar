@@ -83,11 +83,11 @@ const HoldingList = () => {
       const matchHolding = holdingFilter === "all" || h.holding_no === holdingFilter;
       return matchSearch && matchWard && matchVillage && matchHolding;
     });
-  }, [holdings, search, wardFilter, villageFilter, holdingFilter]);
+  }, [holdings, search, wardFilter, villageFilter, holdingFilter, perPage]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / perPage));
   const safeePage = Math.min(page, totalPages);
-  const paginated = useMemo(() => filtered.slice((safeePage - 1) * perPage, safeePage * perPage), [filtered, safeePage]);
+  const paginated = useMemo(() => filtered.slice((safeePage - 1) * perPage, safeePage * perPage), [filtered, safeePage, perPage]);
 
   const totalTax = useMemo(() => filtered.reduce((s, h) => s + Number(h.tax), 0), [filtered]);
   const uniqueVillages = useMemo(() => new Set(filtered.map((h) => h.village)).size, [filtered]);

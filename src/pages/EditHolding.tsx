@@ -48,7 +48,7 @@ const EditHolding = () => {
       setLoading(false);
     };
     fetchHolding();
-  }, [id]);
+    }, [id, navigate, toast]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));

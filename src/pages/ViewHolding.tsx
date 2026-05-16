@@ -43,7 +43,7 @@ const ViewHolding = () => {
       setLoading(false);
     };
     fetch();
-  }, [id]);
+  }, [id, navigate, toast]);
 
   const handleDelete = async () => {
     if (!id) return;
