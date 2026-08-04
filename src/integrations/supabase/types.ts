@@ -23,7 +23,7 @@ export type Database = {
           name: string
           tax: number
           updated_at: string
-          user_id: string
+          user_id: string | null
           village: string
           ward_no: string
         }
@@ -35,7 +35,7 @@ export type Database = {
           name: string
           tax?: number
           updated_at?: string
-          user_id: string
+          user_id?: string | null
           village: string
           ward_no: string
         }
@@ -47,7 +47,7 @@ export type Database = {
           name?: string
           tax?: number
           updated_at?: string
-          user_id?: string
+          user_id?: string | null
           village?: string
           ward_no?: string
         }

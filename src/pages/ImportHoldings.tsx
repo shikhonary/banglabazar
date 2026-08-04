@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -21,6 +20,22 @@ import * as XLSX from "xlsx";
 const normalizeHeader = (value: string) =>
   value.normalize("NFKC").trim().replace(/\s+/g, " ").toLowerCase();
 
+const convertBanglaToEnglishNumbers = (str: string): string => {
+  return str.replace(/[\u09e6-\u09ef]/g, (w) => String(w.charCodeAt(0) - 2534));
+};
+
+const parseTaxValue = (value: any): number => {
+  if (value === undefined || value === null) return 0;
+  if (typeof value === "number") return value;
+  
+  let cleanStr = String(value).trim();
+  cleanStr = convertBanglaToEnglishNumbers(cleanStr);
+  cleanStr = cleanStr.replace(/[^0-9.]/g, "");
+  
+  const parsed = parseFloat(cleanStr);
+  return isNaN(parsed) ? 0 : parsed;
+};
+
 const HEADER_MAP: Record<string, string> = {
   [normalizeHeader("নাম")]: "name",
   [normalizeHeader("পিতা/স্বামীর নাম")]: "guardian_name",
@@ -35,6 +50,10 @@ const HEADER_MAP: Record<string, string> = {
   [normalizeHeader("গ্রাম")]: "village",
   [normalizeHeader("ধার্যকৃত বাৎসরিক কর")]: "tax",
   [normalizeHeader("কর")]: "tax",
+  [normalizeHeader("টাকা")]: "tax",
+  [normalizeHeader("ট্যাক্স")]: "tax",
+  [normalizeHeader("taka")]: "tax",
+  [normalizeHeader("amount")]: "tax",
   [normalizeHeader("bvg")]: "name",
   [normalizeHeader("wcZv/¯^vgxi bvg")]: "guardian_name",
   [normalizeHeader("†nvwìs bs")]: "holding_no",
@@ -61,7 +80,6 @@ interface HoldingRow {
 }
 
 const ImportHoldings = () => {
-  const { user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
@@ -88,17 +106,21 @@ const ImportHoldings = () => {
           for (const [header, value] of entries) {
             const field = HEADER_MAP[normalizeHeader(String(header))];
             if (field) {
-              result[field] = field === "tax" ? Number(value) || 0 : String(value ?? "").trim();
+              result[field] = field === "tax" ? parseTaxValue(value) : String(value ?? "").trim();
             }
           }
 
-          const values = entries.map(([, value]) => value);
-          POSITIONAL_FIELDS.forEach((field, index) => {
-            const current = result[field];
-            if ((current === undefined || current === "") && index < values.length && values[index] != null) {
-              result[field] = field === "tax" ? Number(values[index]) || 0 : String(values[index]).trim();
-            }
-          });
+          const hasHeaderMatch = Object.keys(row).some(header => HEADER_MAP[normalizeHeader(String(header))] !== undefined);
+
+          if (!hasHeaderMatch) {
+            const values = entries.map(([, value]) => value);
+            POSITIONAL_FIELDS.forEach((field, index) => {
+              const current = result[field];
+              if ((current === undefined || current === "") && index < values.length && values[index] != null) {
+                result[field] = field === "tax" ? parseTaxValue(values[index]) : String(values[index]).trim();
+              }
+            });
+          }
 
           return {
             name: String(result.name ?? ""),
@@ -136,7 +158,7 @@ const ImportHoldings = () => {
           holding_no: String(row.holding_no ?? ""),
           ward_no: String(row.ward_no ?? ""),
           village: String(row.village ?? ""),
-          tax: Number(row.tax ?? 0),
+          tax: parseTaxValue(row.tax),
         }));
         const valid = mapped.filter((r) => r.name && r.holding_no);
         if (!valid.length) {
@@ -152,13 +174,12 @@ const ImportHoldings = () => {
   };
 
   const handleImport = async () => {
-    if (!user || !preview.length) return;
+    if (!preview.length) return;
     setImporting(true);
     try {
-      const rows = preview.map((r) => ({ ...r, user_id: user.id }));
-      const { error } = await supabase.from("holding_cards").insert(rows);
+      const { error } = await supabase.from("holding_cards").insert(preview);
       if (error) throw error;
-      toast({ title: "সফল!", description: `${rows.length}টি হোল্ডিং কার্ড সফলভাবে ইম্পোর্ট হয়েছে।` });
+      toast({ title: "সফল!", description: `${preview.length}টি হোল্ডিং কার্ড সফলভাবে ইম্পোর্ট হয়েছে।` });
       queryClient.invalidateQueries({ queryKey: ["holdings"] });
       queryClient.invalidateQueries({ queryKey: ["holdings-count"] });
       queryClient.invalidateQueries({ queryKey: ["holdings-tax"] });

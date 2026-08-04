@@ -6,7 +6,7 @@ import jsPDF from "jspdf";
 import { CardFront } from "@/components/HoldingCardFront";
 import type { Tables } from "@/integrations/supabase/types";
 import gobLogo from "@/assets/gob-logo.jpg";
-import unionLogo from "@/assets/union-logo.jpg";
+import unionLogo from "@/assets/union-logo.png";
 import bdMap from "@/assets/bd-map-watermark.png";
 
 type HoldingCard = Tables<"holding_cards">;

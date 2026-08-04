@@ -42,6 +42,8 @@ const HoldingList = () => {
   const [perPage, setPerPage] = useState(10);
   const [filterOpen, setFilterOpen] = useState(false);
   const [deleteItem, setDeleteItem] = useState<HoldingCard | null>(null);
+  const [deleteAllOpen, setDeleteAllOpen] = useState(false);
+  const [deletingAll, setDeletingAll] = useState(false);
   const { downloadAll, downloading: downloadingAll, progress: downloadProgress } = useDownloadAllCards();
 
   const { data: holdings, isLoading } = useQuery({
@@ -68,6 +70,24 @@ const HoldingList = () => {
     },
     onError: (err: Error) => toast({ title: "Error", description: err.message, variant: "destructive" }),
   });
+
+  const handleDeleteAll = async () => {
+    setDeletingAll(true);
+    try {
+      const { error } = await supabase
+        .from("holding_cards")
+        .delete()
+        .neq("id", "00000000-0000-0000-0000-000000000000");
+      if (error) throw error;
+      toast({ title: "সফল!", description: "সকল হোল্ডিং কার্ড সফলভাবে মুছে ফেলা হয়েছে।" });
+      queryClient.invalidateQueries({ queryKey: ["holdings"] });
+      setDeleteAllOpen(false);
+    } catch (err: any) {
+      toast({ title: "ত্রুটি", description: err.message, variant: "destructive" });
+    } finally {
+      setDeletingAll(false);
+    }
+  };
 
 
   const activeFilterCount = [search, villageFilter, wardFilter !== "all" ? wardFilter : "", holdingFilter !== "all" ? holdingFilter : ""].filter(Boolean).length;
@@ -126,6 +146,14 @@ const HoldingList = () => {
                 <Download className="mr-2 h-4 w-4" /> সব ডাউনলোড
               </>
             )}
+          </Button>
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={() => setDeleteAllOpen(true)}
+            disabled={!holdings?.length || deletingAll}
+          >
+            <Trash2 className="mr-2 h-4 w-4" /> সব মুছুন
           </Button>
           <Button variant="outline" asChild>
             <Link to="/holdings/import"><FileUp className="mr-2 h-4 w-4" /> ইম্পোর্ট</Link>
@@ -463,6 +491,34 @@ const HoldingList = () => {
             >
               {deleteMutation.isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               মুছুন
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete All Confirmation Dialog */}
+      <Dialog open={deleteAllOpen} onOpenChange={setDeleteAllOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader className="text-center sm:text-center">
+            <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10">
+              <Trash2 className="h-6 w-6 text-destructive" />
+            </div>
+            <DialogTitle className="text-lg">সকল হোল্ডিং কার্ড মুছুন</DialogTitle>
+            <DialogDescription className="pt-1">
+              আপনি কি নিশ্চিত যে ডাটাবেজের <span className="font-semibold text-foreground">সকল ({holdings?.length || 0}টি)</span> হোল্ডিং কার্ড মুছে ফেলতে চান? এই কাজটি আর পূর্বাবস্থায় ফেরানো যাবে না।
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2 sm:gap-0">
+            <Button variant="outline" onClick={() => setDeleteAllOpen(false)}>
+              বাতিল
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleDeleteAll}
+              disabled={deletingAll}
+            >
+              {deletingAll && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              সব মুছুন
             </Button>
           </DialogFooter>
         </DialogContent>
