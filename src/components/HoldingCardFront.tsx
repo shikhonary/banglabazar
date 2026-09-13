@@ -179,7 +179,7 @@ export const CardFront = ({
             <div style={{ zIndex: 2, flexShrink: 0, marginRight: "-4px", marginTop: "1px", position: "absolute", bottom: "2px", right: "2px" }} className="z-100">
               <QRCodeSVG
                 value={[
-                  "১০ নং বাংলাবাজার ইউনিয়ন পরিষদ",
+                  "বাঘড়া ইউনিয়ন পরিষদ",
                   `মালিকের নাম- ${holding.name}`,
                   `হোল্ডিং- ${holding.holding_no}`,
                   `ওয়ার্ড- ${holding.ward_no}`,
