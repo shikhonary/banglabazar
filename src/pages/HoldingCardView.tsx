@@ -100,7 +100,7 @@ const HoldingCardView = () => {
       await new Promise<void>((r) => requestAnimationFrame(() => r()));
       await new Promise((r) => setTimeout(r, 200));
 
-      const scale = 3;
+      const scale = 5;
       const exportOptions = {
         pixelRatio: scale,
         cacheBust: true,
@@ -136,6 +136,8 @@ const HoldingCardView = () => {
       canvas.width = maxW;
       canvas.height = totalH;
       const ctx = canvas.getContext("2d")!;
+      ctx.imageSmoothingEnabled = true;
+      ctx.imageSmoothingQuality = "high";
       ctx.fillStyle = "#ffffff";
       ctx.fillRect(0, 0, maxW, totalH);
 
@@ -146,7 +148,7 @@ const HoldingCardView = () => {
 
       const link = document.createElement("a");
       link.download = `holding-card-${holding.holding_no}.jpg`;
-      link.href = canvas.toDataURL("image/jpeg", 0.95);
+      link.href = canvas.toDataURL("image/jpeg", 0.98);
       link.click();
 
       toast({ title: "সফল!", description: "কার্ড ডাউনলোড হয়েছে।" });

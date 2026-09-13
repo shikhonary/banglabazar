@@ -6,7 +6,7 @@ import jsPDF from "jspdf";
 import { CardFront } from "@/components/HoldingCardFront";
 import type { Tables } from "@/integrations/supabase/types";
 import gobLogo from "@/assets/gob-logo.jpg";
-import unionLogo from "@/assets/union-logo.png";
+import unionLogo from "@/assets/union-logo.jpg";
 import bdMap from "@/assets/bd-map-watermark.png";
 
 type HoldingCard = Tables<"holding_cards">;
@@ -73,7 +73,7 @@ const renderCardToDataUrl = async (holding: HoldingCard): Promise<string> => {
   try {
     const css = await getSolaimanCss();
     const dataUrl = await toPng(cardEl, {
-      pixelRatio: 3,
+      pixelRatio: 5,
       cacheBust: true,
       fontEmbedCSS: css,
       style: { fontFamily: BENGALI_FONT_FAMILY, lineHeight: "1.6" },
